@@ -54,7 +54,7 @@ public class CoinSlotTesting {
 	 * Control 3 (Spoof Empty): Use setSpoofFull(...). Will cause the Sink to pretend that it's empty. 
 	 * Control 4 (Last Coin): Use ejectCoin(). Will remove the coin from the skin and return it.
 	 * 
-	 * Notes: A coin is stored in the sink even if an exception is thrown. 
+	 * Notes: A coin is stored in the sink even if an exception is thrown 
 	 */
 	private class TestSink implements AbstractCoinAcceptor{
 	    private Coin receivedCoin = null;
