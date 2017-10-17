@@ -41,16 +41,26 @@
 * Each team can just submit one version of your code.
 * Add the names and IDs of all team members in comments
 
-
-## Previously asked quesitons (Answers pending):
+## Previously asked quesitons:
 * How many coins does the maschine need to store?
+  * Our current hardware setup should hold about 200 coins.  Some components may get replaced in future, as we are looking at our options.
 * What are the denominations of coins?
+  * Standard Canadian coins at this point.  We'll be looking to expand into other markets later.
 * What is the currency?
+  * See 2.
 * How many pop options are we offering?
+  * 6 for now.  Expect this to change for some versions of machine.
 * What is the maximum number of pop cans per machine/slot?
+  * Each pop rack holds 10 pop cans.
 * When is a transaction completed?
+  * Transactions don't make much sense here.  There is money entered in the machine.  Someone selects a pop.  This will sometimes change how much money there is in the machine.
 * Would it be OK to not return invalid coins and store them in a separate coin rack?
+  * No.  In fact, the hardware deals with this, according to how it is configured.
 * Do you want a demonstration of multiple buttons working, or just a proof of concept for one button?
+  * We want to see it working for the configuration I mentioned above.
 * Is it possible to cancel a transaction?
+  * See 6.  Later, there may be a "Return coins button" ... we're still considering if that makes sense to us.
 * Since we’re not using indicator lights or display messages, what happens if you do not insert enough coins? What about if the pop you want is out? What about if it’s invalid input(e.g. You press a button that is not connected to any pop) ?
+  * For now, the user will only see that a pop is returned or not.  If there is no pop in a rack, they should not get charged for it.  This is for the proof of concept; it will definitely change later.
 * What if a rack is out of pop?
+  * See 10.
