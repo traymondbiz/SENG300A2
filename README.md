@@ -41,7 +41,7 @@
 * Each team can just submit one version of your code.
 * Add the names and IDs of all team members in comments
 
-## Previously asked quesitons:
+## Previously asked Questions:
 * How many coins does the maschine need to store?
   * Our current hardware setup should hold about 200 coins.  Some components may get replaced in future, as we are looking at our options.
 * What are the denominations of coins?
