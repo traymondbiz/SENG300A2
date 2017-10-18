@@ -12,7 +12,7 @@
   * Be fancy at this point.  
   * Return change.  
   * Turn on notification lights.  
-	* Print out meaningful messages to the VM's display.
+  * Print out meaningful messages to the VM's display.
   * If you ignore Mr. Client, expect him to not be happy. 
     * Food for thought: When is it OK to not worry about Mr. Client's happiness?
 
@@ -64,3 +64,6 @@
   * For now, the user will only see that a pop is returned or not.  If there is no pop in a rack, they should not get charged for it.  This is for the proof of concept; it will definitely change later.
 * What if a rack is out of pop?
   * See 10.
+
+### Mr. Client message Oct 17
+* You need to keep track of how much money has been entered in the machine, and how much of it has been used.  If there isn't enough money for a pop, pressing a selection button shouldn't do anything.  Otherwise, the pop should be vended and its cost should be subtracted from the total available
