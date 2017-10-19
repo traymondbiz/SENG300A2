@@ -67,3 +67,9 @@
 
 ### Mr. Client message Oct 17
 * You need to keep track of how much money has been entered in the machine, and how much of it has been used.  If there isn't enough money for a pop, pressing a selection button shouldn't do anything.  Otherwise, the pop should be vended and its cost should be subtracted from the total available
+
+### Mr. Client message Oct 18
+* This is a simple vending machine.  There is one button representing each pop kind (more than one button can represent the same pop), which corresponds to exactly one pop rack.  The hardware simulator is already set up that way,
+You do realize that you have to build on top of the existing hardware, right?  You can use the standard configuration for now.  The hardware will take care of many things already.  Make sure you understand what it does and does not do on its own.  If you write some simple code that instantiates a vending machine, you can use the debugger to see how it is hooked together.  The documentation also explains this.
+The logic that you need to implement just deals with button presses and coin entries, dispensing the appropriate pop when appropriate and possible. All other aspects (change, display, signal lights, etc.) are for future extensions.
+You should implement JUnit test cases to unit test your logic.  You should also implement system tests to test the hardware with the software installed.  Yes, the test suite is a deliverable.
