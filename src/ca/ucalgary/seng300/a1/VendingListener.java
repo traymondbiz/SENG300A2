@@ -2,7 +2,6 @@ package ca.ucalgary.seng300.a1;
 
 import org.lsmr.vending.*;
 import org.lsmr.vending.hardware.*;
-import ca.ucalgary.seng300.a1.VendingManager;
 
 public class VendingListener implements CoinSlotListener, SelectionButtonListener {
 	private static VendingListener listener;
@@ -14,16 +13,18 @@ public class VendingListener implements CoinSlotListener, SelectionButtonListene
 	 * Forces the existing singleton instance to be replaced.
 	 * Called by VendingManager during its instantiation.
 	 */
-	protected static void initialize(VendingManager manager){		
-		mgr = manager;
-		listener = new VendingListener();
+	static void initialize(VendingManager manager){		
+		if (manager != null){
+			mgr = manager;
+			listener = new VendingListener();
+		}
 	}
 	
 	/**
 	 * Provides access to the singleton instance for package-internal classes.
 	 * @return The singleton VendingListener instance  
 	 */
-	protected static VendingListener getInstance(){
+	static VendingListener getInstance(){
 		return listener;
 	}
 
