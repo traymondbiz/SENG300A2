@@ -6,7 +6,7 @@ import ca.ucalgary.seng300.a1.VendingManager;
 
 public class VendingListener implements CoinSlotListener, SelectionButtonListener {
 	private static VendingListener listener;
-	private VendingManager mgr = VendingManager.getInstance();
+	private static VendingManager mgr;
 	
 	private VendingListener (){}
 	
@@ -14,7 +14,8 @@ public class VendingListener implements CoinSlotListener, SelectionButtonListene
 	 * Forces the existing singleton instance to be replaced.
 	 * Called by VendingManager during its instantiation.
 	 */
-	protected static void initialize(){		
+	protected static void initialize(VendingManager manager){		
+		mgr = manager;
 		listener = new VendingListener();
 	}
 	

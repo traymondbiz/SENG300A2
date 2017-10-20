@@ -11,16 +11,16 @@ import org.lsmr.vending.hardware.*;
  * &&&&&&&&COMPLETE DOCUMENTATION&&&&&&&&&&&&&&
  */
 public class VendingManager {
-	private static VendingManager mgr = new VendingManager();
-	private VendingListener listener;
-	private VendingMachine vm;
+	private static VendingManager mgr;
+	private static VendingListener listener;
+	private static VendingMachine vm;
 	private int credit = 0;
 	
 	/*
 	 * Singleton initializer. 
 	 */
 	private VendingManager(){
-		VendingListener.initialize();
+		VendingListener.initialize(this);
 		listener = VendingListener.getInstance();
 	}
 	
