@@ -11,19 +11,26 @@ import org.lsmr.vending.hardware.*;
  * &&&&&&&&COMPLETE DOCUMENTATION&&&&&&&&&&&&&&
  */
 public class VendingManager {
+	private VendingManager mgr = new VendingManager();
 	private VendingListener listener;
 	private VendingMachine vm;
 	private int credit = 0;
 	
 	/*
-	 * VendingManger registers its listener(s) with the given VendingMachine's
-	 * hardware when it is initialized. 
+	 * Singleton initializer. 
 	 */
-	public VendingManager(VendingMachine host){
-		vm = host;
+	private VendingManager(){
 		listener = VendingListener.getListener();
-		registerListeners();
 	}
+	
+	/**
+	 * VendingManger registers its listener(s) with the given VendingMachine's
+	 */
+	public void connectVendingMachine(VendingMachine host){
+		vm = host;
+		registerListeners();		
+	}
+	
 	
 	/*
 	 * Registers the previously instantiated listener(s) with the 
