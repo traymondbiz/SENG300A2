@@ -11,7 +11,7 @@ import org.lsmr.vending.hardware.*;
  * &&&&&&&&COMPLETE DOCUMENTATION&&&&&&&&&&&&&&
  */
 public class VendingManager {
-	private VendingManager mgr = new VendingManager();
+	private static VendingManager mgr = new VendingManager();
 	private VendingListener listener;
 	private VendingMachine vm;
 	private int credit = 0;
@@ -20,17 +20,29 @@ public class VendingManager {
 	 * Singleton initializer. 
 	 */
 	private VendingManager(){
-		listener = VendingListener.getListener();
+		VendingListener.initialize();
+		listener = VendingListener.getInstance();
 	}
 	
 	/**
-	 * VendingManger registers its listener(s) with the given VendingMachine's
+	 * Provides access to the singleton instance for package-external classes.
+	 * @return The singleton VendingManager instance  
 	 */
-	public void connectVendingMachine(VendingMachine host){
-		vm = host;
-		registerListeners();		
+	public static VendingManager getInstance(){
+		return mgr;
 	}
 	
+	/**
+	 * Replaces the existing singleton instances (if any) for the entire 
+	 * the Vending logic package. Registers the VendingListener(s) with the
+	 * appropriate hardware.
+	 * @param host The VendingMachine which the VendingManager is intended to manage.
+	 */
+	public static void initialize(VendingMachine host){
+		mgr = new VendingManager(); 
+		mgr.vm = host;
+		mgr.registerListeners();
+	}
 	
 	/*
 	 * Registers the previously instantiated listener(s) with the 

@@ -5,30 +5,34 @@ import org.lsmr.vending.hardware.*;
 import ca.ucalgary.seng300.a1.VendingManager;
 
 public class VendingListener implements CoinSlotListener, SelectionButtonListener {
-	static VendingListener listener = new VendingListener();
-	VendingManager mgr;
+	private static VendingListener listener;
+	private VendingManager mgr = VendingManager.getInstance();
 	
 	private VendingListener (){}
 	
+	/**
+	 * Forces the existing singleton instance to be replaced.
+	 * Called by VendingManager during its instantiation.
+	 */
+	protected static void initialize(){		
+		listener = new VendingListener();
+	}
 	
-	
-	protected static VendingListener getListener(){
+	/**
+	 * Provides access to the singleton instance for package-internal classes.
+	 * @return The singleton VendingListener instance  
+	 */
+	protected static VendingListener getInstance(){
 		return listener;
 	}
-	
-	protected void registerManager(VendingManager manager){
-		mgr = manager;
-	}
-	
-	
 
 	// Currently unneeded listener events.
-		@Override
-		public void coinRejected(CoinSlot slot, Coin coin) {}
-		@Override
-		public void enabled(AbstractHardware<? extends AbstractHardwareListener> hardware) {}
-		@Override
-		public void disabled(AbstractHardware<? extends AbstractHardwareListener> hardware) {}
+	@Override
+	public void coinRejected(CoinSlot slot, Coin coin) {}
+	@Override
+	public void enabled(AbstractHardware<? extends AbstractHardwareListener> hardware) {}
+	@Override
+	public void disabled(AbstractHardware<? extends AbstractHardwareListener> hardware) {}
 
 
 	/**
@@ -36,7 +40,6 @@ public class VendingListener implements CoinSlotListener, SelectionButtonListene
 	 */
 	@Override
 	public void pressed(SelectionButton button) {
-		String bName = ""; 
 		int bIndex = mgr.getButtonIndex(button); 
 		if (bIndex == -1){
 			//Then it's not a pop selection button. 
