@@ -35,7 +35,7 @@ public class VendingListener implements CoinSlotListener, SelectionButtonListene
 	 * Provides access to the singleton instance for package-internal classes.
 	 * @return The singleton VendingListener instance  
 	 */
-	static VendingListener getInstance(){
+	public static VendingListener getInstance(){
 		return listener;
 	}
 

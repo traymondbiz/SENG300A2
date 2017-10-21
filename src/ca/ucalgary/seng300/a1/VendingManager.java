@@ -161,9 +161,11 @@ public class VendingManager {
 	
 	/**
 	 * Gets the credit available for purchases, in cents. 
+	 * Public access for testing and external access. It is assumed to not
+	 * be a security vulernability.
 	 * @return The stored credit, in cents.
 	 */
-	int getCredit(){
+	public int getCredit(){
 		return credit;
 	}
 
@@ -187,7 +189,7 @@ public class VendingManager {
 	 * @throws DisabledException Thrown if the pop rack or delivery chute is disabled.
 	 * @throws CapacityExceededException Thrown if the delivery chute is full.
 	 */
-	void buy(int popIndex) throws InsufficientFundsException, EmptyException, 
+	public void buy(int popIndex) throws InsufficientFundsException, EmptyException, 
 											DisabledException, CapacityExceededException {
 		int cost = getPopKindCost(popIndex);
 		if (getCredit() < cost){
