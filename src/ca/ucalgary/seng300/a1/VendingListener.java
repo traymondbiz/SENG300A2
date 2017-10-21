@@ -8,7 +8,7 @@ import org.lsmr.vending.hardware.*;
  * events and perform first-pass checks and error-handling for them. Most "heavy-lifting" 
  * is completed within VendingManager.
  * 
- * ACCESS: Only listener methods are public access. 
+ * ACCESS: Only getInstance and listener methods are public access. 
  * 
  * HANDLED EVENTS: 	SelectionButtonListener: pressed() 
  *   				CoinSlotListener: ValidCoinInserted()
