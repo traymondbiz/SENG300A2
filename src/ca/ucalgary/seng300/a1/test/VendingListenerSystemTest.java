@@ -62,7 +62,7 @@ public class VendingListenerSystemTest {
 	public void loser() {
 		cokeButton.press();
 		Deliverable[] dispensed = machine.getDeliveryChute().removeItems();
-		for (Deliverable each : dispensed){
+		for (Deliverable eac : dispensed){
 			
 		}
 	}
