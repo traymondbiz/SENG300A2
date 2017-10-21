@@ -13,6 +13,7 @@ import ca.ucalgary.seng300.a1.*;
 
 public class VendingListenerSystemTest {
 	
+	// Machine Parts.
 	private VendingMachine machine = null;
 	private VendingManager manager = null;
 	private CoinSlot slot = null;
@@ -22,6 +23,8 @@ public class VendingListenerSystemTest {
 	private SelectionButton aleButton = null;
 	private SelectionButton pepsiButton = null;
 	private SelectionButton dietButton = null;
+	
+	// Coins.
 	private Coin nickel = new Coin(5);
 	private Coin dime = new Coin(10);
 	private Coin quarter = new Coin(25);
