@@ -192,7 +192,7 @@ public class VendingManager {
 	public void buy(int popIndex) throws InsufficientFundsException, EmptyException, 
 											DisabledException, CapacityExceededException {
 		int cost = getPopKindCost(popIndex);
-		if (getCredit() < cost){
+		if (getCredit() >= cost){
 			PopCanRack rack = getPopCanRack(popIndex);
 			int canCount = rack.size(); //Bad method name; returns # of cans stored
 			if (canCount > 0){
