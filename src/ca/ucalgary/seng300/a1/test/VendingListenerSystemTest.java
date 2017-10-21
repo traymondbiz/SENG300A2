@@ -22,21 +22,20 @@ public class VendingListenerSystemTest {
 	private SelectionButton aleButton = null;
 	private SelectionButton pepsiButton = null;
 	private SelectionButton dietButton = null;
+	private Coin nickel = new Coin(5);
+	private Coin dime = new Coin(10);
+	private Coin quarter = new Coin(25);
+	private Coin loonie = new Coin(100);
+	private Coin toonie = new Coin(200);
 	
 	@Before
 	public void setup() throws Exception{
 		
 		List<String> popCanNames = Arrays.asList("Coke", "Sprite", "Crush", "Ale", "Pepsi", "Diet");
-		List<Integer> popCanCosts = Arrays.asList(250,250,250,250,250,250);
+		List<Integer> popCanCosts = Arrays.asList(250, 250, 250, 250, 250, 250);
 		
 		// Initialize accepted currency. Non-changing.
 		int[] coinKinds = {5, 10, 25, 100,200};
-		Coin nickel = new Coin(5);
-		Coin dime = new Coin(10);
-		Coin quarter = new Coin(25);
-		Coin loonie = new Coin(100);
-		Coin toonie = new Coin(200);
-		
 		// Set-up the Vending Machine
 		// - Accepts Canadian Currency
 		// - Has 6 selection buttons. (6 types of pop)
@@ -59,18 +58,46 @@ public class VendingListenerSystemTest {
 	}
 	
 	@Test
-	public void loser() {
-		cokeButton.press();
-		Deliverable[] dispensed = machine.getDeliveryChute().removeItems();
-		for (Deliverable eac : dispensed){
-			
+	public void invalidCreditInStock() {
+		
+		machine.loadPopCans(5,5,5,5,5,5);
+		
+		try{
+			slot.addCoin(toonie);
 		}
+		catch (DisabledException e) {
+			fail("Couldn't add two toonies.");
+		}
+		
+		cokeButton.press();
+		dietButton.press();
+		
+		Deliverable[] dispensed = machine.getDeliveryChute().removeItems();
+		System.out.println(dispensed.length);
+		assertNotEquals("Coke", dispensed[0].toString());
 	}
-	
-	
-	
-	
-	
+
+	@Test
+	public void validCreditInStock() {
+		
+		machine.loadPopCans(5,5,5,5,5,5);
+		
+		try{
+			slot.addCoin(toonie);
+			slot.addCoin(toonie);
+		}
+		catch (DisabledException e) {
+			fail("Couldn't add two toonies.");
+		}
+		
+		cokeButton.press();
+		dietButton.press();
+		
+		Deliverable[] dispensed = machine.getDeliveryChute().removeItems();
+		System.out.println(dispensed.length);
+		assertEquals("Coke", dispensed[0].toString());
+		assertNotEquals("Diet", dispensed[1].toString());
+	}
 	
 	
 	
