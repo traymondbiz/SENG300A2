@@ -124,8 +124,8 @@ public class VendingManager {
 	CoinRack getCoinRackForCoinKind(int value){
 		return vm.getCoinRackForCoinKind(value); 
 	}
-	CoinRack getCoinKindForCoinRack(int index){
-		return vm.getCoinRackForCoinKind(index); 
+	Integer getCoinKindForCoinRack(int index){
+		return vm.getCoinKindForCoinRack(index); 
 	}
 	int getNumberOfPopCanRacks(){
 		return vm.getNumberOfPopCanRacks(); 
