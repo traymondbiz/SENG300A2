@@ -9,12 +9,17 @@ import org.lsmr.vending.hardware.*;
  * for event notifications from the hardware classes.
  * 
  * USAGE: Pass VendingMachine to static method initialize(), then use getInstance()
- * to get the singleton VendingManager object. 
+ * to get the singleton VendingManager object. Listeners are registered automatically. 
  * 
- * Design notes: Methods intended for use only by logic classes are declared with
- * package-access. 
- *
- * &&&&&&&&COMPLETE DOCUMENTATION&&&&&&&&&&&&&&
+ * DESIGN: All logic classes are designed as singletons. Currently, the only public-access methods are for initialization
+ * and to get a VendingManager instance. All other functionality is restricted
+ * to package access. 
+ * 
+ * TESTING: Due to the near-total encapsulation, VendingManager and VendingListener
+ * must be tested along with a VendingMachine. Although a "stub" VendingMachine
+ * *could* be created, doing so would be extremely inefficient. 
+ * We have been instructed that the VendingMachine and other hardware classes
+ * are known-good, so integration testing will be sufficient.
  */
 public class VendingManager {
 	private static VendingManager mgr;
@@ -22,21 +27,13 @@ public class VendingManager {
 	private static VendingMachine vm;
 	private int credit = 0;
 	
-	/*
-	 * Singleton constructor. Initializes and gets the singleton instance
-	 * of VendingListener. 
+	/**
+	 * Singleton constructor. Initializes and stores the singleton instance
+	 * of VendingListener.
 	 */
 	private VendingManager(){
 		VendingListener.initialize(this);
 		listener = VendingListener.getInstance();
-	}
-	
-	/**
-	 * Provides access to the singleton instance for package-external classes.
-	 * @return The singleton VendingManager instance  
-	 */
-	public static VendingManager getInstance(){
-		return mgr;
 	}
 	
 	/**
@@ -51,6 +48,14 @@ public class VendingManager {
 		mgr.registerListeners();
 	}
 	
+	/**
+	 * Provides public access to the VendingManager singleton.
+	 * @return The singleton VendingManager instance  
+	 */
+	public static VendingManager getInstance(){
+		return mgr;
+	}
+	
 	/*
 	 * Registers the previously instantiated listener(s) with the 
 	 * appropriate hardware.
@@ -61,8 +66,9 @@ public class VendingManager {
 	}
 	
 	/**
-	 * Registers a single listener with each selection button.
-	 * @param listener A listener that can handle SelectionButton events.
+	 * Iterates through all selection buttons in the VendingMachine and
+	 * registers a single listener with each.
+	 * @param listener The listener that will handle SelectionButton events.
 	 */
 	private void registerButtonListener(SelectionButtonListener listener){
 		int buttonCount = getNumberOfSelectionButtons();
@@ -72,7 +78,7 @@ public class VendingManager {
 	}
 
 
-	// Accessors used through the logic classes to retrieve the VM hardware.
+	// Accessors used throughout the vending logic classes to get hardware references.
 	// Indirect access to the VM is used to simplify the removal of the
 	// VM class from the build.  
 //vvv=======================ACCESSORS START=======================vvv
@@ -154,7 +160,7 @@ public class VendingManager {
 	}
 	
 	/**
-	 * Gets the credit stored in the machine, in cents. 
+	 * Gets the credit available for purchases, in cents. 
 	 * @return The stored credit, in cents.
 	 */
 	int getCredit(){
@@ -162,18 +168,18 @@ public class VendingManager {
 	}
 
 	/**
-	 * Allows listeners to add value to the tracked credit.
+	 * Adds value to the tracked credit.
 	 * @param added The credit to add, in cents.
 	 */
 	void addCredit(int added){
 		credit += added;
 	}
-//vvv=======================ACCESSORS END=======================vvv
+//^^^=======================ACCESSORS END=======================^^^
 	
 
 //vvv=======================VENDING LOGIC START=======================vvv	
 	/**
-	 * Handles pop purchases. Checks if the pop rack has pop, confirms funds available,  
+	 * Handles a pop purchase. Checks if the pop rack has pop, confirms funds available,  
 	 *  dispenses the pop, reduces available funds and deposits the added coins into storage. 
 	 * @param popIndex The index of the selected pop rack. 	 
 	 * @throws InsufficientFundsException Thrown if credit < cost.
@@ -199,4 +205,5 @@ public class VendingManager {
 			throw new InsufficientFundsException("Cannot buy " + popName + ". " + dif + " cents missing.");
 		}
 	}
+//^^^======================VENDING LOGIC END=======================^^^
 }

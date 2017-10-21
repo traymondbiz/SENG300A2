@@ -3,6 +3,17 @@ package ca.ucalgary.seng300.a1;
 import org.lsmr.vending.*;
 import org.lsmr.vending.hardware.*;
 
+/**
+ * This class is registered by VendingManager with hardware classes to listen for hardware
+ * events and perform first-pass checks and error-handling for them. Most "heavy-lifting" 
+ * is completed within VendingManager.
+ * 
+ * ACCESS: Only listener methods are public access. 
+ * 
+ * HANDLED EVENTS: 	SelectionButtonListener: pressed() 
+ *   				CoinSlotListener: ValidCoinInserted()
+ *
+ */
 public class VendingListener implements CoinSlotListener, SelectionButtonListener {
 	private static VendingListener listener;
 	private static VendingManager mgr;
@@ -39,6 +50,9 @@ public class VendingListener implements CoinSlotListener, SelectionButtonListene
 
 	/**
 	 * Responds to "pressed" notifications from registered SelectionButtons. 
+	 * If no matching button is found in the VendingMachine, nothing is done.
+	 * Uses the buy() method in VendingManager to process the purchase.
+	 * All exceptions thrown by buy() are caught here (InsufficientFunds, Disabled, Empty, etc.) 
 	 */
 	@Override
 	public void pressed(SelectionButton button) {
@@ -66,7 +80,7 @@ public class VendingListener implements CoinSlotListener, SelectionButtonListene
 
 	/**
 	 * Responds to "Valid coin inserted" notifications from the registered CoinSlot.
-	 * Adds the 
+	 * Adds the value of the coin to the VendingManager's tracked credit.
 	 */
 	@Override
 	public void validCoinInserted(CoinSlot slot, Coin coin) {
