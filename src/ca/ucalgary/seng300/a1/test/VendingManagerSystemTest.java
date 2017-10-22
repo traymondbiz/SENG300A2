@@ -32,7 +32,6 @@ public class VendingManagerSystemTest {
 		List<String> popCanNames = Arrays.asList("Coke", "Sprite", "Crush", "Ale", "Pepsi", "Diet");
 		List<Integer> popCanCosts = Arrays.asList(250,250,250,250,250,250);
 		
-		
 		int[] coinKinds = new int[] {5, 10, 25, 100, 200};
 		int selectionButtonCount = 6; 
 		int coinRackCapacity = 15;
@@ -43,71 +42,101 @@ public class VendingManagerSystemTest {
 		
 		VendingManager.initialize(machine);
 		manager = VendingManager.getInstance();
-		
-		
 	}
 	
+	/**
+	 * Tests that the logic can dispense the correct pop after too much change is added
+	 * and the button is pressed. Also confirms that nothing else is dispensed and the
+	 * credit is reduced appropriately.
+	 */
 	@Test
-	public void testCreditAndPop() throws InsufficientFundsException, EmptyException, DisabledException, CapacityExceededException {
+	public void testCreditAndPop() {
 		
 		machine.loadPopCans(10,10,10,10,10,10);
 		machine.loadCoins(10,10,10,10,10);
-		CoinSlot slot = machine.getCoinSlot();
-		Coin coin = new Coin(100);
-		VendingListener.getInstance().validCoinInserted(slot, coin); 
-		VendingListener.getInstance().validCoinInserted(slot, coin); 
-		VendingListener.getInstance().validCoinInserted(slot, coin); 
+
+		Coin coin = new Coin(100);		
+		for (int i = 0; i < 3; i++){ //Adds three dollars to the machine
+			try{
+				machine.getCoinSlot().addCoin(coin);
+			} catch(DisabledException e){}
+		}
+		machine.getSelectionButton(1).press();
 		
-		SelectionButton button = machine.getSelectionButton(1);
-		VendingListener.getInstance().pressed(button);
+		Deliverable[] delivered = machine.getDeliveryChute().removeItems();
 		
-		DeliveryChute chute = machine.getDeliveryChute();
-		Deliverable[] delivered = chute.removeItems();
+		assertEquals(1, delivered.length);
 		
-		String expect = new String("Sprite");	
-		String pop = delivered[0].toString();
+		String expected = machine.getPopKindName(1);	
+		String dispensed = delivered[0].toString();
 		
-		assertEquals(pop, expect);
+		assertEquals(dispensed, expected);
 		assertEquals(manager.getCredit(), 50);
 	}
-
+	
+	/**
+	 * Tests that the logic is able to handle the case where the selected pop is not available
+	 * but there were sufficient funds added. Ensures that the credit is not reduced in this case.
+	 */
 	@Test
-	public void testCreditAndNoPop() throws InsufficientFundsException, EmptyException, DisabledException, CapacityExceededException{
+	public void testCreditAndNoPop() {
 		
 		machine.loadPopCans(0,0,0,0,0,0);
 		machine.loadCoins(10,10,10,10,10);
-		CoinSlot slot = machine.getCoinSlot();
+
 		Coin coin = new Coin(100);
-		VendingListener.getInstance().validCoinInserted(slot, coin); 
-		VendingListener.getInstance().validCoinInserted(slot, coin); 
-		VendingListener.getInstance().validCoinInserted(slot, coin); 
+		for (int i = 0; i < 3; i++){ //Adds three dollars to the machine
+			try{
+				machine.getCoinSlot().addCoin(coin);
+			} catch(DisabledException e){}
+		} 
 	
-		SelectionButton button = machine.getSelectionButton(1);
-		VendingListener.getInstance().pressed(button);
-		
-		DeliveryChute chute = machine.getDeliveryChute();
-		Deliverable[] delivered = chute.removeItems();
+		machine.getSelectionButton(1).press();
+				
+		Deliverable[] delivered = machine.getDeliveryChute().removeItems();
 		
 		assertEquals(delivered.length, 0);
 		assertEquals(manager.getCredit(), 300);
 	}
 	
+	/**
+	 * Tests the case where the selected pop is available but insufficient funds have been added. 
+	 */
 	@Test
-	public void testNoCreditAndPop() throws InsufficientFundsException, EmptyException, DisabledException, CapacityExceededException{
+	public void testLowCreditAndPop() {
 		
 		machine.loadPopCans(10,10,10,10,10,10);
+		machine.loadCoins(10,10,10,10,10);
 		
-		SelectionButton button = machine.getSelectionButton(1);
-		VendingListener.getInstance().pressed(button);
+		Coin coin = new Coin(100);
+		for (int i = 0; i < 2; i++){ //Adds two dollars to the machine
+			try{
+				machine.getCoinSlot().addCoin(coin);
+			} catch(DisabledException e){}
+		} 
 		
-		DeliveryChute chute = machine.getDeliveryChute();
-		Deliverable[] delivered = chute.removeItems();
+		machine.getSelectionButton(1).press();
+		
+		Deliverable[] delivered = machine.getDeliveryChute().removeItems();
+		
+		assertEquals(delivered.length, 0);
+		assertEquals(manager.getCredit(), 200);
+	}
+	
+	/**
+	 * Tests the case where the selected pop is available but no funds have been added. 
+	 */
+	@Test
+	public void testNoCreditAndPop() {
+		
+		machine.loadPopCans(10,10,10,10,10,10);
+		machine.loadCoins(10,10,10,10,10);
+		
+		machine.getSelectionButton(1).press();
+		
+		Deliverable[] delivered = machine.getDeliveryChute().removeItems();
 		
 		assertEquals(delivered.length, 0);
 		assertEquals(manager.getCredit(), 0);
 	}
-	
-	
-	
-
 }
