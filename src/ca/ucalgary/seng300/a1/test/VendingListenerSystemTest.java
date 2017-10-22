@@ -28,6 +28,7 @@ public class VendingListenerSystemTest {
 	private VendingMachine machine = null;
 	private VendingManager manager = null;
 	private CoinSlot slot = null;
+	private DeliveryChute chute = null;
 	
 	// Six selection buttons, each named after current pop test names.
 	private SelectionButton cokeButton = null;
@@ -67,6 +68,7 @@ public class VendingListenerSystemTest {
 		
 		VendingManager.initialize(machine);
 		manager = VendingManager.getInstance();
+		
 		slot = machine.getCoinSlot();
 		cokeButton = machine.getSelectionButton(0);
 		spriteButton = machine.getSelectionButton(1);
@@ -74,7 +76,7 @@ public class VendingListenerSystemTest {
 		aleButton = machine.getSelectionButton(3);
 		pepsiButton = machine.getSelectionButton(4);
 		dietButton = machine.getSelectionButton(5);
-		
+		chute = machine.getDeliveryChute(); 
 	}
 	
 	// Checks to see if anything is dispensed when an insufficient amount of credit is added.
@@ -88,13 +90,13 @@ public class VendingListenerSystemTest {
 			slot.addCoin(toonie);
 		}
 		catch (DisabledException e) {
-			fail("Couldn't add a toonie.");
+			fail("CoinSlot disabled");
 		}
 		
 		cokeButton.press();
 		dietButton.press();
 		
-		Deliverable[] dispensed = machine.getDeliveryChute().removeItems();
+		Deliverable[] dispensed = chute.removeItems();
 		assertEquals(0, dispensed.length);
 	}
 
@@ -111,13 +113,13 @@ public class VendingListenerSystemTest {
 			slot.addCoin(toonie);
 		}
 		catch (DisabledException e) {
-			fail("Couldn't add two toonies.");
+			fail("CoinSlot disabled");
 		}
 		
 		cokeButton.press();
 		dietButton.press();
 		
-		Deliverable[] dispensed = machine.getDeliveryChute().removeItems();
+		Deliverable[] dispensed = chute.removeItems();
 		assertEquals(1, dispensed.length);
 		assertEquals("Coke", dispensed[0].toString());
 	}
@@ -135,12 +137,12 @@ public class VendingListenerSystemTest {
 			slot.addCoin(limaGold);
 		}
 		catch (DisabledException e) {
-			fail("Couldn't add a bad coin (limaGold) into machine.");
+			fail("CoinSlot disabled");
 		}
 		
 		cokeButton.press();
 		
-		Deliverable[] dispensed = machine.getDeliveryChute().removeItems();
+		Deliverable[] dispensed = chute.removeItems();
 		assertEquals(1, dispensed.length);
 		assertEquals("5000", dispensed[0].toString());
 	}
@@ -159,7 +161,7 @@ public class VendingListenerSystemTest {
 			}
 		}
 		catch (DisabledException e) {
-			fail("Couldn't add toonies.");
+			fail("CoinSlot disabled");
 		}
 		
 		// Press the ale button 6 times. (1500 currency)
@@ -167,7 +169,7 @@ public class VendingListenerSystemTest {
 			aleButton.press();
 		}
 
-		Deliverable[] dispensed = machine.getDeliveryChute().removeItems();
+		Deliverable[] dispensed = chute.removeItems();
 		assertEquals(5, dispensed.length);
 		assertEquals("Ale", dispensed[0].toString());
 		assertEquals("Ale", dispensed[4].toString());
@@ -193,7 +195,7 @@ public class VendingListenerSystemTest {
 			slot.addCoin(nickel);
 		}
 		catch (DisabledException e) {
-			fail("Couldn't add all the coins.");
+			fail("CoinSlot disabled");
 		}
 		
 		spriteButton.press();
@@ -202,15 +204,91 @@ public class VendingListenerSystemTest {
 			slot.addCoin(nickel);
 		}
 		catch (DisabledException e) {
-			fail("Couldn't add anothr nickel.");
+			fail("CoinSlot disabled");
 		}
 		
 		crushButton.press();
 		pepsiButton.press();
 
-		Deliverable[] dispensed = machine.getDeliveryChute().removeItems();
+		Deliverable[] dispensed = chute.removeItems();
 		assertEquals(1, dispensed.length);
 		assertEquals("Crush", dispensed[0].toString());
+	}
+	
+	/**
+	 * Tests that the logic can dispense the correct pop after too much change is added
+	 * and the button is pressed. Also confirms that nothing else is dispensed and the
+	 * credit is reduced appropriately.
+	 */
+	@Test
+	public void testCreditAndPop() {
+		
+		machine.loadPopCans(10,10,10,10,10,10);
+		machine.loadCoins(10,10,10,10,10);
+	
+		for (int i = 0; i < 3; i++){ //Adds three dollars to the machine
+			try{
+				slot.addCoin(loonie);
+			} catch(DisabledException e){
+				fail("CoinSlot disabled");
+			}
+		}
+		machine.getSelectionButton(1).press();
+		
+		Deliverable[] delivered = chute.removeItems();
+		
+		assertEquals(1, delivered.length);
+		
+		
+		String expected = machine.getPopKindName(1);	
+		String dispensed = delivered[0].toString();
+		
+		assertEquals(dispensed, expected);
+		assertEquals(manager.getCredit(), 50);
+	}
+	
+	/**
+	 * Tests that the logic is able to handle the case where the selected pop is not available
+	 * but there were sufficient funds added. 
+	 * Expects no pop and unchanged credit.
+	 * 
+	 */
+	@Test
+	public void testCreditAndNoPop() {
+	
+		machine.loadCoins(10,10,10,10,10);
+
+		for (int i = 0; i < 3; i++){ //Adds three dollars to the machine
+			try{
+				slot.addCoin(loonie);
+			} catch(DisabledException e){
+				fail("CoinSlot disabled");
+			}
+		} 
+	
+		cokeButton.press();
+				
+		Deliverable[] delivered = chute.removeItems();
+		
+		assertEquals(delivered.length, 0);
+		assertEquals(manager.getCredit(), 300);
+	}
+	
+	/**
+	 * Tests the case where the selected pop is available but no funds have been added.
+	 * Expect no pop and 0 credit.  
+	 */
+	@Test
+	public void testNoCreditAndPop() {
+		
+		machine.loadPopCans(10,10,10,10,10,10);
+		
+		cokeButton.press();
+		
+		Deliverable[] delivered = chute.removeItems();
+		
+		assertEquals(delivered.length, 0);
+		assertEquals(manager.getCredit(), 0);
 	}
 	
 }
