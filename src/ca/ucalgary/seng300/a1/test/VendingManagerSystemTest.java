@@ -35,8 +35,8 @@ public class VendingManagerSystemTest {
 		
 		int[] coinKinds = new int[] {5, 10, 25, 100, 200};
 		int selectionButtonCount = 6; 
-		int coinRackCapacity = 200;
-		int popCanRackCapacity = 15;
+		int coinRackCapacity = 15;
+		int popCanRackCapacity = 10;
 		int receptacleCapacity = 200;	
 		machine = new VendingMachine(coinKinds, selectionButtonCount, coinRackCapacity, popCanRackCapacity, receptacleCapacity); 
 		machine.configure(popCanNames, popCanCosts);
@@ -50,7 +50,7 @@ public class VendingManagerSystemTest {
 	@Test
 	public void testCreditAndPop() throws InsufficientFundsException, EmptyException, DisabledException, CapacityExceededException {
 		
-		machine.loadPopCans(15,15,15,15,15,15);
+		machine.loadPopCans(10,10,10,10,10,10);
 		machine.loadCoins(10,10,10,10,10);
 		CoinSlot slot = machine.getCoinSlot();
 		Coin coin = new Coin(100);
@@ -95,7 +95,7 @@ public class VendingManagerSystemTest {
 	@Test
 	public void testNoCreditAndPop() throws InsufficientFundsException, EmptyException, DisabledException, CapacityExceededException{
 		
-		machine.loadPopCans(15,15,15,15,15,15);
+		machine.loadPopCans(10,10,10,10,10,10);
 		
 		SelectionButton button = machine.getSelectionButton(1);
 		VendingListener.getInstance().pressed(button);
