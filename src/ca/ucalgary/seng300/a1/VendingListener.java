@@ -8,10 +8,14 @@ import org.lsmr.vending.hardware.*;
  * events and perform first-pass checks and error-handling for them. Most "heavy-lifting" 
  * is completed within VendingManager.
  * 
- * ACCESS: Only getInstance and listener methods are public access. 
+ * ACCESS: Only listener methods are public access. 
  * 
  * HANDLED EVENTS: 	SelectionButtonListener: pressed() 
  *   				CoinSlotListener: ValidCoinInserted()
+ *
+ * @author Raymond Tran (30028473)
+ * @author Thomas Coderre (10169277)
+ * @author Thobthai Chulpongsatorn (30005238)
  *
  */
 public class VendingListener implements CoinSlotListener, SelectionButtonListener {
@@ -35,7 +39,7 @@ public class VendingListener implements CoinSlotListener, SelectionButtonListene
 	 * Provides access to the singleton instance for package-internal classes.
 	 * @return The singleton VendingListener instance  
 	 */
-	public static VendingListener getInstance(){
+	static VendingListener getInstance(){
 		return listener;
 	}
 

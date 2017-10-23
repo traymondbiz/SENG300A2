@@ -20,6 +20,11 @@ import org.lsmr.vending.hardware.*;
  * *could* be created, doing so would be extremely inefficient. 
  * We have been instructed that the VendingMachine and other hardware classes
  * are known-good, so integration testing will be sufficient.
+ * 
+ * @author Raymond Tran (30028473)
+ * @author Thomas Coderre (10169277)
+ * @author Thobthai Chulpongsatorn (30005238)
+ * 
  */
 public class VendingManager {
 	private static VendingManager mgr;
@@ -189,7 +194,7 @@ public class VendingManager {
 	 * @throws DisabledException Thrown if the pop rack or delivery chute is disabled.
 	 * @throws CapacityExceededException Thrown if the delivery chute is full.
 	 */
-	public void buy(int popIndex) throws InsufficientFundsException, EmptyException, 
+	void buy(int popIndex) throws InsufficientFundsException, EmptyException, 
 											DisabledException, CapacityExceededException {
 		int cost = getPopKindCost(popIndex);
 		if (getCredit() >= cost){

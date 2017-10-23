@@ -9,16 +9,24 @@ import org.lsmr.vending.hardware.*;
 import ca.ucalgary.seng300.a1.*;
 
 /**
- * A system test designed for the implementation of SENG 300's Group Assignment 1
+ * A test suite designed to verify the implementation of the hardware logic classes 
+ * VendingManager and VendingListener built for SENG 300's Group Assignment 1.
  * 
- * In particular, this test suite checks the behaviour of VendingManager and VendingListener.
+ * NOTE: Due to the encapsulation of the Vending(Manager/Listener) classes and their strict
+ * dependence on one another and VendingMachine to access the hardware classes (e.g. CoinSlot), testing
+ * is done at the "system" level, without using stubs for VendingMachine or other hardware.
+ *   >> This decision is supported by Mr. Client's claim that the provided hardware classes 
+ *   (org.lsm.vending) have been thoroughly tested and can be assumed to function as intended. 
+ * 
  * This test suite makes some assumptions based on the requirements of the assignment, and
  * thus this suite may become deprecated in the future if particular values change. These include:
  * 		- The number of pop types and names. (6 types of pop, irrelevant names.)
  * 		- Prices and amounts of each pop. (Assumed global price of 250 cents. 10 pops per type.)
  * 		- The currency accepted. (Canadian coins of 5, 10, 25, 100, 200 cent values.)
  * 
- * @author Raymond Tran
+ * @author Raymond Tran (30028473)
+ * @author Thomas Coderre (10169277)
+ * @author Thobthai Chulpongsatorn (30005238)
  *
  */
 public class VendingListenerSystemTest {
