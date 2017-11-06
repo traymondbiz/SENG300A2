@@ -50,14 +50,18 @@ The following **six** items are to be provided for submission:
 ..."Oh, did I remember to tell you that the vending machine absolutely must be purple!  The marketing team will have my head if I forget that."
 
 ### Grading Breakdown
-..* 20% - Models
-..* 20% - Completeness of Requirements
-..* 20% - Design
-..* 30% - Testing
-..* 10% - Individual Self-Peer Evaluations
+* 20% - Models
+
+* 20% - Completeness of Requirements
+
+* 20% - Design
+
+* 30% - Testing
+
+* 10% - Individual Self-Peer Evaluations
 
 ### Extra Notes
-..* Expect there to potentially be a demo hosted during **class time.**
+* Expect there to potentially be a demo hosted during **class time.**
 ..* No late submissions are permitted.
 
 ### Information Gathering (Mr. Client & D2L)
