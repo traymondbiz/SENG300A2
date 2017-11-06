@@ -3,40 +3,41 @@
 ### Revision 1 Requirements
 Build on-top of given vending machine hardware. Do not alter the hardware.
 Implement the following logic:
-..* ~~Customers must be able to press pop selection buttons and enter coins, in order to ultimately purchase pops.~~ [Completed in Assn1]
 
-..* ~~Again, Canadian coin denominations must be supported.~~ [Completed in Assn1]
+* ~~Customers must be able to press pop selection buttons and enter coins, in order to ultimately purchase pops.~~ [Completed in Assn1]
 
-..* When the machine contains no credit for the user, a message "Hi there!" should be displayed for 5 seconds and then should be erased for 10 seconds, with this cycle repeating.
+* ~~Again, Canadian coin denominations must be supported.~~ [Completed in Assn1]
 
-..* When the user enters valid coins, the message "Credit: " and the amount of credit should be displayed.
+* When the machine contains no credit for the user, a message "Hi there!" should be displayed for 5 seconds and then should be erased for 10 seconds, with this cycle repeating.
 
-..* The machine should provide change once a pop is vended.  If the exact change can be provided, it should be, and the credit should go to zero.  If the exact change cannot be provided, the amount as close as possible to the exact change should be returned, but without going over; any remaining amount that cannot be returned should still exist as credit.
+* When the user enters valid coins, the message "Credit: " and the amount of credit should be displayed.
 
-..* Whenever exact change cannot be guaranteed for all possible transactions, the "exact change only" light should be turned on; otherwise, it should be off.
+* The machine should provide change once a pop is vended.  If the exact change can be provided, it should be, and the credit should go to zero.  If the exact change cannot be provided, the amount as close as possible to the exact change should be returned, but without going over; any remaining amount that cannot be returned should still exist as credit.
 
-..* If the machine cannot store additional coins or otherwise becomes aware of a problem that cannot be recovered from (including being out of all pop), the "out of order" light should be turned on; if the safety is enabled, this light should also be turned on; otherwise, it should be turned off.
+* Whenever exact change cannot be guaranteed for all possible transactions, the "exact change only" light should be turned on; otherwise, it should be off.
 
-..* Each action of the user and the actions of the machine that are visible to the user should be logged in a text file (called the "event log").  You can determine the format of this text file.  Be aware that the vending machine possesses an internal clock, as per a standard Java virtual machine.
+* If the machine cannot store additional coins or otherwise becomes aware of a problem that cannot be recovered from (including being out of all pop), the "out of order" light should be turned on; if the safety is enabled, this light should also be turned on; otherwise, it should be turned off.
+
+* Each action of the user and the actions of the machine that are visible to the user should be logged in a text file (called the "event log").  You can determine the format of this text file.  Be aware that the vending machine possesses an internal clock, as per a standard Java virtual machine.
 
 ### Design Goals
 In addition, design goals should allow for the ease of the following:
-..* easy extensibility to other forms of payment, including mixed modes (e.g., paying partially with coins, partially with credit card)
-..* ease of changing details on communication with the user and to the event log
-..* ease of supporting alternative hardware
+* easy extensibility to other forms of payment, including mixed modes (e.g., paying partially with coins, partially with credit card)
+* ease of changing details on communication with the user and to the event log
+* ease of supporting alternative hardware
 (Note, do **not** implement other forms of payment for now. Your design however, should be able to support such a change.)
 (Note, ease is defined as the addition of new code without any severe modification of the previous code. Rewriting the entire system is not considered 'easy')
 
 ### Deliverables
 The following **six** items are to be provided for submission:
 #### Team Submission:
-..* Source code that supports the above requirements and design goals.
-..* JUnit tests that 1) Unit test Logic classes, and 2) System test hardware with logic installed.
-..* One or more diagrams describing how the hardware and logic support user interactions.
-..* One page document justifying and design choices and how they meeting the given design goals.
-..* The log file of your team's Git repository.
+* Source code that supports the above requirements and design goals.
+* JUnit tests that 1) Unit test Logic classes, and 2) System test hardware with logic installed.
+* One or more diagrams describing how the hardware and logic support user interactions.
+* One page document justifying and design choices and how they meeting the given design goals.
+* The log file of your team's Git repository.
 #### Individual Submission:
-..* A peer evaluation document of you and your team's contribution to a solution.
+* A peer evaluation document of you and your team's contribution to a solution.
 ... - Submitted in the form of an **excel** spreadsheet.
 ... - Based on an average, give a member a positive, neutral, or negative score.
 ... - Have the total of the scores SUM to 0.
