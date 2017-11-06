@@ -38,10 +38,10 @@ The following **six** items are to be provided for submission:
 * The log file of your team's Git repository.
 #### Individual Submission:
 * A peer evaluation document of you and your team's contribution to a solution.
-... - Submitted in the form of an **excel** spreadsheet.
-... - Based on an average, give a member a positive, neutral, or negative score.
-... - Have the total of the scores SUM to 0.
-... - Write a justification for each of the scores.
+  - Submitted in the form of an **excel** spreadsheet.  
+  - Based on an average, give a member a positive, neutral, or negative score.  
+  - Have the total of the scores SUM to 0.  
+  - Write a justification for each of the scores.  
 
 ### Mr. Client's Comments
   "This description is good enough for you to get started, but we're working on certain changes to the hardware that will likely impact the requirements.  Be prepared to make adjustments to your design and implementation.  I'm not sure when our hardware changes will be ready to roll out for you.  We need to work out some issues with the vendors of some of the hardware components."
