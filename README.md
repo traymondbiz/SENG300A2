@@ -22,10 +22,10 @@ Implement the following logic:
 
 ### Design Goals
 In addition, design goals should allow for the ease of the following:
-* easy extensibility to other forms of payment, including mixed modes (e.g., paying partially with coins, partially with credit card)
-* ease of changing details on communication with the user and to the event log
-* ease of supporting alternative hardware
-(Note, do **not** implement other forms of payment for now. Your design however, should be able to support such a change.)
+* Easy extensibility to other forms of payment, including mixed modes (e.g., paying partially with coins, partially with credit card)
+* Ease of changing details on communication with the user and to the event log
+* Ease of supporting alternative hardware  
+(Note, do **not** implement other forms of payment for now. Your design however, should be able to support such a change.)  
 (Note, ease is defined as the addition of new code without any severe modification of the previous code. Rewriting the entire system is not considered 'easy')
 
 ### Deliverables
