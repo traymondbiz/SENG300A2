@@ -66,3 +66,30 @@ The following **six** items are to be provided for submission:
 ..* No late submissions are permitted.
 
 ### Information Gathering (Mr. Client & D2L)
+
+##### Exact Change Light
+**Q:** When the “exact change only” light is on, is inexact change still supported? Is the light intended to be a warning to users that returned change shouldn’t be expected?
+**A:** Yes and yes.  If the light is off, the user should expect to get correct change back.
+
+**Q:** For the potential live demo, will a user interface need to be developed that simulates manual input, such as button presses or coin addition?
+**A:** For this iteration, no.
+
+
+**Q:** What all would you like outputted in the log? (Button presses? Listener events? Coin insertion? Change return? etc) Should they be logged even if they are driven by the test suite?
+**A:** All of those sorts of things.  If a button is pressed, it is pressed; it doesn't matter if it is during a test or not.
+
+
+**Q:** Have there been any development regarding hardware changes? Even an indication of the type of hardware that may be adjusted would be much appreciated.
+**A:** It's messy and involves negotiations with other companies.  Sorry, I can't tell you more right now.  I think we'll be able to give you a definitive answer early next week.
+
+
+**Q:** Would you like a “transaction complete” message to be displayed once a pop is dispensed? e.g. “Thank you for your purchase”
+**A:** Sure! As long as the other requirements are met.
+
+
+**Q:** When the out of order light is turned on, should all of the safeties be enabled as well?
+**A:** Depends on why the out of order light is on.  You want to permit the technician to restock or otherwise fix it, at which point, the light should go off (presumably).
+
+
+**Q:** While our design should easily apply other payment methods, we do not have to include a credit card option just yet, correct?
+**A:** You don't need to include any other payment forms yet, but we are definitely heading that way, so I would worry about it in your design.
