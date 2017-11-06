@@ -44,11 +44,11 @@ The following **six** items are to be provided for submission:
 ... - Write a justification for each of the scores.
 
 ### Mr. Client's Comments
-..."This description is good enough for you to get started, but we're working on certain changes to the hardware that will likely impact the requirements.  Be prepared to make adjustments to your design and implementation.  I'm not sure when our hardware changes will be ready to roll out for you.  We need to work out some issues with the vendors of some of the hardware components."
+  "This description is good enough for you to get started, but we're working on certain changes to the hardware that will likely impact the requirements.  Be prepared to make adjustments to your design and implementation.  I'm not sure when our hardware changes will be ready to roll out for you.  We need to work out some issues with the vendors of some of the hardware components."
 
-..."Any time you find any issues with the hardware, we'll have to fix it on our end.  Make sure you give us some time to achieve this.  I know: it's a moving target, but that can't be helped."
+  "Any time you find any issues with the hardware, we'll have to fix it on our end.  Make sure you give us some time to achieve this.  I know: it's a moving target, but that can't be helped."
 
-..."Oh, did I remember to tell you that the vending machine absolutely must be purple!  The marketing team will have my head if I forget that."
+  "Oh, did I remember to tell you that the vending machine absolutely must be purple!  The marketing team will have my head if I  forget that."
 
 ### Grading Breakdown
 * 20% - Models
