@@ -1,3 +1,5 @@
+package ca.ucalgary.seng300.a3.exactChange;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
