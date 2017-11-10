@@ -1,5 +1,12 @@
 package ca.ucalgary.seng300.a2;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+
 import org.lsmr.vending.hardware.*;
 
 /**
@@ -30,6 +37,7 @@ public class VendingManager {
 	private static VendingListener listener;
 	private static VendingMachine vm;
 	private static Thread noCreditThread;
+	private static PrintWriter writer; 
 	private int credit = 0;
 	
 	/**
@@ -233,6 +241,27 @@ public class VendingManager {
 			String popName = getPopKindName(popIndex);
 			throw new InsufficientFundsException("Cannot buy " + popName + ". " + dif + " cents missing.");
 		}
+	}
+	
+	/* Reference material
+	 * https://howtodoinjava.com/core-java/io/how-to-create-a-new-file-in-java/
+	 * https://stackoverflow.com/questions/11496700/how-to-use-printwriter-and-file-classes-in-java
+	 * https://stackoverflow.com/questions/2885173/how-do-i-create-a-file-and-write-to-it-in-java
+	 */
+	
+	public void printToFile(String messageToLog) throws IOException {
+		Date currentDate = new Date();
+		
+		//Need to strip the date object to only include the year, month, and day for filename
+		File currentFileDir = new File("C:\\" + currentDate.toString() + ".txt");
+		
+		if(!currentFileDir.isFile()) {
+			currentFileDir.createNewFile(); 
+		}
+
+		writer = new PrintWriter(currentFileDir);
+		writer.println(currentDate.toString() + ": " + messageToLog);
+		writer.close();
 	}
 //^^^======================VENDING LOGIC END=======================^^^
 }
