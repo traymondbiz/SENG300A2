@@ -9,7 +9,7 @@ public class ExactChange {
 	
 	private static int[] valid_coins = {1,5,10,25,100,200};
 	private static int[] pop_prices = {125,150,170,200};
-	private static int[] coin_count = {0,6,0,3,0,0};
+	private static int[] coin_count = {0,1,0,3,0,0};
 	/*
 	 * Call this to ask the vending machine to change the indicator light based on the state of the vm
 	 */
@@ -17,11 +17,18 @@ public class ExactChange {
 	public static void main(String args[]) {
 		ArrayList<Integer> valuesOfChange = ExactChange.getPossibleChangeValues(valid_coins, pop_prices);
 		for(int change : valuesOfChange) {
-			System.out.println(canMakeChange(change,valid_coins, coin_count));
+			System.out.print(canMakeChange(change,valid_coins, coin_count));
+			System.out.print(" for ");
+			System.out.println(change);
 		}
 		System.out.println(valuesOfChange);
 		
 	}
+	/* 
+	 * 
+	 * call this method to check and see if the exact change light should be on then it turns it on
+	 *
+	 */
 	public static void manageExactChangeState(VendingMachine vm) {
 		if(!canMakeChange(vm)) {
 			//turn the light on
@@ -35,6 +42,8 @@ public class ExactChange {
 		
 		//get the possible change values and loop though them returning false if there is a case where you cant make exact change 
 		// and returns true if it can make change in all cases
+		
+		//TODO 
 		ArrayList<Integer> valuesOfChange = ExactChange.getPossibleChangeValues(valid_coins, pop_prices);
 		for(int change : valuesOfChange) {
 			if(!canMakeChange(change,valid_coins, coin_count)) return false;
@@ -74,24 +83,29 @@ public class ExactChange {
 	}
 	
 	//will try to make change with the coins it has, assumes the valid values are in assending order
-	public static Boolean canMakeChange(int change, int[] validValues, int[] coinCount) {
+	public static Boolean canMakeChange(int change, int[] valid_Values, int[] coinCount) {
 		//loop through the coins from decending values
-		int i = validValues.length - 1;
-		while(i > 0) {
-			if(change >= validValues[i]) {
-				while(coinCount[i] > 0 & change > 0) {
-					change -= validValues[i];
-					coinCount[i] --;
-					System.out.println(change);
-				}
+		int[] coin_Count = new int[coinCount.length];
+		for(int i=0; i< coinCount.length;i++) {
+			coin_Count[i] = coinCount[i];
+		}
+		int i = valid_Values.length - 1;
+		while(i >= 0) {
+			while(coin_Count[i] > 0 && change >= valid_Values[i] ) {
+				System.out.print(change);
+				System.out.print("   ");
+				System.out.print(valid_Values[i]);
+				System.out.print(" ");
+				System.out.print(coin_Count[i]);
+				System.out.print("   ");
+				change -= valid_Values[i];
+				coin_Count[i] --;
+				System.out.println(change);
+				
 			}
+            if(change == 0) return true;
 			i--;
 		}
-		if(change == 0) {
-			return true;
-		}
-		
-		
 		return false;
 	}
 	
