@@ -66,6 +66,21 @@ public class ExactChange {
 		return true; // since we did not return false we can assure the machine can make change
 	}
 	//will try to make change with the coins it has, assumes the valid values are in assending order
+	public static Boolean canMakeChange(int change, int[] validValues, int[] coinCount) {
+		//loop through the coins from decending values
+		int i = validValues.length;
+		while(i > 0 ) {
+			if( change >= validValues[i]) {
+				while(coinCoint[i] > 0 & change) {
+					
+				}
+			}
+			i--;
+		}
+		
+		
+		return false;
+	}
 	public static boolean changePossible(int change, int[] coinValues,int[] coinCount) {
 		System.out.println(change);
 		int i; // keeps track of the coing array
