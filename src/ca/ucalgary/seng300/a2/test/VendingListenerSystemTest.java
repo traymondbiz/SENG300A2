@@ -37,15 +37,16 @@ public class VendingListenerSystemTest {
 	private VendingMachine machine = null;
 	private VendingManager manager = null;
 	private CoinSlot slot = null;
-	private DeliveryChute chute = null;
+	private DeliveryChute popChute = null;
+	private CoinReturn coinChute = null;
 	
 	// Six selection buttons, each named after current pop test names.
-	private SelectionButton cokeButton = null;
-	private SelectionButton spriteButton = null;
-	private SelectionButton crushButton = null;
-	private SelectionButton aleButton = null;
-	private SelectionButton pepsiButton = null;
-	private SelectionButton dietButton = null;
+	private PushButton cokeButton = null;
+	private PushButton spriteButton = null;
+	private PushButton crushButton = null;
+	private PushButton aleButton = null;
+	private PushButton pepsiButton = null;
+	private PushButton dietButton = null;
 	
 	// Accepted Canadian currency. 
 	private Coin nickel = new Coin(5);
@@ -72,7 +73,10 @@ public class VendingListenerSystemTest {
 		// - Coin Rack capacity of 15 in Mr.Client's updated response to competing group.
 		// - Pop Rack capacity of 10 to hold 10 of each types of pop.
 		// - Receptacle capacity of 200 in Mr. Client's updated response to competing group.
-		machine = new VendingMachine(coinKinds, 6, 15, 10, 200);
+		
+		// Note that in amendment for Assn2, the new hardware requires two new arguments for its constructor.
+		// deliveryChuteCapacity, coinReturnCapacity has been sent the integer '10' by default.
+		machine = new VendingMachine(coinKinds, 6, 15, 10, 200, 10, 10);
 		machine.configure(popCanNames, popCanCosts);
 		
 		VendingManager.initialize(machine);
@@ -85,7 +89,13 @@ public class VendingListenerSystemTest {
 		aleButton = machine.getSelectionButton(3);
 		pepsiButton = machine.getSelectionButton(4);
 		dietButton = machine.getSelectionButton(5);
-		chute = machine.getDeliveryChute(); 
+		popChute = machine.getDeliveryChute(); 
+		coinChute = machine.getCoinReturn();
+	}
+	
+	@After
+	public void tearDown(){
+		manager.getLoopingThread().interrupt();	//Cleans up lingering instances of looping thread.
 	}
 	
 	// Checks to see if anything is dispensed when an insufficient amount of credit is added.
@@ -105,7 +115,7 @@ public class VendingListenerSystemTest {
 		cokeButton.press();
 		dietButton.press();
 		
-		Deliverable[] dispensed = chute.removeItems();
+		PopCan[] dispensed = popChute.removeItems();
 		assertEquals(0, dispensed.length);
 	}
 
@@ -128,7 +138,7 @@ public class VendingListenerSystemTest {
 		cokeButton.press();
 		dietButton.press();
 		
-		Deliverable[] dispensed = chute.removeItems();
+		PopCan[] dispensed = popChute.removeItems();
 		assertEquals(1, dispensed.length);
 		assertEquals("Coke", dispensed[0].toString());
 	}
@@ -151,9 +161,9 @@ public class VendingListenerSystemTest {
 		
 		cokeButton.press();
 		
-		Deliverable[] dispensed = chute.removeItems();
-		assertEquals(1, dispensed.length);
-		assertEquals("5000", dispensed[0].toString());
+		List<Coin> dispensed = coinChute.unload();
+		assertEquals(1, dispensed.size());
+		assertEquals("5000", dispensed.get(0));
 	}
 	
 	// Attempt to buy more pops than there actually is.
@@ -178,7 +188,7 @@ public class VendingListenerSystemTest {
 			aleButton.press();
 		}
 
-		Deliverable[] dispensed = chute.removeItems();
+		PopCan[] dispensed = popChute.removeItems();
 		assertEquals(5, dispensed.length);
 		assertEquals("Ale", dispensed[0].toString());
 		assertEquals("Ale", dispensed[4].toString());
@@ -219,7 +229,7 @@ public class VendingListenerSystemTest {
 		crushButton.press();
 		pepsiButton.press();
 
-		Deliverable[] dispensed = chute.removeItems();
+		PopCan[] dispensed = popChute.removeItems();
 		assertEquals(1, dispensed.length);
 		assertEquals("Crush", dispensed[0].toString());
 	}
@@ -231,23 +241,33 @@ public class VendingListenerSystemTest {
 	 */
 	@Test
 	public void testCreditAndPop() {
-		
+		System.out.println("Test 1");			//To see which test is running, delete before submission
 		machine.loadPopCans(10,10,10,10,10,10);
 		machine.loadCoins(10,10,10,10,10);
-	
+
+		//------Proof of concept-------
+		System.out.println("What pop to get?");
+		//Wait for 5 seconds before inserting coin
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e1) {};
+		
+		System.out.println("I know, that one!");
+		//-------End of test code chunk-------
+		
+		
+		Coin coin = new Coin(100);		
 		for (int i = 0; i < 3; i++){ //Adds three dollars to the machine
 			try{
-				slot.addCoin(loonie);
-			} catch(DisabledException e){
-				fail("CoinSlot disabled");
-			}
+				machine.getCoinSlot().addCoin(coin);
+			} catch(DisabledException e){}
 		}
+		
 		machine.getSelectionButton(1).press();
 		
-		Deliverable[] delivered = chute.removeItems();
+		PopCan[] delivered = machine.getDeliveryChute().removeItems();
 		
 		assertEquals(1, delivered.length);
-		
 		
 		String expected = machine.getPopKindName(1);	
 		String dispensed = delivered[0].toString();
@@ -277,7 +297,7 @@ public class VendingListenerSystemTest {
 	
 		cokeButton.press();
 				
-		Deliverable[] delivered = chute.removeItems();
+		PopCan[] delivered = popChute.removeItems();
 		
 		assertEquals(delivered.length, 0);
 		assertEquals(manager.getCredit(), 300);
@@ -294,7 +314,7 @@ public class VendingListenerSystemTest {
 		
 		cokeButton.press();
 		
-		Deliverable[] delivered = chute.removeItems();
+		PopCan[] delivered = popChute.removeItems();
 		
 		assertEquals(delivered.length, 0);
 		assertEquals(manager.getCredit(), 0);

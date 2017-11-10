@@ -1,5 +1,16 @@
 # SENG 300 - Group Assignment 2
 
+### Revision 2 Requirements (2017-11-07 UPDATE)
+* Vending machine now contains a coin return. (CoinReturn.java and CoinReturnListener.java added.)  
+    * Coins are now sent here instead of to the delivery chute.  
+    * Extends AbstractHardware<CoinReturnListener>, implements CoinAcceptor  
+* A configuration panel had been added. (ConfigurationPanel.java added.)  
+    * For technicians to use in price configurations.  
+    * Contains 37-buttons for data entry, a shift key, an enter key, and a small display.
+* The Deliverable class has been removed.  
+    * Deliverable.java removed.  
+    * Coin.java and PopCan.java are the same, but no longer implements Deliverable.java
+
 ### Revision 1 Requirements
 Build on-top of given vending machine hardware. Do not alter the hardware.
 Implement the following logic:
@@ -71,25 +82,41 @@ The following **six** items are to be provided for submission:
 **Q:** When the “exact change only” light is on, is inexact change still supported? Is the light intended to be a warning to users that returned change shouldn’t be expected?  
 **A:** Yes and yes.  If the light is off, the user should expect to get correct change back.
 
+##### Live Demo - User Interface
 **Q:** For the potential live demo, will a user interface need to be developed that simulates manual input, such as button presses or coin addition?  
 **A:** For this iteration, no.
 
-
+##### Log Output
 **Q:** What all would you like outputted in the log? (Button presses? Listener events? Coin insertion? Change return? etc) Should they be logged even if they are driven by the test suite?  
-**A:** All of those sorts of things.  If a button is pressed, it is pressed; it doesn't matter if it is during a test or not.
+**A:** All of those sorts of things.  If a button is pressed, it is pressed; it doesn't matter if it is during a test or not.  
+**A:** [Update]: All interactions with the hardware should be logged.  Listeners are a purely software aspect that shouldn't be logged.  
 
-
+##### Request for Hardware Updates
 **Q:** Have there been any development regarding hardware changes? Even an indication of the type of hardware that may be adjusted would be much appreciated.  
 **A:** It's messy and involves negotiations with other companies.  Sorry, I can't tell you more right now.  I think we'll be able to give you a definitive answer early next week.
 
-
+##### "Transaction Complete!"
 **Q:** Would you like a “transaction complete” message to be displayed once a pop is dispensed? e.g. “Thank you for your purchase”  
 **A:** Sure! As long as the other requirements are met.
 
-
+##### Order Lights
 **Q:** When the out of order light is turned on, should all of the safeties be enabled as well?  
 **A:** Depends on why the out of order light is on.  You want to permit the technician to restock or otherwise fix it, at which point, the light should go off (presumably).
 
-
+##### Credit Card Options
 **Q:** While our design should easily apply other payment methods, we do not have to include a credit card option just yet, correct?  
 **A:** You don't need to include any other payment forms yet, but we are definitely heading that way, so I would worry about it in your design.
+
+##### Log File Separations
+**Q:** Should a new log be generated everytime the vending machine is initialized? Or one for its lifecycle?  
+**A:** Errrm ... since the machine should last for years, the log file could get to be too big.  You should be prepared to limit the size of the log file.  In future, we are going to transmit the log over a network to a central office in a batch fashion (to reduce communication costs from lots of small records).  Or at least, that's the current plan.
+
+##### Coin Receptacle fills up Halfway through Payment
+**Q:** What ought the vending machine do if a user attempts to purchase a pop- but the coin receptacle fills up in the middle of the user paying? Should we keep in mind a return function? Ignore it as is? Or perform some particular function to your specifications?  
+**A:** In principle, the machine should be configured so that this won't happen unless it is never serviced by a technician.  However, unlikely events are still possible and it's good that you're thinking about this.  
+You should route the extra coins to the coin return, and turn on the "out of order" light.  This means that the technician needs to deal with it.  
+At that point, the user could either try to make a purchase (if there is enough money, etc.) or ask for their money back.  If the money isn't returned for whatever reason, the credit should never be taken away.
+
+##### Colors
+**Q:** Does the marketing team want any particular shade of purple for the vending machine? Preferably, the answer being in 'hexadecimal' form. Otherwise, we'll proceed with the shade of purple identification as hexadecimal: '#50ff00'  
+**A:**  Did I say purple?  Argh, mistranslation from my mother tongue ... I meant crimson.

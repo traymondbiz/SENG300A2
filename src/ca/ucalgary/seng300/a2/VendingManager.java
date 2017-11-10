@@ -1,6 +1,5 @@
 package ca.ucalgary.seng300.a2;
 
-import org.lsmr.vending.*;
 import org.lsmr.vending.hardware.*;
 
 /**
@@ -30,6 +29,7 @@ public class VendingManager {
 	private static VendingManager mgr;
 	private static VendingListener listener;
 	private static VendingMachine vm;
+	private Thread noCreditThread = new Thread(new LoopingThread());
 	private int credit = 0;
 	
 	/**
@@ -51,7 +51,10 @@ public class VendingManager {
 		mgr = new VendingManager(); 
 		vm = host;
 		mgr.registerListeners();
+		//TODO:  Need to initialize() looping thread so it can reference the vm to update the display.
+		mgr.noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
 	}
+	
 	
 	/**
 	 * Provides public access to the VendingManager singleton.
@@ -75,7 +78,7 @@ public class VendingManager {
 	 * registers a single listener with each.
 	 * @param listener The listener that will handle SelectionButton events.
 	 */
-	private void registerButtonListener(SelectionButtonListener listener){
+	private void registerButtonListener(PushButtonListener listener){
 		int buttonCount = getNumberOfSelectionButtons();
 		for (int i = 0; i< buttonCount; i++){
 			getSelectionButton(i).register(listener);;
@@ -87,6 +90,10 @@ public class VendingManager {
 	// Indirect access to the VM is used to simplify the removal of the
 	// VM class from the build.  
 //vvv=======================ACCESSORS START=======================vvv
+	
+	public Thread getLoopingThread(){
+		return (mgr.noCreditThread);
+	}
 	void enableSafety(){
 		vm.enableSafety();
 	}
@@ -105,7 +112,7 @@ public class VendingManager {
 	int getNumberOfSelectionButtons(){
 		return vm.getNumberOfSelectionButtons();
 	}
-	SelectionButton getSelectionButton(int index){
+	PushButton getSelectionButton(int index){
 		return vm.getSelectionButton(index);
 	}
 	CoinSlot getCoinSlot(){
@@ -114,9 +121,12 @@ public class VendingManager {
 	CoinReceptacle getCoinReceptacle(){
 		return vm.getCoinReceptacle(); 
 	}
-	CoinReceptacle getStorageBin(){
-		return vm.getStorageBin(); 
-	}
+	
+	// Deprecated
+	//CoinReceptacle getStorageBin(){
+	//	return vm.getStorageBin(); 
+	//}
+	
 	DeliveryChute getDeliveryChute(){
 		return vm.getDeliveryChute(); 
 	}
@@ -147,6 +157,10 @@ public class VendingManager {
 	Display getDisplay(){
 		return vm.getDisplay();
 	}
+	
+	CoinReturn getCoinReturn() {
+		return vm.getCoinReturn();
+	}
 
 	/**
 	 * Returns the index of the given SelectionButton,
@@ -154,7 +168,7 @@ public class VendingManager {
 	 * @param button The button of interest.
 	 * @return The matching index, or -1 if no match.
 	 */
-	int getButtonIndex(SelectionButton button){
+	int getButtonIndex(PushButton button){
 		int buttonCount = getNumberOfSelectionButtons();
 		for (int i = 0; i< buttonCount; i++){
 			if (getSelectionButton(i) == button){
@@ -179,7 +193,11 @@ public class VendingManager {
 	 * @param added The credit to add, in cents.
 	 */
 	void addCredit(int added){
+		if(credit == 0){
+			mgr.getLoopingThread().interrupt();
+		}
 		credit += added;
+		System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
 	}
 //^^^=======================ACCESSORS END=======================^^^
 	
