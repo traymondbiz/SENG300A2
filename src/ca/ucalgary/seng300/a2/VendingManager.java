@@ -29,7 +29,7 @@ public class VendingManager {
 	private static VendingManager mgr;
 	private static VendingListener listener;
 	private static VendingMachine vm;
-	private Thread noCreditThread = new Thread(new LoopingThread());
+	private static Thread noCreditThread;
 	private int credit = 0;
 	
 	/**
@@ -51,7 +51,7 @@ public class VendingManager {
 		mgr = new VendingManager(); 
 		vm = host;
 		mgr.registerListeners();
-		//TODO:  Need to initialize() looping thread so it can reference the vm to update the display.
+		noCreditThread = new Thread(new LoopingThread(vm));
 		mgr.noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
 	}
 	
@@ -198,6 +198,10 @@ public class VendingManager {
 		}
 		credit += added;
 		System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
+	}
+	
+	void resetDisplay() {
+		mgr.noCreditThread.start();
 	}
 //^^^=======================ACCESSORS END=======================^^^
 	
