@@ -11,7 +11,7 @@ import org.lsmr.vending.hardware.VendingMachine;
 public class LoopingThread implements Runnable {
 	private static VendingMachine vm;
 	
-	static void initialize(VendingMachine host){		
+	public LoopingThread(VendingMachine host){		
 		vm = host;
 	}
 	

@@ -18,7 +18,7 @@ import org.lsmr.vending.hardware.*;
  * @author Thobthai Chulpongsatorn (30005238)
  *
  */
-public class VendingListener implements CoinSlotListener, PushButtonListener {
+public class VendingListener implements CoinSlotListener, PushButtonListener, CoinReturnListener {
 	private static VendingListener listener;
 	private static VendingManager mgr;
 	
@@ -50,7 +50,8 @@ public class VendingListener implements CoinSlotListener, PushButtonListener {
 	public void enabled(AbstractHardware<? extends AbstractHardwareListener> hardware) {}
 	@Override
 	public void disabled(AbstractHardware<? extends AbstractHardwareListener> hardware) {}
-
+	@Override
+	public void returnIsFull(CoinReturn coinReturn) {}
 
 	/**
 	 * Responds to "pressed" notifications from registered SelectionButtons. 
@@ -90,4 +91,11 @@ public class VendingListener implements CoinSlotListener, PushButtonListener {
 	public void validCoinInserted(CoinSlot slot, Coin coin) {
 		mgr.addCredit(coin.getValue());
 	}
+
+	@Override
+	public void coinsDelivered(CoinReturn coinReturn, Coin[] coins) {
+		mgr.resetDisplay();
+	}
+
+
 }
