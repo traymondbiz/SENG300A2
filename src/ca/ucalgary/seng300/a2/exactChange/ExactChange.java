@@ -8,7 +8,10 @@ public class ExactChange {
 	private static int[] valid_coins = {1,5,10,25,100,200};
 	private static int[] pop_prices = {125,150,170,200};
 	private static int[] coin_count = {0,100,0,0,0,0};
-	
+	public static Boolean canMakeChange() {
+		
+		return false;
+	}
 	public static void main(String args[]) {
 		ArrayList<Integer> valuesOfChange = ExactChange.getPossibleChangeValues(valid_coins, pop_prices);
 		System.out.println(valuesOfChange);
@@ -107,10 +110,35 @@ public class ExactChange {
 		}
 		return false;
 	}
+	public static IList<Coin> CalculateMinimum(IList<Coin> coins, int change)
+	{
+	   // used to store the minimum matches
+	   IList<Coin> minimalMatch = null;
+	   int minimalCount = -1;
+	 
+	   IList<Coin> subset = coins;
+	   for (int i = 0; i < coins.Count; i++)
+	   {
+	      IList<Coin> matches = Calculate(subset, change);
+	      if (matches != null)
+	      {
+	         int matchCount = matches.Sum(c => c.Count);
+	         if (minimalMatch == null || matchCount < minimalCount)
+	         {
+	            minimalMatch = matches;
+	            minimalCount = matchCount;
+	         }
+	      }
+	      // reduce the list of possible coins
+	      subset = subset.Skip(1).ToList();
+	   }
+	 
+	   return minimalMatch;
+	}
 	
 	
 	
 }
 
 
-}
+
