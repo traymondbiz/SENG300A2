@@ -18,7 +18,7 @@ import org.lsmr.vending.hardware.*;
  * @author Thobthai Chulpongsatorn (30005238)
  *
  */
-public class VendingListener implements CoinSlotListener, SelectionButtonListener {
+public class VendingListener implements CoinSlotListener, PushButtonListener {
 	private static VendingListener listener;
 	private static VendingManager mgr;
 	
@@ -59,7 +59,7 @@ public class VendingListener implements CoinSlotListener, SelectionButtonListene
 	 * All exceptions thrown by buy() are caught here (InsufficientFunds, Disabled, Empty, etc.) 
 	 */
 	@Override
-	public void pressed(SelectionButton button) {
+	public void pressed(PushButton button) {
 		int bIndex = mgr.getButtonIndex(button); 
 		if (bIndex == -1){
 			//Then it's not a pop selection button. 

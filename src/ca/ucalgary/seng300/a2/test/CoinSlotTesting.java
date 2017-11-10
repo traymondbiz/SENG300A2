@@ -57,7 +57,7 @@ public class CoinSlotTesting {
 	 * 
 	 * Notes: A coin is stored in the sink even if an exception is thrown 
 	 */
-	private class TestSink implements AbstractCoinAcceptor{
+	private class TestSink implements CoinAcceptor{
 	    private Coin receivedCoin = null;
 	    private boolean full = false;
 	    private boolean disabled = false;
