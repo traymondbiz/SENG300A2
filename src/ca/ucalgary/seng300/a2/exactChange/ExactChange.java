@@ -14,8 +14,11 @@ public class ExactChange {
 	}
 	public static void main(String args[]) {
 		ArrayList<Integer> valuesOfChange = ExactChange.getPossibleChangeValues(valid_coins, pop_prices);
-		System.out.println(valuesOfChange);
-		System.out.println(canMakeExactChange(valuesOfChange,valid_coins,coin_count));
+		for(int change : valuesOfChange) {
+			System.out.println(canMakeChange(change,valid_coins, coin_count));
+		}
+		//System.out.println(valuesOfChange);
+		
 	}
 	//as long as all coins and pops share a common lcd (eg 5) the algorithem works and since we have a 5 then it will go through everyone that need i think
 	public static ArrayList<Integer> getPossibleChangeValues(int[] possibleCoins, int[] possiblePrices) {
@@ -68,14 +71,17 @@ public class ExactChange {
 	//will try to make change with the coins it has, assumes the valid values are in assending order
 	public static Boolean canMakeChange(int change, int[] validValues, int[] coinCount) {
 		//loop through the coins from decending values
-		int i = validValues.length;
-		while(i > 0 ) {
-			if( change >= validValues[i]) {
-				while(coinCoint[i] > 0 & change) {
-					
+		int i = validValues.length - 1;
+		while(i > 0) {
+			if(change >= validValues[i]) {
+				while(coinCount[i] > 0 & change > 0) {
+					change -= validValues[i];
 				}
 			}
 			i--;
+		}
+		if(change == 0) {
+			return true;
 		}
 		
 		
