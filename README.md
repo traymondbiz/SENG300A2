@@ -19,7 +19,7 @@ Implement the following logic:
 
 * ~~Again, Canadian coin denominations must be supported.~~ [Completed in Assn1]
 
-* ~~When the machine contains no credit for the user, a message "Hi there!" should be displayed for 5 seconds and then should be erased for 10 seconds, with this cycle repeating.~~
+* ~~When the machine contains no credit for the user, a message "Hi there!" should be displayed for 5 seconds and then should be erased for 10 seconds, with this cycle repeating.~~ **[Needs to be moved to Display.java]**
 
 * ~~When the user enters valid coins, the message "Credit: " and the amount of credit should be displayed.~~
 
