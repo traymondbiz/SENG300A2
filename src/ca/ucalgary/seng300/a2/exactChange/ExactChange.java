@@ -110,31 +110,6 @@ public class ExactChange {
 		}
 		return false;
 	}
-	public static IList<Coin> CalculateMinimum(IList<Coin> coins, int change)
-	{
-	   // used to store the minimum matches
-	   IList<Coin> minimalMatch = null;
-	   int minimalCount = -1;
-	 
-	   IList<Coin> subset = coins;
-	   for (int i = 0; i < coins.Count; i++)
-	   {
-	      IList<Coin> matches = Calculate(subset, change);
-	      if (matches != null)
-	      {
-	         int matchCount = matches.Sum(c => c.Count);
-	         if (minimalMatch == null || matchCount < minimalCount)
-	         {
-	            minimalMatch = matches;
-	            minimalCount = matchCount;
-	         }
-	      }
-	      // reduce the list of possible coins
-	      subset = subset.Skip(1).ToList();
-	   }
-	 
-	   return minimalMatch;
-	}
 	
 	
 	
