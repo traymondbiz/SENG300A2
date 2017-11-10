@@ -3,13 +3,32 @@ package ca.ucalgary.seng300.a2.exactChange;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.lsmr.vending.hardware.VendingMachine;
+
 public class ExactChange {
 	
 	private static int[] valid_coins = {1,5,10,25,100,200};
 	private static int[] pop_prices = {125,150,170,200};
-	private static int[] coin_count = {0,5,0,2,0,0};
-	public static Boolean canMakeChange() {
+	private static int[] coin_count = {0,6,0,3,0,0};
+	/*
+	 * Call this to ask the vending machine to change the indicator light based on the state of the vm
+	 */
+	public static void manageExactChangeState(VendingMachine vm) {
+		if(!canMakeChange(vm)) {
+			//turn the light on
+			vm.getExactChangeLight().activate();
+		}else {
+			vm.getExactChangeLight().deactivate();
+		}
 		
+	}
+	private static Boolean canMakeChange(VendingMachine vm) { // takes in vending machine
+		//do the check 
+		ArrayList<Integer> valuesOfChange = ExactChange.getPossibleChangeValues(valid_coins, pop_prices);
+		for(int change : valuesOfChange) {
+			System.out.println(canMakeChange(change,valid_coins, coin_count));
+		}
+		System.out.println(valuesOfChange);
 		return false;
 	}
 	public static void main(String args[]) {
@@ -54,20 +73,7 @@ public class ExactChange {
 		}
 		return changesToMake;
 	}
-	//again this algorithem work assuming they all have a common denominator of 5 which on canadian they should
-	public static boolean canMakeExactChange(ArrayList<Integer> changesNeedToMake, int[] validValues, int[] coinStock) {
-		//itterate through all the values in the array list since they are the changes we need to make 
-		Iterator<Integer> changeValues = changesNeedToMake.iterator();
-		int change;
-	      while (changeValues.hasNext()) {
-	    	  change = changeValues.next();
-	         System.out.println(change);
-	         if(!changePossible(change,validValues,coinStock)) { // cannot make change so return false
-	        	 return false;
-	         }
-	      }
-		return true; // since we did not return false we can assure the machine can make change
-	}
+	
 	//will try to make change with the coins it has, assumes the valid values are in assending order
 	public static Boolean canMakeChange(int change, int[] validValues, int[] coinCount) {
 		//loop through the coins from decending values
@@ -87,50 +93,6 @@ public class ExactChange {
 		}
 		
 		
-		return false;
-	}
-	public static boolean changePossible(int change, int[] coinValues,int[] coinCount) {
-		System.out.println(change);
-		int i; // keeps track of the coing array
-		while(change > 0) {
-			//find the coin value that is = or < so we can give change
-			i = coinValues.length; 
-			while(i > 0) {
-				i--;
-				if(coinValues[i] <= change) {
-					System.out.println(i);
-					break;
-				}
-				
-			}
-			//now subtract the coin value from change if it is there
-			System.out.println("==================================================");
-			System.out.println(coinValues.length);
-			System.out.println(coinCount.length);
-			System.out.println(coinValues[i]);
-			if(coinCount[i] > 1) { //coin is ther so subtract it and remove one from the coin coun
-				coinCount[i] --;
-				change = change - coinValues[i];
-			}else {//we dont have that coin so remove it from the array and make a new array
-				int[] coinValuesNew = new int[coinValues.length -1];
-				int[] coinCountNew = new int[coinCount.length - 1];
-				System.out.println("removing:");
-				System.out.println(coinValues[i]);
-				for(int j=0;i<coinCountNew.length;i++) { // this for loop removes it from the array
-					
-						coinValuesNew[j] = coinValues[j];
-						coinCountNew[j] = coinCount[j];
-					
-				}
-				coinValues = coinValuesNew;
-				coinCount = coinCountNew;
-			}
-			
-			
-		}
-		if(change == 0) {
-			return true;
-		}
 		return false;
 	}
 	
