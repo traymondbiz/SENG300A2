@@ -192,7 +192,8 @@ public class VendingManager {
 	 * Adds value to the tracked credit.
 	 * @param added The credit to add, in cents.
 	 */
-	void addCredit(int added){
+	// Set to public in Assn2 in order for unit testing.
+	public void addCredit(int added){
 		if(credit == 0){
 			mgr.getLoopingThread().interrupt();
 		}
@@ -207,16 +208,19 @@ public class VendingManager {
 	
 
 //vvv=======================VENDING LOGIC START=======================vvv	
+	
 	/**
 	 * Handles a pop purchase. Checks if the pop rack has pop, confirms funds available,  
 	 *  dispenses the pop, reduces available funds and deposits the added coins into storage. 
+	 *  
 	 * @param popIndex The index of the selected pop rack. 	 
 	 * @throws InsufficientFundsException Thrown if credit < cost.
 	 * @throws EmptyException Thrown if the selected pop rack is empty.
 	 * @throws DisabledException Thrown if the pop rack or delivery chute is disabled.
 	 * @throws CapacityExceededException Thrown if the delivery chute is full.
 	 */
-	void buy(int popIndex) throws InsufficientFundsException, EmptyException, 
+	// Set to public in Assn2 in order for unit testing.
+	public void buy(int popIndex) throws InsufficientFundsException, EmptyException, 
 											DisabledException, CapacityExceededException {
 		int cost = getPopKindCost(popIndex);
 		if (getCredit() >= cost){
@@ -233,6 +237,20 @@ public class VendingManager {
 			String popName = getPopKindName(popIndex);
 			throw new InsufficientFundsException("Cannot buy " + popName + ". " + dif + " cents missing.");
 		}
+	}
+	
+	/**
+	 * Handles a pop purchase. Checks if the pop rack has pop, confirms funds available,  
+	 *  dispenses the pop, reduces available funds and deposits the added coins into storage. 
+	 *  
+	 * @param popIndex The index of the selected pop rack. 	 
+	 * @throws InsufficientFundsException Thrown if credit < cost.
+	 * @throws EmptyException Thrown if the selected pop rack is empty.
+	 * @throws DisabledException Thrown if the pop rack or delivery chute is disabled.
+	 * @throws CapacityExceededException Thrown if the delivery chute is full.
+	 */
+	private void setExactChangeLight() {
+		
 	}
 //^^^======================VENDING LOGIC END=======================^^^
 }

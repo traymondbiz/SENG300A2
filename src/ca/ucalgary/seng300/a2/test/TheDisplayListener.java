@@ -1,4 +1,5 @@
-package ca.ucalgary.seng300.a2;
+// Changed from ca.ucalgary.seng300.a2 for testing purposes.
+package ca.ucalgary.seng300.a2.test;
 
 import org.lsmr.vending.hardware.*;
 
