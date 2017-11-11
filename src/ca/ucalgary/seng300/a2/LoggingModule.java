@@ -3,17 +3,23 @@ package ca.ucalgary.seng300.a2;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
+
+import org.lsmr.vending.hardware.AbstractHardwareListener;
+import org.lsmr.vending.hardware.VendingMachine;
 
 public class LoggingModule {
 	private static PrintWriter writer;
+	private static LoggingModule logger;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 	}
-	
-	
+	/*
+	 * This class
+	 */
 	
 	
 	/* Reference material
@@ -26,7 +32,20 @@ public class LoggingModule {
 	/*
 	 * writes the log to the apropirate log file by day 
 	 */
-	public void printToFile(String messageToLog) throws IOException {
+	public static void initialize() {
+			logger = new LoggingModule();
+			
+		}
+
+		/**
+		 * Provides access to the singleton instance for package-internal classes.
+		 * @return The singleton ChangeModule instance  
+		 */
+	
+	public static LoggingModule getInstance() {
+		return logger;
+	}
+	private void printToFile(String messageToLog) throws IOException {
 		Date currentDate = new Date();
 		
 		//Need to strip the date object to only include the year, month, and day for filename
