@@ -53,7 +53,7 @@ public class ExactChange {
 	
 	
 	//as long as all coins and pops share a common lcd (eg 5) the algorithem works and since we have a 5 then it will go through everyone that need i think
-	public static ArrayList<Integer> getPossibleChangeValues(int[] possibleCoins, int[] possiblePrices) {
+	private static ArrayList<Integer> getPossibleChangeValues(int[] possibleCoins, int[] possiblePrices) {
 		// this function will return a list of all the possible values we will have to make change for
 		//loop throught all the possible values for coins
 		ArrayList<Integer> changesToMake = new ArrayList<Integer>();
@@ -83,7 +83,7 @@ public class ExactChange {
 	}
 	
 	//will try to make change with the coins it has, assumes the valid values are in assending order
-	public static Boolean canMakeChange(int change, int[] valid_Values, int[] coinCount) {
+	private static Boolean canMakeChange(int change, int[] valid_Values, int[] coinCount) {
 		//loop through the coins from decending values
 		int[] coin_Count = new int[coinCount.length];
 		for(int i=0; i< coinCount.length;i++) {
