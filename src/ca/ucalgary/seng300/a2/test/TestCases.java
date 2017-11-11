@@ -12,9 +12,8 @@ import ca.ucalgary.seng300.a2.*;
 
 public class TestCases {
 	private VendingMachine vend;
-	private TheDisplayListener dListen;
-//	private TheCoinSlotListener csListen;
-	
+//	private VendingManager vm;
+
 	@Before
 	/**
 	 * Set up the initial values for the vending machine and its elements.
@@ -29,11 +28,8 @@ public class TestCases {
     	int coinReturnCapacity = 5;
     	vend = new VendingMachine(coinKind, selectionButtonCount, coinRackCapacity, popCanRackCapacity, receptacleCapacity, deliveryChuteCapacity, coinReturnCapacity);
     	
-    	dListen = new TheDisplayListener();
-		(vend.getDisplay()).register(dListen);
-		
-//		csListen = new TheCoinSlotListener(vend);
-//		(vend.getCoinSlot()).register(csListen);
+ //   	VendingManager.initialize(vend);
+  //  	vm = VendingManager.getInstance();
 		
 		List<String> popCanNames = new ArrayList<String>();
 		popCanNames.add("Coke"); 
@@ -61,21 +57,21 @@ public class TestCases {
 	public void testLoopingThread() throws InterruptedException{
 		VendingManager.initialize(vend);
 		Thread.sleep(1000);
-		assertEquals(dListen.returnMsg(), "Hi there!");
+		assertEquals(VendingListener.returnMsg(), "Hi there!");
 	}
 	
 	@Test
 	public void testLoopingThread2() throws InterruptedException{
 		VendingManager.initialize(vend);
 		Thread.sleep(6000);
-		assertEquals(dListen.returnMsg(), "");
+		assertEquals(VendingListener.returnMsg(), "");
 	}
 	
 	@Test
 	public void testLoopingThread3() throws InterruptedException{
 		VendingManager.initialize(vend);
 		Thread.sleep(11000);
-		assertEquals(dListen.returnMsg(), "Hi there!");
+		assertEquals(VendingListener.returnMsg(), "Hi there!");
 	}
 	
 	@Test
@@ -84,7 +80,7 @@ public class TestCases {
 		VendingManager vm = VendingManager.getInstance();
 		try{
 			Thread.sleep(10000);
-			vm.addCredit(0);
+			vm.addCredit(25);
 			assertTrue(true);
 		} catch (InterruptedException e) {
 			assertTrue(false);
@@ -92,13 +88,27 @@ public class TestCases {
 	}
 
 	@Test
-	public void testLoopTPostPurchase(){
+	public void testPostPCreditZero() throws InterruptedException{
 		VendingManager.initialize(vend);
 		VendingManager vm = VendingManager.getInstance();
 		vm.addCredit(200);
 		try {
 			vm.buy(0);
-			assertEquals(dListen.returnMsg(), "Hi there!");
+			Thread.sleep(1000);
+			assertEquals(VendingListener.returnMsg(), "Hi there!");
+		} catch (InsufficientFundsException | EmptyException | DisabledException | CapacityExceededException e) {
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testPostPCreditNotZero(){
+		VendingManager.initialize(vend);
+		VendingManager vm = VendingManager.getInstance();
+		vm.addCredit(250);
+		try {
+			vm.buy(0);
+			assertEquals(VendingListener.returnMsg(), "Credit: 50");
 		} catch (InsufficientFundsException | EmptyException | DisabledException | CapacityExceededException e) {
 			assertTrue(false);
 		}
@@ -106,14 +116,10 @@ public class TestCases {
 	
 	@Test
 	public void testCreditChange(){
-		Coin coin = new Coin(5);
-		TheCoinSlotListener csListen = new TheCoinSlotListener(vend);
-		csListen.validCoinInserted(vend.getCoinSlot(), coin);
-		assertEquals(dListen.returnMsg(), "Credit: " + coin);	
-//		VendingManager.initialize(vend);
-//		VendingManager vm = VendingManager.getInstance();
-//		vm.addCredit(200);
-//		assertEquals(dListen.returnMsg(), "Credit: 200");
+		VendingManager.initialize(vend);
+		VendingManager vm = VendingManager.getInstance();
+		vm.addCredit(200);
+		assertEquals(VendingListener.returnMsg(), "Credit: 200");
 	} 
 	
 	@After
@@ -123,7 +129,5 @@ public class TestCases {
 	 */
 	public void tearDown() {
 		vend = null; 
-		dListen = null;
-//		csListen = null;
 	} 
 }
