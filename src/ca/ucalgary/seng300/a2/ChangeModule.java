@@ -93,14 +93,14 @@ public class ChangeModule {
 		return changeModule;
 	}
 	
-	public void setCoins(int[] inValidCoins, int[] inCoinCount) {
+	public static void setCoins(int[] inValidCoins, int[] inCoinCount) {
 		if (inValidCoins.length == inCoinCount.length) {
 			validCoins = inValidCoins;
 			coinCount = inCoinCount;
 		}
 	}
 	
-	public void setPopPrices(int[] inPopPrices) {
+	public static void setPopPrices(int[] inPopPrices) {
 		popPrices = inPopPrices;
 	}
 	
@@ -109,6 +109,8 @@ public class ChangeModule {
 	 * algorithm to determine whether the 'Exact Change Light' should be on or off.
 	 */
 	public static void main(String args[]) {
+		int[] inPopPrices = {50, 100, 150};
+		
 		ArrayList<Integer> valuesOfChange = getPossibleChangeValues(validCoins, popPrices);
 		// Debugger message displaying all the potential values of change the machine needs to make.
 		System.out.printf("\n[Main] Values of change that needs to be made: %s\n\n", valuesOfChange);
