@@ -18,13 +18,14 @@ public class LoopingThread implements Runnable {
 	@Override
 	public void run(){
 		try{
-			while (true){
-				System.out.println("Hi there!");	//Replace with vm.getDisplay().display("Hi there!")
-				Thread.sleep(1000);					//Replace with time delay indicated in requirements
-				System.out.println("          ");	//Replace with vm.getDisplay().display("")
-				Thread.sleep(2000);
+			while (!Thread.currentThread().isInterrupted()){
+				vm.getDisplay().display("Hi there!");	//Replace with vm.getDisplay().display("Hi there!")
+				Thread.sleep(5000);					//Replace with time delay indicated in requirements
+				vm.getDisplay().display("");	//Replace with vm.getDisplay().display("")
+				Thread.sleep(10000);
 				} 
 			}catch(InterruptedException e){
+				Thread.currentThread().interrupt();
 				return;
 			}
 	}
