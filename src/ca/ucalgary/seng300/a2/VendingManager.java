@@ -219,6 +219,7 @@ public class VendingManager {
 		return credit;
 	}
 
+<<<<<<< HEAD
     /**
      * Adds value to the tracked credit.
      * @param added The credit to add, in cents.
@@ -239,6 +240,27 @@ public class VendingManager {
             noCreditThread.start();     //Starts the looping display message when vm is turned on (created)
         }
     }
+=======
+	/**
+	 * Adds value to the tracked credit.
+	 * @param added The credit to add, in cents.
+	 */
+	public void addCredit(int added){
+//		if(credit == 0){
+//			mgr.getLoopingThread().interrupt();
+//		}
+		credit += added;
+		System.out.println(credit);		// For debugging
+		if(credit != 0) {
+			mgr.getLoopingThread().interrupt();
+			getDisplay().display("Credit: " + Integer.toString(credit));
+			System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
+		} else {
+			noCreditThread = new Thread(new LoopingThread(vm));
+			mgr.noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
+		}
+	}
+>>>>>>> refs/remotes/origin/active
 	
 	void resetDisplay() {
 		noCreditThread.start();
@@ -249,18 +271,15 @@ public class VendingManager {
 	
 
 //vvv=======================VENDING LOGIC START=======================vvv	
-	
 	/**
 	 * Handles a pop purchase. Checks if the pop rack has pop, confirms funds available,  
 	 *  dispenses the pop, reduces available funds and deposits the added coins into storage. 
-	 *  
 	 * @param popIndex The index of the selected pop rack. 	 
 	 * @throws InsufficientFundsException Thrown if credit < cost.
 	 * @throws EmptyException Thrown if the selected pop rack is empty.
 	 * @throws DisabledException Thrown if the pop rack or delivery chute is disabled.
 	 * @throws CapacityExceededException Thrown if the delivery chute is full.
 	 */
-	// Set to public in Assn2 in order for unit testing.
 	public void buy(int popIndex) throws InsufficientFundsException, EmptyException, 
 											DisabledException, CapacityExceededException {
 		int cost = getPopKindCost(popIndex);
@@ -270,9 +289,15 @@ public class VendingManager {
 			if (canCount > 0){
 				rack.dispensePopCan(); 
 				credit -= cost; //Will only be performed if the pop is successfully dispensed.
+<<<<<<< HEAD
 				getCoinReceptacle().storeCoins();
                 System.out.println(credit);     // For debugging
                 addCredit(0);
+=======
+				getCoinReceptacle().storeCoins(); 
+				System.out.println(credit);		// For debugging
+				addCredit(0);
+>>>>>>> refs/remotes/origin/active
 			}
 		}
 		else {
@@ -281,6 +306,9 @@ public class VendingManager {
 			throw new InsufficientFundsException("Cannot buy " + popName + ". " + dif + " cents missing.");
 		}
 	}
+<<<<<<< HEAD
 	
+=======
+>>>>>>> refs/remotes/origin/active
 //^^^======================VENDING LOGIC END=======================^^^
 }
