@@ -29,7 +29,7 @@ public class VendingListener implements CoinSlotListener, PushButtonListener, Co
 	 * Forces the existing singleton instance to be replaced.
 	 * Called by VendingManager during its instantiation.
 	 */
-	static void initialize(VendingManager manager){		
+	public static void initialize(VendingManager manager){		
 		if (manager != null){
 			mgr = manager;
 			listener = new VendingListener();
@@ -40,7 +40,7 @@ public class VendingListener implements CoinSlotListener, PushButtonListener, Co
 	 * Provides access to the singleton instance for package-internal classes.
 	 * @return The singleton VendingListener instance  
 	 */
-	static VendingListener getInstance(){
+	public static VendingListener getInstance(){
 		return listener;
 	}
 

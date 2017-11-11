@@ -78,7 +78,7 @@ public class ChangeModule {
 	 * Forces the existing singleton instance to be replaced.
 	 * Called by VendingManager during its instantiation.
 	 */
-	static void initialize(VendingManager manager) {
+	public static void initialize(VendingManager manager) {
 		if (manager != null) {
 			mgr = manager;
 			changeModule = new ChangeModule();
@@ -89,7 +89,7 @@ public class ChangeModule {
 	 * Provides access to the singleton instance for package-internal classes.
 	 * @return The singleton ChangeModule instance  
 	 */
-	static ChangeModule getInstance() {
+	public static ChangeModule getInstance() {
 		return changeModule;
 	}
 	

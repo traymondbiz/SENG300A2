@@ -219,7 +219,6 @@ public class VendingManager {
 		return credit;
 	}
 
-<<<<<<< HEAD
     /**
      * Adds value to the tracked credit.
      * @param added The credit to add, in cents.
@@ -240,27 +239,6 @@ public class VendingManager {
             noCreditThread.start();     //Starts the looping display message when vm is turned on (created)
         }
     }
-=======
-	/**
-	 * Adds value to the tracked credit.
-	 * @param added The credit to add, in cents.
-	 */
-	public void addCredit(int added){
-//		if(credit == 0){
-//			mgr.getLoopingThread().interrupt();
-//		}
-		credit += added;
-		System.out.println(credit);		// For debugging
-		if(credit != 0) {
-			mgr.getLoopingThread().interrupt();
-			getDisplay().display("Credit: " + Integer.toString(credit));
-			System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
-		} else {
-			noCreditThread = new Thread(new LoopingThread(vm));
-			mgr.noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
-		}
-	}
->>>>>>> refs/remotes/origin/active
 	
 	void resetDisplay() {
 		noCreditThread.start();
@@ -289,15 +267,10 @@ public class VendingManager {
 			if (canCount > 0){
 				rack.dispensePopCan(); 
 				credit -= cost; //Will only be performed if the pop is successfully dispensed.
-<<<<<<< HEAD
-				getCoinReceptacle().storeCoins();
-                System.out.println(credit);     // For debugging
-                addCredit(0);
-=======
+
 				getCoinReceptacle().storeCoins(); 
 				System.out.println(credit);		// For debugging
 				addCredit(0);
->>>>>>> refs/remotes/origin/active
 			}
 		}
 		else {
@@ -306,9 +279,6 @@ public class VendingManager {
 			throw new InsufficientFundsException("Cannot buy " + popName + ". " + dif + " cents missing.");
 		}
 	}
-<<<<<<< HEAD
-	
-=======
->>>>>>> refs/remotes/origin/active
+
 //^^^======================VENDING LOGIC END=======================^^^
 }
