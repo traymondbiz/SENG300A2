@@ -55,7 +55,7 @@ public class VendingManager {
 		vm = host;
 		mgr.registerListeners();
 		noCreditThread = new Thread(new LoopingThread(vm));
-		mgr.noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
+		noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
 		mgr.setModule();			// Sets instance of ChangeModule's validCoins, coinCount, and popPrices arrays.
 	}
 	
@@ -74,6 +74,7 @@ public class VendingManager {
 	 */
 	private void registerListeners(){
 		getCoinSlot().register(listener);
+		getDisplay().register(listener);
 		registerButtonListener(listener);
 	}
 	
@@ -122,7 +123,7 @@ public class VendingManager {
 //vvv=======================ACCESSORS START=======================vvv
 	
 	public Thread getLoopingThread(){
-		return (mgr.noCreditThread);
+		return (noCreditThread);
 	}
 	void enableSafety(){
 		vm.enableSafety();
@@ -218,21 +219,29 @@ public class VendingManager {
 		return credit;
 	}
 
-	/**
-	 * Adds value to the tracked credit.
-	 * @param added The credit to add, in cents.
-	 */
-	// Set to public in Assn2 in order for unit testing.
-	public void addCredit(int added){
-		if(credit == 0){
-			mgr.getLoopingThread().interrupt();
-		}
-		credit += added;
-		System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
-	}
+    /**
+     * Adds value to the tracked credit.
+     * @param added The credit to add, in cents.
+     */
+    public void addCredit(int added){
+//      if(credit == 0){
+//          mgr.getLoopingThread().interrupt();
+//      }
+        credit += added;
+        System.out.println(credit);     // For debugging
+        if(credit != 0) {
+            mgr.getLoopingThread().interrupt();
+            getDisplay().display("Credit: " + Integer.toString(credit));
+            System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
+        } 
+        else {
+            noCreditThread = new Thread(new LoopingThread(vm));
+            noCreditThread.start();     //Starts the looping display message when vm is turned on (created)
+        }
+    }
 	
 	void resetDisplay() {
-		mgr.noCreditThread.start();
+		noCreditThread.start();
 	}
 	
 	
@@ -261,7 +270,9 @@ public class VendingManager {
 			if (canCount > 0){
 				rack.dispensePopCan(); 
 				credit -= cost; //Will only be performed if the pop is successfully dispensed.
-				getCoinReceptacle().storeCoins(); 
+				getCoinReceptacle().storeCoins();
+                System.out.println(credit);     // For debugging
+                addCredit(0);
 			}
 		}
 		else {
@@ -271,9 +282,5 @@ public class VendingManager {
 		}
 	}
 	
-	//TODO
-	private void setExactChangeLight() {
-		
-	}
 //^^^======================VENDING LOGIC END=======================^^^
 }

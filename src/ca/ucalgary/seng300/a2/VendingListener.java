@@ -18,9 +18,10 @@ import org.lsmr.vending.hardware.*;
  * @author Thobthai Chulpongsatorn (30005238)
  *
  */
-public class VendingListener implements CoinSlotListener, PushButtonListener, CoinReturnListener {
+public class VendingListener implements CoinSlotListener, PushButtonListener, CoinReturnListener, DisplayListener {
 	private static VendingListener listener;
 	private static VendingManager mgr;
+	private static String message = null;
 	
 	private VendingListener (){}
 	
@@ -96,6 +97,13 @@ public class VendingListener implements CoinSlotListener, PushButtonListener, Co
 	public void coinsDelivered(CoinReturn coinReturn, Coin[] coins) {
 		mgr.resetDisplay();
 	}
+	
+	@Override
+	public void messageChange(Display display, String oldMessage, String newMessage) {
+		message = newMessage;
+	}
 
-
+	public static String returnMsg(){
+		return message;
+	}
 }

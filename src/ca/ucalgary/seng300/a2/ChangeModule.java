@@ -1,7 +1,6 @@
 package ca.ucalgary.seng300.a2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /* Consider removing and performing purely logic.
  * Note that we have to compensate for the fact that ChangeModule needs a sorted list.
