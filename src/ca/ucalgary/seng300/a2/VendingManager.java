@@ -28,6 +28,7 @@ import org.lsmr.vending.hardware.*;
 public class VendingManager {
 	private static VendingManager mgr;
 	private static VendingListener listener;
+	private static ChangeModule changeModule;
 	private static VendingMachine vm;
 	private static Thread noCreditThread;
 	private int credit = 0;
@@ -38,7 +39,9 @@ public class VendingManager {
 	 */
 	private VendingManager(){
 		VendingListener.initialize(this);
+		ChangeModule.initialize(this);
 		listener = VendingListener.getInstance();
+		changeModule = ChangeModule.getInstance();
 	}
 	
 	/**
@@ -53,6 +56,7 @@ public class VendingManager {
 		mgr.registerListeners();
 		noCreditThread = new Thread(new LoopingThread(vm));
 		mgr.noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
+		mgr.setModule();			// Sets instance of ChangeModule's validCoins, coinCount, and popPrices arrays.
 	}
 	
 	
@@ -83,6 +87,32 @@ public class VendingManager {
 		for (int i = 0; i< buttonCount; i++){
 			getSelectionButton(i).register(listener);;
 		}		
+	}
+	
+	private void setModule() {
+		
+		int i = vm.getNumberOfCoinRacks();
+		int[] inValidCoins = new int[i];
+		for (int x = 0; x < i; x++) {
+			inValidCoins[x] = vm.getCoinKindForCoinRack(x);
+		}
+		
+		int j = vm.getNumberOfCoinRacks();
+		int[] inCoinCount = new int[j];
+		for (int x = 0; x < j; x++) {
+			CoinRack tempRack = vm.getCoinRack(x);
+			inCoinCount[x] = tempRack.size();
+		}
+		
+		int k = vm.getNumberOfPopCanRacks();
+		int[] inPopPrices = new int[k];
+		for (int x = 0; x < k; x++) {
+			inPopPrices[x] = vm.getPopKindCost(x);
+		}
+		
+		changeModule.setCoins(inValidCoins, inCoinCount);
+		changeModule.setPopPrices(inPopPrices);
+		
 	}
 
 
@@ -204,6 +234,8 @@ public class VendingManager {
 	void resetDisplay() {
 		mgr.noCreditThread.start();
 	}
+	
+	
 //^^^=======================ACCESSORS END=======================^^^
 	
 
@@ -239,16 +271,7 @@ public class VendingManager {
 		}
 	}
 	
-	/**
-	 * Handles a pop purchase. Checks if the pop rack has pop, confirms funds available,  
-	 *  dispenses the pop, reduces available funds and deposits the added coins into storage. 
-	 *  
-	 * @param popIndex The index of the selected pop rack. 	 
-	 * @throws InsufficientFundsException Thrown if credit < cost.
-	 * @throws EmptyException Thrown if the selected pop rack is empty.
-	 * @throws DisabledException Thrown if the pop rack or delivery chute is disabled.
-	 * @throws CapacityExceededException Thrown if the delivery chute is full.
-	 */
+	//TODO
 	private void setExactChangeLight() {
 		
 	}
