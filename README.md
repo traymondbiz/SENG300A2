@@ -19,9 +19,9 @@ Implement the following logic:
 
 * ~~Again, Canadian coin denominations must be supported.~~ [Completed in Assn1]
 
-* When the machine contains no credit for the user, a message "Hi there!" should be displayed for 5 seconds and then should be erased for 10 seconds, with this cycle repeating.
+* ~~When the machine contains no credit for the user, a message "Hi there!" should be displayed for 5 seconds and then should be erased for 10 seconds, with this cycle repeating.~~ **[Needs to be moved to Display.java]**
 
-* When the user enters valid coins, the message "Credit: " and the amount of credit should be displayed.
+* ~~When the user enters valid coins, the message "Credit: " and the amount of credit should be displayed.~~
 
 * The machine should provide change once a pop is vended.  If the exact change can be provided, it should be, and the credit should go to zero.  If the exact change cannot be provided, the amount as close as possible to the exact change should be returned, but without going over; any remaining amount that cannot be returned should still exist as credit.
 

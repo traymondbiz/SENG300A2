@@ -1,0 +1,29 @@
+Group Assignment 2
+Design Justification
+
+
+
+easy extensibility to other forms of payment, including mixed modes (e.g., paying partially with coins, partially with credit card):
+
+In our manager class, we have an add_credit function that is independent of the hardware. Any form of hardware listener that accepts payment from the user can just call this function and report the amount of credit that it has received from the user ( e.g. coins, creditcard, coupons �.). Therefore, if 
+a new hardware for payment is added, we just have to implement the listener for that hardware and that listener will use the add_credit function. Same goes for choosing the pop cans as well. 
+
+Our manager.buy(index i) just works with the index of the pop so different hardware modules (e.g. Button, Touchscreen, Voice Recognition, � ) can be used to collect information from the user, the only thing needed is that hardware listeners need to use manager.buy(index i)
+
+
+ease of supporting alternative hardware:
+
+
+
+
+
+ease of changing details on communication with the user and to the event log:
+
+Messaging:
+
+We have a display class which is in charge of handling user messages. Either it can be used in a queue mode, which can display several messages sequentially with different durations. Or display a single messages when needed. 
+
+Logging:
+
+Our log class works in a singleton pattern and it is stationed in our VendingManger class. 
+If any class or method add_log method of vending manager can be called  and it automatically date and time stamp the logs and you can set expiration dates.

@@ -18,9 +18,10 @@ import org.lsmr.vending.hardware.*;
  * @author Thobthai Chulpongsatorn (30005238)
  *
  */
-public class VendingListener implements CoinSlotListener, PushButtonListener {
+public class VendingListener implements CoinSlotListener, PushButtonListener, CoinReturnListener, DisplayListener {
 	private static VendingListener listener;
 	private static VendingManager mgr;
+	private static String message = null;
 	
 	private VendingListener (){}
 	
@@ -28,7 +29,7 @@ public class VendingListener implements CoinSlotListener, PushButtonListener {
 	 * Forces the existing singleton instance to be replaced.
 	 * Called by VendingManager during its instantiation.
 	 */
-	static void initialize(VendingManager manager){		
+	public static void initialize(VendingManager manager){		
 		if (manager != null){
 			mgr = manager;
 			listener = new VendingListener();
@@ -39,7 +40,7 @@ public class VendingListener implements CoinSlotListener, PushButtonListener {
 	 * Provides access to the singleton instance for package-internal classes.
 	 * @return The singleton VendingListener instance  
 	 */
-	static VendingListener getInstance(){
+	public static VendingListener getInstance(){
 		return listener;
 	}
 
@@ -50,7 +51,8 @@ public class VendingListener implements CoinSlotListener, PushButtonListener {
 	public void enabled(AbstractHardware<? extends AbstractHardwareListener> hardware) {}
 	@Override
 	public void disabled(AbstractHardware<? extends AbstractHardwareListener> hardware) {}
-
+	@Override
+	public void returnIsFull(CoinReturn coinReturn) {}
 
 	/**
 	 * Responds to "pressed" notifications from registered SelectionButtons. 
@@ -89,5 +91,19 @@ public class VendingListener implements CoinSlotListener, PushButtonListener {
 	@Override
 	public void validCoinInserted(CoinSlot slot, Coin coin) {
 		mgr.addCredit(coin.getValue());
+	}
+
+	@Override
+	public void coinsDelivered(CoinReturn coinReturn, Coin[] coins) {
+		mgr.resetDisplay();
+	}
+	
+	@Override
+	public void messageChange(Display display, String oldMessage, String newMessage) {
+		message = newMessage;
+	}
+
+	public static String returnMsg(){
+		return message;
 	}
 }
