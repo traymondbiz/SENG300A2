@@ -220,6 +220,11 @@ public class VendingManager {
 	public int getCredit(){
 		return credit;
 	}
+	
+	public void Display_Message(String str){
+		vm.getDisplay().display(str);
+		
+	}
 
     /**
      * Adds value to the tracked credit.
