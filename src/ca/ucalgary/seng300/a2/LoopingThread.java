@@ -9,24 +9,33 @@ import org.lsmr.vending.hardware.VendingMachine;
  */
 
 public class LoopingThread implements Runnable {
+	private static LoopingThread loopingT;
 	private static VendingMachine vm;
 	
-	public LoopingThread(VendingMachine host){		
+	private LoopingThread(VendingMachine host){		
 		vm = host;
 	}
 	
-    @Override
-    public void run(){
-        try{
-            while (!Thread.currentThread().isInterrupted()){
-                vm.getDisplay().display("Hi there!");   //Replace with vm.getDisplay().display("Hi there!")
-                Thread.sleep(5000);                 //Replace with time delay indicated in requirements
-                vm.getDisplay().display("");    //Replace with vm.getDisplay().display("")
-                Thread.sleep(10000);
-                } 
-            }catch(InterruptedException e){
-                Thread.currentThread().interrupt();
-                return;
-            }
-    }
+	public static void initialize(VendingMachine host){
+		loopingT = new LoopingThread(host);
+	}
+	
+	public static LoopingThread getInstance(){
+		return loopingT;
+	}
+	
+	@Override
+	public void run(){
+		try{
+			while (!Thread.currentThread().isInterrupted()){
+				vm.getDisplay().display("Hi there!");	//Replace with vm.getDisplay().display("Hi there!")
+				Thread.sleep(5000);					//Replace with time delay indicated in requirements
+				vm.getDisplay().display("");	//Replace with vm.getDisplay().display("")
+				Thread.sleep(10000);
+				} 
+			}catch(InterruptedException e){
+				Thread.currentThread().interrupt();
+				return;
+			}
+	}
 }
