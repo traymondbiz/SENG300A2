@@ -237,13 +237,13 @@ public class VendingManager {
             System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
         } 
         else {
-            noCreditThread = new Thread(LoopingThread.getInstance());
-            noCreditThread.start();     //Starts the looping display message when vm is turned on (created)
+        	resetDisplay();
         }
     }
 	
 	void resetDisplay() {
-		noCreditThread.start();
+        noCreditThread = new Thread(LoopingThread.getInstance());
+        noCreditThread.start();     //Starts the looping display message when vm is turned on (created)
 	}
 	
 	
