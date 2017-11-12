@@ -1,5 +1,7 @@
 package ca.ucalgary.seng300.a2;
 
+import java.io.IOException;
+
 import org.lsmr.vending.hardware.*;
 
 /**
@@ -28,6 +30,7 @@ import org.lsmr.vending.hardware.*;
 public class VendingManager {
 	private static VendingManager mgr;
 	private static VendingListener listener;
+	private static LoggingModule logger;
 	private static ChangeModule changeModule;
 	private static VendingMachine vm;
 	private static LoopingThread loopingT;
@@ -55,6 +58,7 @@ public class VendingManager {
 		mgr = new VendingManager(); 
 		vm = host;
 		mgr.registerListeners();
+		mgr.registerLoggingModule();
 		LoopingThread.initialize(vm);
 		noCreditThread = new Thread(LoopingThread.getInstance());
 		noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
@@ -90,6 +94,14 @@ public class VendingManager {
 		for (int i = 0; i< buttonCount; i++){
 			getSelectionButton(i).register(listener);;
 		}		
+	}
+	
+	/**
+	 * Registers the loggin module
+	 */
+	private void registerLoggingModule() {
+		LoggingModule.initialize();
+		logger = LoggingModule.getInstance();
 	}
 	
 	private void setModule() {
@@ -259,9 +271,10 @@ public class VendingManager {
 	 * @throws EmptyException Thrown if the selected pop rack is empty.
 	 * @throws DisabledException Thrown if the pop rack or delivery chute is disabled.
 	 * @throws CapacityExceededException Thrown if the delivery chute is full.
+	 * @throws IOException 
 	 */
 	public void buy(int popIndex) throws InsufficientFundsException, EmptyException, 
-											DisabledException, CapacityExceededException {
+											DisabledException, CapacityExceededException, IOException {
 		int cost = getPopKindCost(popIndex);
 		if (getCredit() >= cost){
 			PopCanRack rack = getPopCanRack(popIndex);
@@ -273,6 +286,7 @@ public class VendingManager {
 				getCoinReceptacle().storeCoins(); 
 				System.out.println(credit);		// For debugging
 				addCredit(0);
+				addLog("User Purchased "+getPopKindName(popIndex) + " And was returned: " + Integer.toString(credit) + " censts");
 			}
 		}
 		else {
@@ -281,6 +295,13 @@ public class VendingManager {
 			throw new InsufficientFundsException("Cannot buy " + popName + ". " + dif + " cents missing.");
 		}
 	}
-
+	/**
+	 * Adds a log 
+	 * @param msg message to log
+	 * @throws IOException 
+	 */
+	public void addLog(String msg) throws IOException{
+		LoggingModule.logMessage(msg);
+	}
 //^^^======================VENDING LOGIC END=======================^^^
 }
