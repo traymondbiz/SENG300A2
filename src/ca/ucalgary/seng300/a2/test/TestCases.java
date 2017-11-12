@@ -113,6 +113,19 @@ public class TestCases {
             assertTrue(false);
         }
     }
+    
+	@Test
+	public void testInsufficentFundsException(){
+		VendingManager.initialize(vend);
+		VendingManager vm = VendingManager.getInstance();
+		vm.addCredit(50);
+		try {
+			vm.buy(0);
+			assertTrue(false);
+		} catch (InsufficientFundsException | EmptyException | DisabledException | CapacityExceededException e){
+			assertTrue(true);
+		}
+	}
      
     @Test
     public void testCreditChange(){

@@ -9,11 +9,22 @@ import org.lsmr.vending.hardware.VendingMachine;
  */
 
 public class LoopingThread implements Runnable {
+	
+	private static LoopingThread loopingT;
 	private static VendingMachine vm;
 	
-	public LoopingThread(VendingMachine host){		
+	private LoopingThread(VendingMachine host){		
 		vm = host;
 	}
+	
+	public static void initialize(VendingMachine host){
+		loopingT = new LoopingThread(host);
+	}
+	
+	public static LoopingThread getInstance(){
+		return loopingT;
+	}
+
 	
     @Override
     public void run(){
