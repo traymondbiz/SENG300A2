@@ -12,7 +12,7 @@ import ca.ucalgary.seng300.a2.*;
 
 /**
  * Software Engineering 300 - Group Assignment 2
- * ChangeModuleTest.java
+ * TestCases.java
  * 
  * This class is used to test the functionality of the VendingManager class.
  * 
