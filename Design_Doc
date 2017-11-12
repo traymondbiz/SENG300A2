@@ -28,3 +28,4 @@ Logging:
 Our log class works in a singleton pattern and it is stationed in our VendingManger class. 
 If any class or method add_log method of vending manager can be called  and it automatically date and time stamp the logs and you can set expiration dates.
  
+g
