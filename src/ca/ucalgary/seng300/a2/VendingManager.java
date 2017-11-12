@@ -30,8 +30,10 @@ public class VendingManager {
 	private static VendingListener listener;
 	private static ChangeModule changeModule;
 	private static VendingMachine vm;
+	private static Display_Module DisplayM;
 	private static LoopingThread loopingT;
 	private static Thread noCreditThread;
+	private static Thread noCreditThread2;
 	private int credit = 0;
 	
 	/**
@@ -57,7 +59,18 @@ public class VendingManager {
 		mgr.registerListeners();
 		LoopingThread.initialize(vm);
 		noCreditThread = new Thread(LoopingThread.getInstance());
-		noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
+		
+		Display_Module.initialize(mgr);
+		noCreditThread2 = new Thread(Display_Module.getInstance());
+		
+		DisplayM =Display_Module.getInstance();
+		DisplayM.add_message(new TimeMessage("Hi",1000) );
+		DisplayM.add_message(new TimeMessage("",5000) );
+		
+		
+		//noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
+		noCreditThread2.start();
+		
 		mgr.setModule();			// Sets instance of ChangeModule's validCoins, coinCount, and popPrices arrays.
 	}
 	
@@ -126,6 +139,9 @@ public class VendingManager {
 	
 	public Thread getLoopingThread(){
 		return (noCreditThread);
+	}
+	public Thread getLoopingThread2(){
+		return (noCreditThread2);
 	}
 	void enableSafety(){
 		vm.enableSafety();
@@ -237,7 +253,7 @@ public class VendingManager {
         credit += added;
         System.out.println(credit);     // For debugging
         if(credit != 0) {
-            mgr.getLoopingThread().interrupt();
+            mgr.getLoopingThread2().interrupt();
             getDisplay().display("Credit: " + Integer.toString(credit));
             System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
         } 
@@ -247,8 +263,8 @@ public class VendingManager {
     }
 	
 	void resetDisplay() {
-        noCreditThread = new Thread(LoopingThread.getInstance());
-        noCreditThread.start();     //Starts the looping display message when vm is turned on (created)
+        noCreditThread2 = new Thread(Display_Module.getInstance());
+        noCreditThread2.start();     //Starts the looping display message when vm is turned on (created)
 	}
 	
 	

@@ -15,8 +15,7 @@ public class Display_Module  implements Runnable {
 	private static VendingManager vmngr;
 	
 	private Vector<TimeMessage> messageList;
-	private boolean StartQueue = false;
-	private int Index =0;
+	private int messageIndex =0;
 	
 	
 	public void add_message ( TimeMessage Input) {
@@ -52,17 +51,17 @@ public class Display_Module  implements Runnable {
 				if ( !messageList.isEmpty()) {
 					
 					
-					vmngr.Display_Message(messageList.get(Index).message  );
-					Thread.sleep( messageList.get(Index).time );					//Replace with time delay indicated in requirements
+					vmngr.Display_Message(messageList.get(messageIndex).message  );
+					Thread.sleep( messageList.get(messageIndex).time );					//Replace with time delay indicated in requirements
 					
 					
-					
+					messageIndex++;
 				}
-				
+				if ( messageIndex >= messageList.size()) messageIndex =0;
 				
 			}
 			
-			Index = 0;
+			messageIndex = 0;
 			}catch(InterruptedException e){
 				Thread.currentThread().interrupt();
 				return;
