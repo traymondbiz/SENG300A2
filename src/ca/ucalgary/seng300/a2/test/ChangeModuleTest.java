@@ -73,7 +73,7 @@ public class ChangeModuleTest {
 	 * Ensure the getPossibleChangeValues algorithm calculates correctly when the machine is able to make exact change.
 	 */
 	@Test
-	public void testCheckChangeLight2(){
+	public void testExactChange(){
 		configureVend(200);
 		cm = ChangeModule.getInstance();
 		boolean expected = cm.checkChangeLight(validCoins, coinCount);
@@ -81,10 +81,10 @@ public class ChangeModuleTest {
 	}
 
 	/**
-	 * Ensure thegetPossibleChangeValues and canMakeChange algorithms calculate correctly when the machine is able to make exact change.
+	 * Ensure the getPossibleChangeValues and canMakeChange algorithms calculate correctly when the machine is able to make exact change.
 	 */
 	@Test
-	public void testCheckChangeLight3(){
+	public void testExactChange2(){
 		configureVend(150);
 		cm = ChangeModule.getInstance();
 		boolean expected = cm.checkChangeLight(validCoins, coinCount);
