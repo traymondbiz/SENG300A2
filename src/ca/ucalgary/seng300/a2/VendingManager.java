@@ -30,6 +30,7 @@ public class VendingManager {
 	private static VendingListener listener;
 	private static ChangeModule changeModule;
 	private static VendingMachine vm;
+	private static LoopingThread loopingT;
 	private static Thread noCreditThread;
 	private int credit = 0;
 	
@@ -54,7 +55,8 @@ public class VendingManager {
 		mgr = new VendingManager(); 
 		vm = host;
 		mgr.registerListeners();
-		noCreditThread = new Thread(new LoopingThread(vm));
+		LoopingThread.initialize(vm);
+		noCreditThread = new Thread(LoopingThread.getInstance());
 		noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
 		mgr.setModule();			// Sets instance of ChangeModule's validCoins, coinCount, and popPrices arrays.
 	}
@@ -235,7 +237,7 @@ public class VendingManager {
             System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
         } 
         else {
-            noCreditThread = new Thread(new LoopingThread(vm));
+            noCreditThread = new Thread(LoopingThread.getInstance());
             noCreditThread.start();     //Starts the looping display message when vm is turned on (created)
         }
     }
