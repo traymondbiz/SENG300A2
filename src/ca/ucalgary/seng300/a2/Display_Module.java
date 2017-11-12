@@ -14,13 +14,15 @@ public class Display_Module  implements Runnable {
 	private static Display_Module DisplayM;
 	private static VendingManager vmngr;
 	
-	private Vector<TimeMessage> messageList;
+	private Vector<TimeMessage> messageList = new <TimeMessage>Vector() ;
 	private int messageIndex =0;
 	
 	
-	public void add_message ( TimeMessage Input) {
-		
-		messageList.addElement(Input);
+	public void add_message (TimeMessage TM) {
+		  System.out.println(TM.message);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
+		  System.out.println(TM.time);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
+		     
+		messageList.addElement(TM);
 		
 	}
 	public void clearList( ) {

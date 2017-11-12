@@ -57,7 +57,7 @@ public class TestCases {
 	public void testLoopingThread() throws InterruptedException{
 		VendingManager.initialize(vend);
 		Thread.sleep(1000);
-		assertEquals(VendingListener.returnMsg(), "Hi there!");
+		assertEquals(VendingListener.returnMsg(), "Hi there!&");
 	}
 	
 	@Test
@@ -71,7 +71,7 @@ public class TestCases {
 	public void testLoopingThread3() throws InterruptedException{
 		VendingManager.initialize(vend);
 		Thread.sleep(11000);
-		assertEquals(VendingListener.returnMsg(), "Hi there!");
+		assertEquals(VendingListener.returnMsg(), "Hi there!&");
 	}
 	
 	@Test
@@ -95,7 +95,7 @@ public class TestCases {
 		try {
 			vm.buy(0);
 			Thread.sleep(1000);
-			assertEquals(VendingListener.returnMsg(), "Hi there!");
+			assertEquals(VendingListener.returnMsg(), "Hi there!&");
 		} catch (InsufficientFundsException | EmptyException | DisabledException | CapacityExceededException e) {
 			assertTrue(false);
 		}

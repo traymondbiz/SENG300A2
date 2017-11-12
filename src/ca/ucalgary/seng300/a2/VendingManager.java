@@ -64,8 +64,9 @@ public class VendingManager {
 		noCreditThread2 = new Thread(Display_Module.getInstance());
 		
 		DisplayM =Display_Module.getInstance();
-		DisplayM.add_message(new TimeMessage("Hi",1000) );
-		DisplayM.add_message(new TimeMessage("",5000) );
+	
+		DisplayM.add_message(new TimeMessage("Hi there!&",5000) );
+		DisplayM.add_message(new TimeMessage("",10000) );
 		
 		
 		//noCreditThread.start();		//Starts the looping display message when vm is turned on (created)

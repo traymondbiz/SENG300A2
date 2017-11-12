@@ -4,10 +4,10 @@ public class TimeMessage {
 	public int time;
 	public String message;
 	
-	public TimeMessage (String MessageIn, int timeIn ) {
+	public  TimeMessage(String MessageIn, int timeIn ) {
 		
 		message = MessageIn;
-		timeIn = time;
+		time = timeIn;
 		
 	}
 
