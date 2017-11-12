@@ -10,27 +10,50 @@ import org.lsmr.vending.*;
 import org.lsmr.vending.hardware.*;
 import ca.ucalgary.seng300.a2.*;
 
+/**
+ * Software Engineering 300 - Group Assignment 2
+ * TestCases.java
+ * 
+ * This class is used to test the functionality of the VendingManager class.
+ * 
+ * 82.7% code coverage was achieved in VendingManager.
+ * 
+ * Id Input/Output Technology and Solutions (Group 2)
+ * @author Raymond Tran 			(30028473)
+ * @author Hooman Khosravi 			(30044760)
+ * @author Christopher Smith 		(10140988)
+ * @author Mengxi Cheng 			(10151992)
+ * @author Zachary Metz 			(30001506)
+ * @author Abdul Basit 				(30033896)
+ *   
+ * @version	2.0
+ * @since	2.0
+ */
 public class TestCases {
 	private VendingMachine vend;
-//	private VendingManager vm;
 
-	@Before
 	/**
-	 * Set up the initial values for the vending machine and its elements.
+	 * A method to prepare a vending machine to the basic specifications outlined by the Client 
+	 * Canadian coins
+	 * And to configure the hardware to use a set of names and costs for pop cans.
+	 * 6 buttons/kinds of pop
+	 * 200 coins in each coin rack
+	 * 10 pops per rack
+	 * 200 coins can be stored in each receptacle
+	 * 5 pops per delivery chute
+	 * 5 coins can be returned in each receptacle
 	 */
+	@Before
 	public void setup() {
     	int[] coinKind = {5, 10, 25, 100, 200};
     	int selectionButtonCount = 6;
-    	int coinRackCapacity = 200;		// probably a temporary value
+    	int coinRackCapacity = 200;
     	int popCanRackCapacity = 10;
     	int receptacleCapacity = 200; 
     	int deliveryChuteCapacity = 5;
     	int coinReturnCapacity = 5;
     	vend = new VendingMachine(coinKind, selectionButtonCount, coinRackCapacity, popCanRackCapacity, receptacleCapacity, deliveryChuteCapacity, coinReturnCapacity);
-    	
- //   	VendingManager.initialize(vend);
-  //  	vm = VendingManager.getInstance();
-		
+   
 		List<String> popCanNames = new ArrayList<String>();
 		popCanNames.add("Coke"); 
 		popCanNames.add("Pepsi"); 
@@ -43,7 +66,6 @@ public class TestCases {
 		try {
 			vend.getPopCanRack(0).acceptPopCan(popcan);
 		} catch (CapacityExceededException | DisabledException e) {
-			e.printStackTrace();
 		};
 		
 		List<Integer> popCanCosts = new ArrayList<Integer>();
@@ -53,40 +75,48 @@ public class TestCases {
 		vend.configure(popCanNames, popCanCosts);
 	}
 	
+	/**
+	 * Ensures the display device displays the "Hi there!" message within the first 5 seconds if the machine contains no credit.
+	 * 
+	 * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
+	 */
 	@Test
-	public void testLoopingThread() throws InterruptedException{
+	public void testHiThere() throws InterruptedException{
 		VendingManager.initialize(vend);
 		Thread.sleep(1000);
 		assertEquals(VendingListener.returnMsg(), "Hi there!");
 	}
 	
+	/**
+	 * Ensures the display device erases the "Hi there!" message during the following 10 seconds if the machine contains no credit.
+	 * 
+	 * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
+	 */
 	@Test
-	public void testLoopingThread2() throws InterruptedException{
+	public void testHiThereErased() throws InterruptedException{
 		VendingManager.initialize(vend);
 		Thread.sleep(6000);
 		assertEquals(VendingListener.returnMsg(), "");
 	}
 	
+	/**
+	 * Ensures the display device repeats the message display cycle every 15 seconds if the machine contains no credit.
+	 * 
+	 * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
+	 */
 	@Test
-	public void testLoopingThread3() throws InterruptedException{
+	public void testMessageCycle() throws InterruptedException{
 		VendingManager.initialize(vend);
-		Thread.sleep(11000);
+		Thread.sleep(16000);
 		assertEquals(VendingListener.returnMsg(), "Hi there!");
 	}
-	
-	@Test
-	public void testLoopingTException() {
-		VendingManager.initialize(vend);
-		VendingManager vm = VendingManager.getInstance();
-		try{
-			Thread.sleep(10000);
-			vm.addCredit(25);
-			assertTrue(true);
-		} catch (InterruptedException e) {
-			assertTrue(false);
-		}
-	}
 
+	/**
+	 * Ensures the display device displays the message "Hi there!" when a purchase happens
+	 * and the updated credit is reset to zero.
+	 * 
+	 * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
+	 */
 	@Test
 	public void testPostPCreditZero() throws InterruptedException{
 		VendingManager.initialize(vend);
@@ -101,6 +131,10 @@ public class TestCases {
 		}
 	}
 	
+	/**
+	 * Ensures the display device displays the message "Credit: " and the amount of updated credit when a purchase happens
+	 * and the updated credit is non-zero.
+	 */
 	@Test
 	public void testPostPCreditNotZero(){
 		VendingManager.initialize(vend);
@@ -114,6 +148,9 @@ public class TestCases {
 		}
 	}
 	
+	/**
+	 * Ensures the buy function throws the correct exception when the credit < cost.
+	 */
 	@Test
 	public void testInsufficentFundsException(){
 		VendingManager.initialize(vend);
@@ -127,6 +164,9 @@ public class TestCases {
 		}
 	}
 	
+	/** 
+	 * Ensures the display device displays the message "Credit: " and the amount of credit when the user enters valid coins.
+	 */
 	@Test
 	public void testCreditChange(){
 		VendingManager.initialize(vend);
@@ -135,11 +175,10 @@ public class TestCases {
 		assertEquals(VendingListener.returnMsg(), "Credit: 200");
 	} 
 	
-	@After
 	/**
-	 * Sets the tested values to null
-	 * 
-	 */
+	 * Method to destroy the vending machine and change module after each test in order to not affect the following test.
+	 */	
+	@After
 	public void tearDown() {
 		vend = null; 
 	} 

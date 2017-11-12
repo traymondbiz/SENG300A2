@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.*;
-import org.junit.Assert.*;
 import ca.ucalgary.seng300.a2.*;
 
 import org.lsmr.vending.PopCan;
@@ -66,7 +65,7 @@ public class ChangeModuleTest {
 	public void testNotExactChange(){
 		configureVend(170);
 		cm = ChangeModule.getInstance();
-		boolean expected = cm.checkChangeLight(validCoins, validCoins, coinCount);
+		boolean expected = cm.checkChangeLight(validCoins, coinCount);
 		assertEquals(expected, false);
 	}
 	
@@ -77,7 +76,7 @@ public class ChangeModuleTest {
 	public void testExactChange(){
 		configureVend(200);
 		cm = ChangeModule.getInstance();
-		boolean expected = cm.checkChangeLight(validCoins, validCoins, coinCount);
+		boolean expected = cm.checkChangeLight(validCoins, coinCount);
 		assertEquals(expected, true);
 	}
 
@@ -88,7 +87,7 @@ public class ChangeModuleTest {
 	public void testExactChange2(){
 		configureVend(150);
 		cm = ChangeModule.getInstance();
-		boolean expected = cm.checkChangeLight(validCoins, validCoins, coinCount);
+		boolean expected = cm.checkChangeLight(validCoins, coinCount);
 		assertEquals(expected, true);
 	}
 	
