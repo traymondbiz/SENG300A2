@@ -3,6 +3,7 @@ package ca.ucalgary.seng300.a2.test;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.*;
@@ -35,7 +36,6 @@ public class TestCases {
 	/**
 	 * A method to prepare a vending machine to the basic specifications outlined by the Client 
 	 * Canadian coins
-	 * And to configure the hardware to use a set of names and costs for pop cans.
 	 * 6 buttons/kinds of pop
 	 * 200 coins in each coin rack
 	 * 10 pops per rack
@@ -45,7 +45,7 @@ public class TestCases {
 	 */
 	@Before
 	public void setup() {
-    	int[] coinKind = {5, 10, 25, 100, 200};
+    	int[] coinKind = {1, 5, 10, 25, 100, 200};
     	int selectionButtonCount = 6;
     	int coinRackCapacity = 200;
     	int popCanRackCapacity = 10;
@@ -53,26 +53,6 @@ public class TestCases {
     	int deliveryChuteCapacity = 5;
     	int coinReturnCapacity = 5;
     	vend = new VendingMachine(coinKind, selectionButtonCount, coinRackCapacity, popCanRackCapacity, receptacleCapacity, deliveryChuteCapacity, coinReturnCapacity);
-   
-		List<String> popCanNames = new ArrayList<String>();
-		popCanNames.add("Coke"); 
-		popCanNames.add("Pepsi"); 
-		popCanNames.add("Sprite"); 
-		popCanNames.add("Mountain dew"); 
-		popCanNames.add("Water"); 
-		popCanNames.add("Iced Tea");
-		
-		PopCan popcan = new PopCan("Coke");
-		try {
-			vend.getPopCanRack(0).acceptPopCan(popcan);
-		} catch (CapacityExceededException | DisabledException e) {
-		};
-		
-		List<Integer> popCanCosts = new ArrayList<Integer>();
-		for (int i = 0; i < 6; i++) {
-			popCanCosts.add(200);
-		}
-		vend.configure(popCanNames, popCanCosts);
 	}
 	
 	/**
@@ -84,7 +64,7 @@ public class TestCases {
 	public void testHiThere() throws InterruptedException{
 		VendingManager.initialize(vend);
 		Thread.sleep(1000);
-		assertEquals(VendingListener.returnMsg(), "Hi there!&");
+		assertEquals(VendingListener.returnMsg(), "Hi there!");
 	}
 	
 	/**
@@ -107,13 +87,8 @@ public class TestCases {
 	@Test
 	public void testMessageCycle() throws InterruptedException{
 		VendingManager.initialize(vend);
-<<<<<<< HEAD
-		Thread.sleep(11000);
-		assertEquals(VendingListener.returnMsg(), "Hi there!&");
-=======
 		Thread.sleep(16000);
 		assertEquals(VendingListener.returnMsg(), "Hi there!");
->>>>>>> 7dc4d67151eed335f8c805e93433c6376b092aea
 	}
 
 	/**
@@ -126,12 +101,13 @@ public class TestCases {
 	public void testPostPCreditZero() throws InterruptedException{
 		VendingManager.initialize(vend);
 		VendingManager vm = VendingManager.getInstance();
+		configureVend(200);
 		vm.addCredit(200);
 		try {
 			vm.buy(0);
 			Thread.sleep(1000);
-			assertEquals(VendingListener.returnMsg(), "Hi there!&");
-		} catch (InsufficientFundsException | EmptyException | DisabledException | CapacityExceededException e) {
+			assertEquals(VendingListener.returnMsg(), "Hi there!");
+		} catch (InsufficientFundsException | EmptyException | DisabledException | CapacityExceededException | IOException e) {
 			assertTrue(false);
 		}
 	}
@@ -144,11 +120,12 @@ public class TestCases {
 	public void testPostPCreditNotZero(){
 		VendingManager.initialize(vend);
 		VendingManager vm = VendingManager.getInstance();
+		configureVend(200);
 		vm.addCredit(250);
 		try {
 			vm.buy(0);
 			assertEquals(VendingListener.returnMsg(), "Credit: 50");
-		} catch (InsufficientFundsException | EmptyException | DisabledException | CapacityExceededException e) {
+		} catch (InsufficientFundsException | EmptyException | DisabledException | CapacityExceededException | IOException e) {
 			assertTrue(false);
 		}
 	}
@@ -160,11 +137,12 @@ public class TestCases {
 	public void testInsufficentFundsException(){
 		VendingManager.initialize(vend);
 		VendingManager vm = VendingManager.getInstance();
+		configureVend(200);
 		vm.addCredit(50);
 		try {
 			vm.buy(0);
 			assertTrue(false);
-		} catch (InsufficientFundsException | EmptyException | DisabledException | CapacityExceededException e){
+		} catch (InsufficientFundsException | EmptyException | DisabledException | CapacityExceededException | IOException e){
 			assertTrue(true);
 		}
 	}
@@ -181,10 +159,55 @@ public class TestCases {
 	} 
 	
 	/**
+	 * Ensures the "exact change only" light is turned on whenever exact change cannot be guaranteed for all possible transactions.
+	 */
+	@Test
+	public void testActiveExchangeLight(){
+		VendingManager.initialize(vend);
+		VendingManager vm = VendingManager.getInstance();
+		configureVend(170);
+		vm.addCredit(340);
+		try {
+			vm.buy(0);
+			assertTrue(true);
+		} catch (InsufficientFundsException | EmptyException | DisabledException | CapacityExceededException | IOException e){
+			assertTrue(false);
+		}
+	}
+	
+	/**
 	 * Method to destroy the vending machine and change module after each test in order to not affect the following test.
 	 */	
 	@After
 	public void tearDown() {
 		vend = null; 
 	} 
+	
+	/**
+     * Configures the hardware to use a set of names and costs for pop cans.
+     * 
+	 * @param popPrice Cost for each pop. Cannot be non-positive.
+	 */
+	void configureVend(int popPrice){
+		List<String> popCanNames = new ArrayList<String>();
+		popCanNames.add("Coke"); 
+		popCanNames.add("Pepsi"); 
+		popCanNames.add("Sprite"); 
+		popCanNames.add("Mountain dew"); 
+		popCanNames.add("Water"); 
+		popCanNames.add("Iced Tea");
+		
+		PopCan popcan = new PopCan("Coke");
+		try {
+			vend.getPopCanRack(0).acceptPopCan(popcan);
+		} catch (CapacityExceededException | DisabledException e) {
+		};
+		
+		List<Integer> popCanCosts = new ArrayList<Integer>();
+		for (int i = 0; i < 6; i++) {
+			popCanCosts.add(popPrice);
+		}
+		vend.configure(popCanNames, popCanCosts);	
+    	VendingManager.initialize(vend);		
+	}
 }
