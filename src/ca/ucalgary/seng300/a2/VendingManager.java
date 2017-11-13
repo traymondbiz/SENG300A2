@@ -32,6 +32,7 @@ public class VendingManager {
 	private static LoggingModule logger;
 	private static VendingMachine vm;
 	private static Display_Module DisplayM;
+	private static TransactionModule TransactionM;
 	private static Thread noCreditThread2;
 	private int credit = 0;
 	
@@ -42,8 +43,12 @@ public class VendingManager {
 	private VendingManager(){
 		VendingListener.initialize(this);
 		ChangeModule.initialize(this);
+		Display_Module.initialize(this);
+		TransactionModule.initialize(this);
 		listener = VendingListener.getInstance();
 		changeModule = ChangeModule.getInstance();
+		TransactionM = TransactionModule.getInstance();
+		DisplayM =Display_Module.getInstance();
 	}
 	
 	/**
@@ -59,10 +64,10 @@ public class VendingManager {
 		mgr.registerListeners();
 		
 		
-		Display_Module.initialize(mgr);
+		
 		noCreditThread2 = new Thread(Display_Module.getInstance());
 		
-		DisplayM =Display_Module.getInstance();
+		
 	
 		DisplayM.add_loopMessage(new TimeMessage("Hi there!&",5000) );
 		DisplayM.add_loopMessage(new TimeMessage("",10000) );
@@ -201,6 +206,17 @@ public class VendingManager {
 	PopCanRack getPopCanRack(int index){
 		return vm.getPopCanRack(index); 
 	}
+	int getPopCanRackSize(int index){
+		return vm.getPopCanRack(index).size(); 
+	}
+	void dispencePopCanRack(int index) throws DisabledException, EmptyException, CapacityExceededException {
+		getPopCanRack(index).dispensePopCan();
+	
+	}
+	void storeCoinsInStorage() throws CapacityExceededException, DisabledException {
+		getCoinReceptacle().storeCoins(); 
+		
+	}
 	Display getDisplay(){
 		return vm.getDisplay();
 	}
@@ -234,34 +250,23 @@ public class VendingManager {
 	public int getCredit(){
 		return credit;
 	}
+	public void setCredit(int temp){
+		credit = temp;
+	}
 	
 	public void Display_Message(String str){
 		vm.getDisplay().display(str);
 		
+	}
+	public void add_message(String str) {
+		DisplayM.add_message(str);
 	}
 
     /**
      * Adds value to the tracked credit.
      * @param added The credit to add, in cents.
      */
-    public void addCredit(int added){
-//      if(credit == 0){
-//          mgr.getLoopingThread().interrupt();
-//      }
-        credit += added;
-        System.out.println(credit);     // For debugging
-        if(credit != 0) {
-            mgr.getLoopingThread2().interrupt();
-            
-            DisplayM.add_message("Credit: " + Integer.toString(credit));
 
-
-            System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
-        } 
-        else {
-        	resetDisplay();
-        }
-    }
 	
 	void resetDisplay() {
         noCreditThread2 = new Thread(Display_Module.getInstance());
@@ -282,27 +287,18 @@ public class VendingManager {
 	 * @throws DisabledException Thrown if the pop rack or delivery chute is disabled.
 	 * @throws CapacityExceededException Thrown if the delivery chute is full.
 	 */
+    public void addCredit(int added){
+    	TransactionM.addCredit(added);
+    	
+    }
+    
+	
+	
 	public void buy(int popIndex) throws InsufficientFundsException, EmptyException, 
 											DisabledException, CapacityExceededException {
-		int cost = getPopKindCost(popIndex);
-		if (getCredit() >= cost){
-			PopCanRack rack = getPopCanRack(popIndex);
-			int canCount = rack.size(); //Bad method name; returns # of cans stored
-			if (canCount > 0){
-				rack.dispensePopCan(); 
-				credit -= cost; //Will only be performed if the pop is successfully dispensed.
-
-				getCoinReceptacle().storeCoins(); 
-				System.out.println(credit);		// For debugging
-				addCredit(0);
-			}
-		}
-		else {
-			int dif = cost - credit;  
-			String popName = getPopKindName(popIndex);
-			throw new InsufficientFundsException("Cannot buy " + popName + ". " + dif + " cents missing.");
-		}
+		TransactionM.buy(popIndex);
 	}
+	
 	public void addLog(String msg) {
 		try {
 			logger.logMessage(msg);
