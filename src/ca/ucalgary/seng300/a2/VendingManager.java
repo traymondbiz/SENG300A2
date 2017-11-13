@@ -1,9 +1,5 @@
 package ca.ucalgary.seng300.a2;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-
 import org.lsmr.vending.hardware.*;
 
 /**
@@ -32,7 +28,6 @@ import org.lsmr.vending.hardware.*;
 public class VendingManager {
 	private static VendingManager mgr;
 	private static VendingListener listener;
-	private static LoggingModule logger;
 	private static ChangeModule changeModule;
 	private static VendingMachine vm;
 	private static Display_Module DisplayM;
@@ -60,7 +55,6 @@ public class VendingManager {
 		mgr = new VendingManager(); 
 		vm = host;
 		mgr.registerListeners();
-<<<<<<< HEAD
 		
 		Display_Module.initialize(mgr);
 		noCreditThread2 = new Thread(Display_Module.getInstance());
@@ -74,14 +68,7 @@ public class VendingManager {
 		//noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
 		noCreditThread2.start();
 		
-=======
-		mgr.registerLoggingModule();
-		LoopingThread.initialize(vm);
-		noCreditThread = new Thread(LoopingThread.getInstance());
-		noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
->>>>>>> 7dc4d67151eed335f8c805e93433c6376b092aea
 		mgr.setModule();			// Sets instance of ChangeModule's validCoins, coinCount, and popPrices arrays.
-		changeModule.checkChangeLight(mgr.getValidCoinsArray(), mgr.getCoinCountArray());
 	}
 	
 	
@@ -114,52 +101,27 @@ public class VendingManager {
 			getSelectionButton(i).register(listener);;
 		}		
 	}
-
-	/**
-	 * Registers the loggin module
-	 */
-	private void registerLoggingModule() {
-		LoggingModule.initialize();
-		logger = LoggingModule.getInstance();
-	}
 	
-	private int[] getValidCoinsArray() {
-
+	private void setModule() {
+		
 		int i = vm.getNumberOfCoinRacks();
-		int[] validCoins = new int[i];
+		int[] inValidCoins = new int[i];
 		for (int x = 0; x < i; x++) {
-			validCoins[x] = vm.getCoinKindForCoinRack(x);
+			inValidCoins[x] = vm.getCoinKindForCoinRack(x);
 		}
 		
-		return validCoins;
-		
-	}
-	
-	private int[] getCoinCountArray() {
 		int j = vm.getNumberOfCoinRacks();
-		int[] coinCount = new int[j];
+		int[] inCoinCount = new int[j];
 		for (int x = 0; x < j; x++) {
 			CoinRack tempRack = vm.getCoinRack(x);
-			coinCount[x] = tempRack.size();
+			inCoinCount[x] = tempRack.size();
 		}
 		
-		return coinCount;
-		
-	}
-	
-	private int[] getPopPricesArray() {
 		int k = vm.getNumberOfPopCanRacks();
-		int[] popPrices = new int[k];
+		int[] inPopPrices = new int[k];
 		for (int x = 0; x < k; x++) {
-			popPrices[x] = vm.getPopKindCost(x);
+			inPopPrices[x] = vm.getPopKindCost(x);
 		}
-		
-		return popPrices;
-	}
-	private void setModule() {
-		int[] inValidCoins = getValidCoinsArray();
-		int[] inCoinCount = getCoinCountArray();
-		int[] inPopPrices = getPopPricesArray();
 		
 		changeModule.setCoins(inValidCoins, inCoinCount);
 		changeModule.setPopPrices(inPopPrices);
@@ -294,22 +256,13 @@ public class VendingManager {
             System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
         } 
         else {
-            resetDisplay();
+        	resetDisplay();
         }
-        // Refreshes what ChangeModule sees for valid coins, coin counts, and the current pop prices.
-        // Even if in the future a credit card is accepted, this will still be called. (But with no changes.)
-        setModule();
     }
 	
 	void resetDisplay() {
-<<<<<<< HEAD
         noCreditThread2 = new Thread(Display_Module.getInstance());
         noCreditThread2.start();     //Starts the looping display message when vm is turned on (created)
-=======
-		noCreditThread.start();
-        noCreditThread = new Thread(LoopingThread.getInstance());
-        noCreditThread.start();     //Starts the looping display message when vm is turned on (created)
->>>>>>> 7dc4d67151eed335f8c805e93433c6376b092aea
 	}
 	
 	
@@ -325,12 +278,9 @@ public class VendingManager {
 	 * @throws EmptyException Thrown if the selected pop rack is empty.
 	 * @throws DisabledException Thrown if the pop rack or delivery chute is disabled.
 	 * @throws CapacityExceededException Thrown if the delivery chute is full.
-	 * @throws IOException 
 	 */
-
 	public void buy(int popIndex) throws InsufficientFundsException, EmptyException, 
-											DisabledException, CapacityExceededException, IOException {
-
+											DisabledException, CapacityExceededException {
 		int cost = getPopKindCost(popIndex);
 		if (getCredit() >= cost){
 			PopCanRack rack = getPopCanRack(popIndex);
@@ -342,7 +292,6 @@ public class VendingManager {
 				getCoinReceptacle().storeCoins(); 
 				System.out.println(credit);		// For debugging
 				addCredit(0);
-				addLog("User Purchased "+getPopKindName(popIndex) + " And was returned: " + Integer.toString(credit) + " censts");
 			}
 		}
 		else {
@@ -350,42 +299,7 @@ public class VendingManager {
 			String popName = getPopKindName(popIndex);
 			throw new InsufficientFundsException("Cannot buy " + popName + ". " + dif + " cents missing.");
 		}
-		
-		// Returning as much remaining credit as possible.
-		// returnList is ordered from biggest to smallest coin.
-		ArrayList<Integer> returnList = new ArrayList<Integer>(changeModule.makeChange(credit));
-		while(!returnList.isEmpty()) {
-			CoinRack temp = vm.getCoinRackForCoinKind(returnList.get(0));
-			temp.releaseCoin();
-			credit -= returnList.get(0);
-			returnList.remove(0);
-		}
-		
-		// After we're done with the coinracks:
-		int[] inValidCoins = getValidCoinsArray();
-		int[] inCoinCount = getCoinCountArray();
-		if(changeModule.checkChangeLight(inValidCoins, inCoinCount)) {
-			vm.getExactChangeLight().deactivate();
-		}
-		else {
-			vm.getExactChangeLight().activate();
-		}
-		
-		// Note that if a poprack is empty, ChangeModule will still display an exactlight for that pop if it applies.
-			// Consider this minor bug, where it's still in the list.
-		// NOTE: The exact change light still needs to have its method/actions written into VendingManager/Listener. MAYBE DONE?
-		// NOTE: Updating the exact change light will require a call on VendingManager's part. Do this initially, and
-		//		 after every purchase. (Build on this to figure out the other two lights, which should be manager/listener
-		//		 specific with nothing to do with ChangeModule itself.) DONE FIRST HALF.
-		
 	}
-	/**
-	 * Adds a log 
-	 * @param msg message to log
-	 * @throws IOException 
-	 */
-	public void addLog(String msg) throws IOException{
-		LoggingModule.logMessage(msg);
-	}
+
 //^^^======================VENDING LOGIC END=======================^^^
 }
