@@ -93,44 +93,63 @@ public class ChangeModule {
 		return changeModule;
 	}
 	
-	public static void setCoins(int[] inValidCoins, int[] inCoinCount) {
+	public void setCoins(int[] inValidCoins, int[] inCoinCount) {
 		if (inValidCoins.length == inCoinCount.length) {
 			validCoins = inValidCoins;
 			coinCount = inCoinCount;
 		}
 	}
 	
-	public static void setPopPrices(int[] inPopPrices) {
+	public void setPopPrices(int[] inPopPrices) {
 		popPrices = inPopPrices;
 	}
-	
-	/*
-	 * Debugging method that receives exact values (initialized above) and performs an
-	 * algorithm to determine whether the 'Exact Change Light' should be on or off.
-	 */
-	public static void main(String args[]) {
-		int[] inPopPrices = {50, 100, 150};
-		
-		ArrayList<Integer> valuesOfChange = getPossibleChangeValues(validCoins, popPrices);
-		// Debugger message displaying all the potential values of change the machine needs to make.
-		System.out.printf("\n[Main] Values of change that needs to be made: %s\n\n", valuesOfChange);
-		for(int change : valuesOfChange) {
-			//Debugger message determining whether each potential case of 
-			//change that needs to be made is satisfied or not.
-			System.out.printf("[Main] Attempting to make change for %d cents:\n", change);
-			System.out.printf("[Info] Result: %b \n\n", canMakeChange(change, validCoins, coinCount));
-		}	
-	}
 
-	public static boolean checkChangeLight(int[] validValues, int[] validCoins, int[] coinCount) {
+	public boolean checkChangeLight(int[] inValidCoins, int[] inCoinCount) {
+		setCoins(inValidCoins, inCoinCount);
 		ArrayList<Integer> valuesOfChange = getPossibleChangeValues(validCoins, popPrices);
 		for(int change : valuesOfChange) {
-			// If at some point, we are NOT able to make change for a specific
-			if(!canMakeChange(change,validCoins, coinCount)) {
+			// If at some point, we are NOT able to make change for a specific change value,
+			// return false right away. (Since it means one instance is not covered by the machine.)
+			if(!canMakeChange(change)) {
 				return false;
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Determines what coins should be released as change after something calls it. (Post-buy, return, etc.)
+	 * <p>
+	 * Creates the list of (potentially redundant) coin denominations (Integer -> int) in descending order,
+	 * assuming that the caller is able to interpret the list, and release coins for some machine accordingly.
+	 * This method/module expects to be updated before, and after accordingly.
+	 * 
+	 * @param credit	The value to subtract from for each coin returned. Tries to get this to 0.
+	 * @return			ArrayList containing a coin value denomination for each coin to be released.
+	 */
+	public ArrayList<Integer> makeChange(int credit) {
+		int[] coinCountClone = coinCount.clone();
+		ArrayList<Integer> returnList = new ArrayList<Integer>();
+		qoinSort(0, validCoins.length -1);
+		int i = validCoins.length - 1;
+		
+		// Loops through all coins in descending order, attempting to make change.
+		while(i >= 0) {
+			// Use current coin until no more are available, or current coin is too big.
+			while(coinCountClone[i] > 0 && credit >= validCoins[i]) {
+				credit -= validCoins[i];
+				coinCountClone[i] --;
+				returnList.add(validCoins[i]);
+			}
+            if(credit == 0) {
+            	// Returns list of values that make credit == 0.
+            	return returnList;
+            }
+            // Move to next coin. (Smaller than current coin.)
+			i--;
+		}
+		// Returning as many values as possible. (Credit still in machine.)
+		return returnList;
 	}
 	
 	/**
@@ -142,60 +161,18 @@ public class ChangeModule {
 	 * @param coinCount		Number of coins for each corresponding currency value by the given machine.
 	 * @return				true if the machine is able to make change. false otherwise.				
 	 */
-	private static boolean canMakeChange(int change, int[] validCoins, int[] coinCount) {
-		
-		/* Performs a Dual-Pivot Quicksort on 'valid_Values' in ascending order.
-		 * See https://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html#sort(int[])
-		 * for more details. */
-		
-		// Needs reconsideration. Sorting does not sort the coinCount in the same way.
-		// Implement a simple QuickSort that also aligns the coinCount list appropriately? Search online.
-		// QuickSort, have it when DPartition swaps values for a particular list, it does so for the other list.
-		// and, only returns the primary sorting list. (To be further partitioned. All lists are static in ChangeModule)
-
-		qoinSort(0, validCoins.length -1);
-		int[] numOfCoins = coinCount.clone();
-		
-		// Indexes start at 0.
-		int i = validCoins.length - 1;
-		
-		while(i >= 0) {
-			// In descending order from largest coin to smallest,
-			// While that particular coin is still 'in-stock' in machine AND
-			// there is still change that machine COULD return, perform the following:
-			while(numOfCoins[i] > 0 && change >= validCoins[i] ) {
-				
-				// Remaining change that the machine must produce.
-				System.out.printf("[Step] Change: %3d   ", change);
-				// Particular coin being used to return currency.
-				System.out.printf("Coin: %3d   ", validCoins[i]);
-				// Remaining amount of particular coin in machine.
-				System.out.printf("Left: %3d   ", numOfCoins[i]);
-				
-				// Logical operation to find remaining change to operate on.
-				// Decrement the number of remaining particular coin in machine.
-				change -= validCoins[i];
-				numOfCoins[i] --;
-				
-				// Remaining change that the machine must produce.
-				System.out.printf("Remainder: %3d\n", change);
-				
-			}
-			
-			// If no more change is needed to made, return true since
-			// this amount of change to return is supported.
-            if(change == 0) {
-            	return true;
-            }
-            
-            // Move to the next coin to perform operation.
-			i--;
+	private boolean canMakeChange(int change) {
+		ArrayList<Integer> returnList = new ArrayList<Integer>(makeChange(change));
+		while(!returnList.isEmpty()) {
+			change -= returnList.get(0);
+			returnList.remove(0);
 		}
-		
-		// If there are no ways the machine can return the
-		// exact amount of change given its current resources,
-		// return false. (And have another method enable the ExactChangeLight)
-		return false;
+		if(change == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	/**
@@ -209,7 +186,7 @@ public class ChangeModule {
 	 * @param popPrices		The price of each particular product, so that every value can be calculate for every pop.
 	 * @return				Returns a list containing every cent value change the machine needs to be prepared to make.
 	 */
-	private static ArrayList<Integer> getPossibleChangeValues(int[] validCoins, int[] popPrices) {
+	private ArrayList<Integer> getPossibleChangeValues(int[] validCoins, int[] popPrices) {
 		ArrayList<Integer> changesToMake = new ArrayList<Integer>();
 		int remainder;
 		int loopCount;
@@ -237,7 +214,7 @@ public class ChangeModule {
 	// Performs a QuickSort algorithm on validCoins, but also carries similar index swaps on coinCount.
 	// qoinSort and qoinPartition is an implementation of the QuickSort algorithm described in the textbook
 	// 'Introduction to Algorithms Third Edition' by Cormen, Leiserson, Rivest, and Stein.
-	private static void qoinSort(int low, int high) {
+	private void qoinSort(int low, int high) {
 		if (low < high) {
 			int q = qoinPartition(low, high);
 			qoinSort(low, q - 1);
@@ -246,7 +223,7 @@ public class ChangeModule {
 	}
 	
 	// QuickSort dPartition, but also aligns a secondary array. (coinCount)
-	private static int qoinPartition(int low, int high) {
+	private int qoinPartition(int low, int high) {
 		int p = validCoins[high];
 		int i = low;
 		int j = high - 1;
