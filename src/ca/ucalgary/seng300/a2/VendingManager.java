@@ -29,6 +29,7 @@ public class VendingManager {
 	private static VendingManager mgr;
 	private static VendingListener listener;
 	private static ChangeModule changeModule;
+	private static LoggingModule logger;
 	private static VendingMachine vm;
 	private static Display_Module DisplayM;
 	private static Thread noCreditThread2;
@@ -54,7 +55,9 @@ public class VendingManager {
 	public static void initialize(VendingMachine host){
 		mgr = new VendingManager(); 
 		vm = host;
+		logger = LoggingModule.getInstance();
 		mgr.registerListeners();
+		
 		
 		Display_Module.initialize(mgr);
 		noCreditThread2 = new Thread(Display_Module.getInstance());
@@ -300,6 +303,13 @@ public class VendingManager {
 			throw new InsufficientFundsException("Cannot buy " + popName + ". " + dif + " cents missing.");
 		}
 	}
-
+	public void addLog(String msg) {
+		try {
+			logger.logMessage(msg);
+		}catch(Exception e){
+			
+		}
+		
+	}
 //^^^======================VENDING LOGIC END=======================^^^
 }

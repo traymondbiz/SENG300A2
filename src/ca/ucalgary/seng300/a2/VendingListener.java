@@ -64,7 +64,7 @@ public class VendingListener implements CoinSlotListener, PushButtonListener, Co
 	 * @throws IOException 
 	 */
 	@Override
-	public void pressed(PushButton button) throws IOException {
+	public void pressed(PushButton button) {
 		
 		int bIndex = mgr.getButtonIndex(button); 
 		if (bIndex == -1){
@@ -101,22 +101,17 @@ public class VendingListener implements CoinSlotListener, PushButtonListener, Co
 	@Override
 	public void validCoinInserted(CoinSlot slot, Coin coin) {
 		mgr.addCredit(coin.getValue());
-		try {
+		
 			mgr.addLog("User instered: " + Integer.toString(coin.getValue()) +"coin to coin slot");
-		}catch( IOException e) {
-			
-		}
 		
 	}
 
 	@Override
 	public void coinsDelivered(CoinReturn coinReturn, Coin[] coins){
 		mgr.resetDisplay();
-		try {
+		
 		mgr.addLog("Coins Returned to User: " + coins.toString());
-		}catch( IOException e) {
-			
-		}
+		
 	}
 	
 	@Override

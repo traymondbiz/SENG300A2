@@ -44,7 +44,7 @@ public class LoggingModule {
 	public static LoggingModule getInstance() {
 		return logger;
 	}
-	public static void logMessage(String msg) throws IOException {
+	public void logMessage(String msg) throws IOException {
 		logger.printToFile(msg);
 	}
 	private void printToFile(String messageToLog) throws IOException {
