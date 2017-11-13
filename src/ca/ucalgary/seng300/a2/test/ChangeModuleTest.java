@@ -17,7 +17,7 @@ import org.lsmr.vending.hardware.*;
  * 
  * This class is used to test the functionality of the ChangeModule class.
  * 
- * 100% code coverage was achieved in ChangeModule.
+ * 90.4% code coverage was achieved in ChangeModule.
  * 
  * Id Input/Output Technology and Solutions (Group 2)
  * @author Raymond Tran 			(30028473)
@@ -85,18 +85,6 @@ public class ChangeModuleTest {
 	 */
 	@Test
 	public void testExactChange2(){
-		configureVend(150);
-		cm = ChangeModule.getInstance();
-		boolean expected = cm.checkChangeLight(validCoins, coinCount);
-		assertEquals(expected, true);
-	}
-	
-	/**
-	 * Ensure the qoinPartition algorithm works correctly.
-	 */
-	@Test
-	public void testQoinPartition(){
-		int[] validCoins = {200, 1, 25, 10, 5, 100};
 		configureVend(150);
 		cm = ChangeModule.getInstance();
 		boolean expected = cm.checkChangeLight(validCoins, coinCount);
