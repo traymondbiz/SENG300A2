@@ -67,6 +67,9 @@ public class ChangeModule {
 	 */
 	private static ChangeModule changeModule;
 	private static VendingManager mgr;
+	private static int[] validCoins;
+	private static int[] coinCount;
+	private static int[] popPrices;
 	
 	private ChangeModule() {}
 	
@@ -118,7 +121,7 @@ public class ChangeModule {
 		}	
 	}
 
-	public static boolean checkChangeLight(int[] validValues, int[] validCoins, int[] coinCount) {
+	public static boolean checkChangeLight( int[] validCoins, int[] coinCount) {
 		ArrayList<Integer> valuesOfChange = getPossibleChangeValues(validCoins, popPrices);
 		for(int change : valuesOfChange) {
 			// If at some point, we are NOT able to make change for a specific

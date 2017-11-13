@@ -108,7 +108,7 @@ public class TestCases {
 	public void testMessageCycle() throws InterruptedException{
 		VendingManager.initialize(vend);
 		Thread.sleep(16000);
-		assertEquals(VendingListener.returnMsg(), "Hi there!");
+		assertEquals(VendingListener.returnMsg(), "Hi there!&");
 
 	}
 
