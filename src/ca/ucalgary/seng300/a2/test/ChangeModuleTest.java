@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.*;
-import org.junit.Assert.*;
 import ca.ucalgary.seng300.a2.*;
 
 import org.lsmr.vending.PopCan;
@@ -18,7 +17,7 @@ import org.lsmr.vending.hardware.*;
  * 
  * This class is used to test the functionality of the ChangeModule class.
  * 
- * 90.4% code coverage was achieved in ChangeModule.
+ * 100% code coverage was achieved in ChangeModule.
  * 
  * Id Input/Output Technology and Solutions (Group 2)
  * @author Raymond Tran 			(30028473)
@@ -66,7 +65,7 @@ public class ChangeModuleTest {
 	public void testNotExactChange(){
 		configureVend(170);
 		cm = ChangeModule.getInstance();
-		boolean expected = cm.checkChangeLight(validCoins, validCoins, coinCount);
+		boolean expected = cm.checkChangeLight(validCoins, coinCount);
 		assertEquals(expected, false);
 	}
 	
@@ -74,21 +73,33 @@ public class ChangeModuleTest {
 	 * Ensure the getPossibleChangeValues algorithm calculates correctly when the machine is able to make exact change.
 	 */
 	@Test
-	public void testCheckChangeLight2(){
+	public void testExactChange(){
 		configureVend(200);
 		cm = ChangeModule.getInstance();
-		boolean expected = cm.checkChangeLight(validCoins, validCoins, coinCount);
+		boolean expected = cm.checkChangeLight(validCoins, coinCount);
 		assertEquals(expected, true);
 	}
 
 	/**
-	 * Ensure thegetPossibleChangeValues and canMakeChange algorithms calculate correctly when the machine is able to make exact change.
+	 * Ensure the getPossibleChangeValues and canMakeChange algorithms calculate correctly when the machine is able to make exact change.
 	 */
 	@Test
-	public void testCheckChangeLight3(){
+	public void testExactChange2(){
 		configureVend(150);
 		cm = ChangeModule.getInstance();
-		boolean expected = cm.checkChangeLight(validCoins, validCoins, coinCount);
+		boolean expected = cm.checkChangeLight(validCoins, coinCount);
+		assertEquals(expected, true);
+	}
+	
+	/**
+	 * Ensure the qoinPartition algorithm works correctly.
+	 */
+	@Test
+	public void testQoinPartition(){
+		int[] validCoins = {200, 1, 25, 10, 5, 100};
+		configureVend(150);
+		cm = ChangeModule.getInstance();
+		boolean expected = cm.checkChangeLight(validCoins, coinCount);
 		assertEquals(expected, true);
 	}
 	
