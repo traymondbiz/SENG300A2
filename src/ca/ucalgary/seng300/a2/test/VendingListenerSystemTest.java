@@ -39,7 +39,7 @@ public class VendingListenerSystemTest {
 	private CoinSlot slot = null;
 	private DeliveryChute popChute = null;
 	private CoinReturn coinChute = null;
-	
+	 
 	// Six selection buttons, each named after current pop test names.
 	private PushButton cokeButton = null;
 	private PushButton spriteButton = null;
@@ -95,7 +95,7 @@ public class VendingListenerSystemTest {
 	
 	@After
 	public void tearDown(){
-		manager.getLoopingThread().interrupt();	//Cleans up lingering instances of looping thread.
+		manager.getLoopingThread2().interrupt();	//Cleans up lingering instances of looping thread.
 	}
 	
 	// Checks to see if anything is dispensed when an insufficient amount of credit is added.

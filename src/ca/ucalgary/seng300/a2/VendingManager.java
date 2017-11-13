@@ -31,8 +31,6 @@ public class VendingManager {
 	private static ChangeModule changeModule;
 	private static VendingMachine vm;
 	private static Display_Module DisplayM;
-	private static LoopingThread loopingT;
-	private static Thread noCreditThread;
 	private static Thread noCreditThread2;
 	private int credit = 0;
 	
@@ -57,16 +55,14 @@ public class VendingManager {
 		mgr = new VendingManager(); 
 		vm = host;
 		mgr.registerListeners();
-		LoopingThread.initialize(vm);
-		noCreditThread = new Thread(LoopingThread.getInstance());
 		
 		Display_Module.initialize(mgr);
 		noCreditThread2 = new Thread(Display_Module.getInstance());
 		
 		DisplayM =Display_Module.getInstance();
 	
-		DisplayM.add_message(new TimeMessage("Hi there!&",5000) );
-		DisplayM.add_message(new TimeMessage("",10000) );
+		DisplayM.add_loopMessage(new TimeMessage("Hi there!&",5000) );
+		DisplayM.add_loopMessage(new TimeMessage("",10000) );
 		
 		
 		//noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
@@ -138,9 +134,7 @@ public class VendingManager {
 	// VM class from the build.  
 //vvv=======================ACCESSORS START=======================vvv
 	
-	public Thread getLoopingThread(){
-		return (noCreditThread);
-	}
+
 	public Thread getLoopingThread2(){
 		return (noCreditThread2);
 	}
@@ -255,7 +249,10 @@ public class VendingManager {
         System.out.println(credit);     // For debugging
         if(credit != 0) {
             mgr.getLoopingThread2().interrupt();
-            getDisplay().display("Credit: " + Integer.toString(credit));
+            
+            DisplayM.add_message("Credit: " + Integer.toString(credit));
+
+
             System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
         } 
         else {

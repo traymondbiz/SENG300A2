@@ -18,13 +18,19 @@ public class Display_Module  implements Runnable {
 	private int messageIndex =0;
 	
 	
-	public void add_message (TimeMessage TM) {
+	public void add_loopMessage (TimeMessage TM) {
 		  System.out.println(TM.message);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
 		  System.out.println(TM.time);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
 		     
 		messageList.addElement(TM);
 		
 	}
+	public void add_message(String str) {
+		
+		vmngr.Display_Message(str);
+	}
+	
+	
 	public void clearList( ) {
 		
 		messageList.clear();
