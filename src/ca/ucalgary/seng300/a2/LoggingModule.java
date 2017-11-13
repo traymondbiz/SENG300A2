@@ -13,11 +13,11 @@ public class LoggingModule {
 	private static PrintWriter writer;
 	private static LoggingModule logger;
 
-	public static void main(String[] args) throws IOException  {
-		// TODO Auto-generated method stub
-		logger = new LoggingModule();
-		logger.printToFile("this");
-	}
+//	public static void main(String[] args) throws IOException  {
+//		// TODO Auto-generated method stub
+//		logger = new LoggingModule();
+//		logger.printToFile("this");
+//	}
 	
 	
 	
@@ -29,7 +29,7 @@ public class LoggingModule {
 	
 	
 	/**
-	 * writes the log to the apropirate log file by day 
+	 * writes the log to the appropriate log file by day 
 	 */
 	public static void initialize() {
 			logger = new LoggingModule();
@@ -38,7 +38,7 @@ public class LoggingModule {
 
 		/**
 		 * Provides access to the singleton instance for package-internal classes.
-		 * @return The singleton ChangeModule instance  
+		 * @return The singleton LoggingModule instance  
 		 */
 	
 	public static LoggingModule getInstance() {
@@ -51,7 +51,8 @@ public class LoggingModule {
 		Date currentDate = new Date();
 		
 		//Need to strip the date object to only include the year, month, and day for filename
-		File currentFileDir = new File(currentDate.toString() + ".txt");
+//		File currentFileDir = new File(currentDate.toString() + ".txt");
+		File currentFileDir = new File("event log" + ".txt");
 		
 		if(!currentFileDir.isFile()) {
 			currentFileDir.createNewFile(); 
