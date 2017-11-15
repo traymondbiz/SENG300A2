@@ -220,7 +220,10 @@ public class VendingManager {
 	Display getDisplay(){
 		return vm.getDisplay();
 	}
-	
+	void ReduceCredit(int cost) {
+		
+		credit -=cost;
+	}
 	CoinReturn getCoinReturn() {
 		return vm.getCoinReturn();
 	}
