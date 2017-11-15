@@ -39,7 +39,7 @@ public class Display_Module  implements Runnable {
 	}
 	public void add_message(String str) {
 		
-		vmngr.display_Message(str);
+		vmngr.Display_Message(str);
 	}
 	
 	
@@ -68,12 +68,9 @@ public class Display_Module  implements Runnable {
 			
 			while(!Thread.currentThread().isInterrupted()){
 				
-				if ( !messageList.isEmpty()) {
-					
-					
-					vmngr.display_Message(messageList.get(messageIndex).message  );
+				if (!messageList.isEmpty()) {
+					vmngr.Display_Message(messageList.get(messageIndex).message  );
 					Thread.sleep( messageList.get(messageIndex).time );					//Replace with time delay indicated in requirements
-					
 					
 					messageIndex++;
 				}

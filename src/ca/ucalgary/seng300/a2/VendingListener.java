@@ -89,6 +89,7 @@ public class VendingListener implements CoinSlotListener, PushButtonListener, Co
 				//TODO Respond to the pop rack being empty
 			} catch (CapacityExceededException e){
 				mgr.addLog("User Could not purchase " + mgr.getPopKindName(bIndex) + " becasue the deivery chute is full of change");
+				mgr.setOutOfOrder();
 				//TODO Respond to the delivery chute being full.
 			}
 		}		
