@@ -22,84 +22,113 @@ import java.util.Vector;
  * @since	2.0
  */
 
-
-/**
-
- */
-
 public class DisplayModule  implements Runnable {
-	private static DisplayModule DisplayM;
-	private static VendingManager vmngr;
 	
+	/**
+	 * Self-referential variable. (Singleton)
+	 */
+	private static DisplayModule displayModule;
+	
+	/**
+	 * Reference to manager of this module. (Hardware calls, other module calls, etc.)
+	 */
+	private static VendingManager mgr;
+	
+	/**
+	 * A list of messages to display/modify.
+	 */
 	private Vector<TimeMessage> messageList = new <TimeMessage>Vector() ;
-	private int messageIndex =0;
 	
+	/**
+	 * The message at a particular index of a list.
+	 */
+	private int messageIndex = 0;
+	
+	/**
+	 * A small structure containing a time-message pair.
+	 */
 	private class TimeMessage {
 		public int time;
 		public String message;
 		
 		public  TimeMessage(String MessageIn, int timeIn ) {
-			
 			message = MessageIn;
 			time = timeIn;
-			
 		}
-
 	}
 
-	private DisplayModule(VendingManager host){		
-		vmngr = host;
-	}
-	
+	/**
+	 * Forces the existing singleton instance to be replaced.
+	 * Called by VendingManager during its instantiation.
+	 * 
+	 * @param manager	The VendingManager assigning itself this class.
+	 */
 	public static void initialize(VendingManager host){
-		DisplayM = new DisplayModule(host);
+		displayModule = new DisplayModule(host);
 	}
 	
+	/**
+	 * Assigns DisplayModule.java a (the) manager.
+	 * 
+	 * @param host	The VendingManager to call upon for hardware interactions.
+	 */
+	private DisplayModule(VendingManager host){		
+		mgr = host;
+	}
+	
+	/**
+	 * Provides access to the singleton instance for package-internal classes. (Singleton)
+	 * @return The single instance of DisplayModule.
+	 */
 	public static DisplayModule getInstance(){
-		return DisplayM;
+		return displayModule;
 	}
-	
-	public void addLoopMessage (String Str, int time) {
-		
-		  TimeMessage TM = new TimeMessage( Str, time);
-		   
-		messageList.addElement(TM);
-		
-	}
-	public void addMessage(String str) {
-		
-		vmngr.Display_Message(str);
-	}
-	
-	
-	public void clearList( ) {
-		
-		messageList.clear();
-		
-	}
-	
 
-	
+	/**
+	 * Adds a message to loop through while the machine is inactive.
+	 * @param Str	The message to be displayed.
+	 * @param time	The time the given message should be displayed for.
+	 */
+	public void addLoopMessage (String Str, int time) {
+		TimeMessage TM = new TimeMessage(Str, time);
+		messageList.addElement(TM);
+	}
+
+	/**
+	 * Adds a display message.
+	 * @param str	The message to be passed along.
+	 */
+	public void addMessage(String str) {
+		mgr.Display_Message(str);
+	}
+
+	/**
+	 * Resets the list of messages to loop through.
+	 */
+	public void clearList( ) {
+		messageList.clear();
+	}
+
+	/**
+	 * Begins iterating through the message list automatically when called.
+	 */
 	@Override
 	public void run(){
 		try{ 
-			
 			while(!Thread.currentThread().isInterrupted()){
-				
 				if (!messageList.isEmpty()) {
-					vmngr.Display_Message(messageList.get(messageIndex).message  );
-					Thread.sleep( messageList.get(messageIndex).time );					//Replace with time delay indicated in requirements
+					mgr.Display_Message(messageList.get(messageIndex).message  );
+					Thread.sleep( messageList.get(messageIndex).time );
 					
 					messageIndex++;
 				}
 				if ( messageIndex >= messageList.size()) messageIndex =0;
-				
 			}
-			
 			// Message index of 0.
-		}catch(InterruptedException e){
-				Thread.currentThread().interrupt();
-				return;
+		}
+		catch(InterruptedException e){
+			Thread.currentThread().interrupt();
+			return;
 		}
 	}
 }
