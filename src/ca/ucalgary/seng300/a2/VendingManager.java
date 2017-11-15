@@ -217,7 +217,7 @@ public class VendingManager {
 	int getPopCanRackSize(int index){
 		return vm.getPopCanRack(index).size(); 
 	}
-	void dispencePopCanRack(int index) throws DisabledException, EmptyException, CapacityExceededException {
+	void dispensePopCanRack(int index) throws DisabledException, EmptyException, CapacityExceededException {
 		getPopCanRack(index).dispensePopCan();
 	
 	}

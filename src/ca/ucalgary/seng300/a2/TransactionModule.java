@@ -54,7 +54,7 @@ public class TransactionModule {
 			if (canCount > 0){
 				
 				
-				mngr.dispencePopCanRack(popIndex);
+				mngr.dispensePopCanRack(popIndex);
 				int remaining = mngr.getCredit() - cost ;
 				if(remaining > 0) { // if true there is change to give
 					ArrayList<Integer> returnList = mngr.getCoinsToReturn(remaining); // get the remaining
