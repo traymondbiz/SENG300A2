@@ -33,9 +33,7 @@ public class Display_Module  implements Runnable {
 	public void add_loopMessage (String Str, int time) {
 		
 		  TimeMessage TM = new TimeMessage( Str, time);
-		  System.out.println(TM.message);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
-		  System.out.println(TM.time);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
-		     
+		   
 		messageList.addElement(TM);
 		
 	}

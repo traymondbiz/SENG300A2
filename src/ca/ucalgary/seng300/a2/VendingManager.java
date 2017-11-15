@@ -71,7 +71,7 @@ public class VendingManager {
 		
 		
 	
-		DisplayM.add_loopMessage("Hi there!&",5000) ;
+		DisplayM.add_loopMessage("Hi there!",5000) ;
 		DisplayM.add_loopMessage("",10000) ;
 		
 		
