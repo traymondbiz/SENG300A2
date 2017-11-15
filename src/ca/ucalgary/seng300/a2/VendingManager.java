@@ -1,5 +1,6 @@
 package ca.ucalgary.seng300.a2;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lsmr.vending.hardware.*;
@@ -313,8 +314,8 @@ public class VendingManager {
 	public void addLog(String msg) {
 		try {
 			logger.logMessage(msg);
-		}catch(Exception e){
-			
+		}catch(IOException e){
+			mgr.setOutOfOrder();
 		}
 		
 	}
@@ -332,8 +333,12 @@ public class VendingManager {
 		try {
 		CoinRack temp = getCoinRackForCoinKind(value);
 		temp.releaseCoin();
-		}catch(Exception e) {
-			
+		}catch(CapacityExceededException e) {
+			mgr.setOutOfOrder(); //capacity execed cannot recover 
+		}catch(EmptyException e) {
+			//can recover from here since it tried to release no coins
+		}catch(DisabledException e) {
+			mgr.setOutOfOrder();
 		}
 	}
 	/**
@@ -348,5 +353,8 @@ public class VendingManager {
 	}
 	public void updateExactChangeLightState() {
 		changeModule.updateExactChangeLigthState();
+	}
+	public void setOutOfOrder() {
+		getOutOfOrderLight().activate();
 	}
 }

@@ -83,6 +83,7 @@ public class VendingListener implements CoinSlotListener, PushButtonListener, Co
 			} catch(DisabledException e){
 				//TODO Respond to the system being disabled
 				mgr.addLog("User Could not purchase " + mgr.getPopKindName(bIndex) + " since the system is disabled");
+				mgr.setOutOfOrder(); // set the out of order light
 			} catch (EmptyException e){
 				mgr.addLog("User Could not purchase " + mgr.getPopKindName(bIndex) + " becasue there is none in the machine.");
 				//TODO Respond to the pop rack being empty
@@ -122,4 +123,6 @@ public class VendingListener implements CoinSlotListener, PushButtonListener, Co
 	public static String returnMsg(){
 		return message;
 	}
+	
+	
 }
