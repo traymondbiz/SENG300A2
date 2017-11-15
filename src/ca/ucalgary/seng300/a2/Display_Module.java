@@ -17,8 +17,22 @@ public class Display_Module  implements Runnable {
 	private Vector<TimeMessage> messageList = new <TimeMessage>Vector() ;
 	private int messageIndex =0;
 	
+	private class TimeMessage {
+		public int time;
+		public String message;
+		
+		public  TimeMessage(String MessageIn, int timeIn ) {
+			
+			message = MessageIn;
+			time = timeIn;
+			
+		}
+
+	}
 	
-	public void add_loopMessage (TimeMessage TM) {
+	public void add_loopMessage (String Str, int time) {
+		
+		  TimeMessage TM = new TimeMessage( Str, time);
 		  System.out.println(TM.message);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
 		  System.out.println(TM.time);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
 		     
@@ -52,7 +66,7 @@ public class Display_Module  implements Runnable {
 	
 	@Override
 	public void run(){
-		try{
+		try{ 
 			
 			while(!Thread.currentThread().isInterrupted()){
 				
