@@ -6,25 +6,45 @@ import org.lsmr.vending.*;
 import org.lsmr.vending.hardware.*;
 
 /**
+ * Software Engineering 300 - Group Assignment 2
+ * VendingListener.java
+ * 
  * This class is registered by VendingManager with hardware classes to listen for hardware
  * events and perform first-pass checks and error-handling for them. Most "heavy-lifting" 
  * is completed within VendingManager.
  * 
- * ACCESS: Only listener methods are public access. 
+ * Id Input/Output Technology and Solutions (Group 2)
+ * @author Raymond Tran 			(30028473)
+ * @author Hooman Khosravi 			(30044760)
+ * @author Christopher Smith 		(10140988)
+ * @author Mengxi Cheng 			(10151992)
+ * @author Zachary Metz 			(30001506)
+ * @author Abdul Basit 				(30033896)
  * 
- * HANDLED EVENTS: 	SelectionButtonListener: pressed() 
- *   				CoinSlotListener: ValidCoinInserted()
- *
- * @author Raymond Tran (30028473)
- * @author Thomas Coderre (10169277)
- * @author Thobthai Chulpongsatorn (30005238)
- *
+ * @version	2.0
+ * @since	1.0
  */
+
 public class VendingListener implements CoinSlotListener, PushButtonListener, CoinReturnListener, DisplayListener {
+	
+	/**
+	 * Self-referential variable. (Singleton)
+	 */
 	private static VendingListener listener;
+	
+	/**
+	 * Reference to manager of this module. (Hardware calls, other module calls, etc.)
+	 */
 	private static VendingManager mgr;
+	
+	/**
+	 * String representing the current message on display.
+	 */
 	private static String message = null;
 	
+	/**
+	 * Private constructor to prevent additional creations. (Singleton)
+	 */
 	private VendingListener (){}
 	
 	/**
@@ -76,21 +96,20 @@ public class VendingListener implements CoinSlotListener, PushButtonListener, Co
 				//Assumes a 1-to-1, strictly ordered mapping betwee
 				mgr.buy(bIndex); 
 				mgr.addLog(mgr.getPopKindName(bIndex)+" button pressed by user with: "+ Integer.toString(mgr.getCredit()));
-			} catch(InsufficientFundsException e){
-				//TODO Respond to insufficient funds by printing message to display.
-				// Should use e.toString().
+			} 
+			catch(InsufficientFundsException e){
 				mgr.addLog("User Could not purchase " + mgr.getPopKindName(bIndex) + ". " + Integer.toString(mgr.getPopKindCost(bIndex)-mgr.getCredit()) + " cents missing from credit.");
-			} catch(DisabledException e){
-				//TODO Respond to the system being disabled
+			} 
+			catch(DisabledException e){
 				mgr.addLog("User Could not purchase " + mgr.getPopKindName(bIndex) + " since the system is disabled");
 				mgr.setOutOfOrder(); // set the out of order light
-			} catch (EmptyException e){
+			} 
+			catch (EmptyException e){
 				mgr.addLog("User Could not purchase " + mgr.getPopKindName(bIndex) + " becasue there is none in the machine.");
-				//TODO Respond to the pop rack being empty
-			} catch (CapacityExceededException e){
+			} 
+			catch (CapacityExceededException e){
 				mgr.addLog("User Could not purchase " + mgr.getPopKindName(bIndex) + " becasue the deivery chute is full of change");
 				mgr.setOutOfOrder();
-				//TODO Respond to the delivery chute being full.
 			}
 		}		
 	}
@@ -108,6 +127,9 @@ public class VendingListener implements CoinSlotListener, PushButtonListener, Co
 		
 	}
 
+	/**
+	 * Logs the number of coins returned to the user of the machine.
+	 */
 	@Override
 	public void coinsDelivered(CoinReturn coinReturn, Coin[] coins){
 		mgr.resetDisplay();
@@ -116,14 +138,19 @@ public class VendingListener implements CoinSlotListener, PushButtonListener, Co
 		
 	}
 	
+	/**
+	 * Changes the current message displayed on-screen.
+	 */
 	@Override
 	public void messageChange(Display display, String oldMessage, String newMessage) {
 		message = newMessage;
 	}
 
+	/**
+	 * Retrieve the current message.
+	 * @return	the current message displayed.
+	 */
 	public static String returnMsg(){
 		return message;
 	}
-	
-	
 }

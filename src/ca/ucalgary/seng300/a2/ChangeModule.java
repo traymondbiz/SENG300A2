@@ -115,7 +115,7 @@ public class ChangeModule {
 	 * algorithm to determine whether the 'Exact Change Light' should be on or off.
 	 */
 	public void updateExactChangeLight() {
-		if(checkChangeLight(mgr.getValidCoinsArray(),mgr.getCount())){
+		if(checkChangeLight(mgr.getValidCoinsArray(),mgr.getCoinCount())){
 			// Can make change, deactivate light.
 			mgr.deactivateExactChangeLight();
 		}else {

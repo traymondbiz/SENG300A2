@@ -99,7 +99,7 @@ public class DisplayModule  implements Runnable {
 	 * @param str	The message to be passed along.
 	 */
 	public void addMessage(String str) {
-		mgr.Display_Message(str);
+		mgr.displayMessage(str);
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class DisplayModule  implements Runnable {
 		try{ 
 			while(!Thread.currentThread().isInterrupted()){
 				if (!messageList.isEmpty()) {
-					mgr.Display_Message(messageList.get(messageIndex).message  );
+					mgr.displayMessage(messageList.get(messageIndex).message  );
 					Thread.sleep( messageList.get(messageIndex).time );
 					
 					messageIndex++;

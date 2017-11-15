@@ -9,6 +9,8 @@ import org.lsmr.vending.hardware.*;
 
 import ca.ucalgary.seng300.a2.*;
 
+// THIS SUITE IS CURRENTLY DEPRECATED.
+
 /**
  * A test suite designed to verify the implementation of the hardware logic classes 
  * VendingManager and VendingListener built for SENG 300's Group Assignment 1.

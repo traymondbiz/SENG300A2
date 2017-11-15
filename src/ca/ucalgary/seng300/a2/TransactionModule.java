@@ -62,7 +62,7 @@ public class TransactionModule {
     	mgr.setCredit( added + mgr.getCredit()  );
         if(mgr.getCredit() != 0) {
             mgr.getLoopingThread2().interrupt();
-            mgr.add_message("Credit: " + Integer.toString(mgr.getCredit()));
+            mgr.addMessage("Credit: " + Integer.toString(mgr.getCredit()));
         } 
         else {
         	mgr.resetDisplay();
