@@ -67,7 +67,7 @@ public class TransactionModule {
 						returnList.remove(0);
 					}
 				}
-				mngr.setCredit(0); //all change has been given
+				mngr.setCredit(remaining); //all change has been given
 				mngr.storeCoinsInStorage();
 				
 				System.out.println(mngr.getCredit());		// For debugging
