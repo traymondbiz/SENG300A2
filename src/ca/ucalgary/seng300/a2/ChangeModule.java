@@ -285,4 +285,31 @@ public class ChangeModule {
 		
 		return i;
 	}
+	public ArrayList<Integer> getCoinsToReturn(int change, int[] validCoins, int[] coinCount) {
+		
+		ArrayList<Integer> return_list  = new ArrayList<Integer>();
+		qoinSort(0, validCoins.length -1);
+		int[] numOfCoins = coinCount.clone();
+		
+		// Indexes start at 0.
+		int i = validCoins.length - 1;
+		
+		while(i >= 0) {
+			// In descending order from largest coin to smallest,
+			// While that particular coin is still 'in-stock' in machine AND
+			// there is still change that machine COULD return, perform the following:
+			while(numOfCoins[i] > 0 && change >= validCoins[i] ) {
+				change -= validCoins[i];
+				numOfCoins[i] --;
+				return_list.add(validCoins[i]);
+				// Remaining change that the machine must produce.
+				System.out.printf("Remainder: %3d\n", change);
+				
+			}
+			
+            // Move to the next coin to perform operation.
+			i--;
+		}
+		return return_list;
+	}
 }
