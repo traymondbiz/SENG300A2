@@ -349,4 +349,7 @@ public class VendingManager {
 	public void updateExactChangeLightState() {
 		changeModule.updateExactChangeLigthState();
 	}
+	public void setOutOfOrder() {
+		getOutOfOrderLight().activate();
+	}
 }
