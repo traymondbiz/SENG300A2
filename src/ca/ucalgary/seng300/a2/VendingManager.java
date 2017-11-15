@@ -34,7 +34,7 @@ public class VendingManager {
 	private static ChangeModule changeModule;
 	private static LoggingModule logger;
 	private static VendingMachine vm;
-	private static Display_Module DisplayM;
+	private static DisplayModule DisplayM;
 	private static TransactionModule TransactionM;
 	private static Thread noCreditThread2;
 	private int credit = 0;
@@ -46,12 +46,12 @@ public class VendingManager {
 	private VendingManager(){
 		VendingListener.initialize(this);
 		ChangeModule.initialize(this);
-		Display_Module.initialize(this);
+		DisplayModule.initialize(this);
 		TransactionModule.initialize(this);
 		listener = VendingListener.getInstance();
 		changeModule = ChangeModule.getInstance();
 		TransactionM = TransactionModule.getInstance();
-		DisplayM =Display_Module.getInstance();
+		DisplayM =DisplayModule.getInstance();
 	}
 	
 	/**
@@ -68,12 +68,12 @@ public class VendingManager {
 		
 		
 		
-		noCreditThread2 = new Thread(Display_Module.getInstance());
+		noCreditThread2 = new Thread(DisplayModule.getInstance());
 		
 		
 	
-		DisplayM.add_loopMessage("Hi there!",5000) ;
-		DisplayM.add_loopMessage("",10000) ;
+		DisplayM.addLoopMessage("Hi there!",5000) ;
+		DisplayM.addLoopMessage("",10000) ;
 		
 		
 		//noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
@@ -271,7 +271,7 @@ public class VendingManager {
 		
 	}
 	public void add_message(String str) {
-		DisplayM.add_message(str);
+		DisplayM.addMessage(str);
 	}
 
     /**
@@ -281,7 +281,7 @@ public class VendingManager {
 
 	
 	void resetDisplay() {
-        noCreditThread2 = new Thread(Display_Module.getInstance());
+        noCreditThread2 = new Thread(DisplayModule.getInstance());
         noCreditThread2.start();     //Starts the looping display message when vm is turned on (created)
 	}
 	
@@ -345,14 +345,14 @@ public class VendingManager {
 	 * Call this method to update the state of the exact change light and does
 	 * not return anything
 	 */
-	public void acitvateExactChangeLight() {
+	public void activateExactChangeLight() {
 		getExactChangeLight().activate();
 	}
 	public void deactivateExactChangeLight() {
 		getExactChangeLight().deactivate();
 	}
 	public void updateExactChangeLightState() {
-		changeModule.updateExactChangeLigthState();
+		changeModule.updateExactChangeLight();
 	}
 	public void setOutOfOrder() {
 		getOutOfOrderLight().activate();

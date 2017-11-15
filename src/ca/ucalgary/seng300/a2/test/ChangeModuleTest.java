@@ -67,7 +67,7 @@ public class ChangeModuleTest {
 	public void testNotExactChange(){
 		configureVend(170);
 		cm = ChangeModule.getInstance();
-		cm.updateExactChangeLigthState();
+		cm.updateExactChangeLight();
 		boolean expected = cm.checkChangeLight(validCoins, coinCount);
 		assertEquals(expected, false);
 	}
@@ -79,7 +79,7 @@ public class ChangeModuleTest {
 	public void testExactChange(){
 		configureVend(200);
 		cm = ChangeModule.getInstance();
-		cm.updateExactChangeLigthState();
+		cm.updateExactChangeLight();
 		boolean expected = cm.checkChangeLight(validCoins, coinCount);
 		assertEquals(expected, true);
 	}
@@ -91,7 +91,7 @@ public class ChangeModuleTest {
 	public void testExactChange2(){
 		configureVend(150);
 		cm = ChangeModule.getInstance();
-		cm.updateExactChangeLigthState();
+		cm.updateExactChangeLight();
 		boolean expected = cm.checkChangeLight(validCoins, coinCount);
 		assertEquals(expected, true);
 	}
@@ -103,7 +103,7 @@ public class ChangeModuleTest {
 	public void testCoinsToReturn(){
 		configureVend(150);
 		cm = ChangeModule.getInstance();
-		cm.updateExactChangeLigthState();
+		cm.updateExactChangeLight();
 		ArrayList<Integer> returnList = new ArrayList<Integer>();
 		returnList = cm.getCoinsToReturn(10, validCoins, coinCount);
 		ArrayList<Integer> expectedReturn = new ArrayList<Integer>();
