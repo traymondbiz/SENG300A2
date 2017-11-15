@@ -56,7 +56,7 @@ public class TransactionModule {
 				
 				mngr.setCredit( mngr.getCredit() - cost  );//Will only be performed if the pop is successfully dispensed.
 
-				 mngr.getPopCanRack(popIndex).dispensePopCan();
+				mngr.dispencePopCanRack(popIndex);
 				
 				mngr.storeCoinsInStorage();
 				
