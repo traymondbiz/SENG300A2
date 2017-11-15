@@ -70,8 +70,7 @@ public class TransactionModule {
 				mngr.setCredit(remaining); //all change has been given
 				mngr.storeCoinsInStorage();
 				mngr.updateExactChangeLightState();
-				System.out.println(mngr.getCredit());		// For debugging
-				mngr.addCredit(0);
+				mngr.addCredit(0); //update screen with adding 0 credit
 			}
 		}
 		else {
