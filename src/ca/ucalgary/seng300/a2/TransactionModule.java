@@ -54,7 +54,7 @@ public class TransactionModule {
 			int canCount = mngr.getPopCanRackSize(popIndex); //Bad method name; returns # of cans stored
 			if (canCount > 0){
 				
-				mngr.setCredit( mngr.getCredit() - cost  );//Will only be performed if the pop is successfully dispensed.
+				mngr.ReduceCredit(cost  );//Will only be performed if the pop is successfully dispensed.
 
 				mngr.dispencePopCanRack(popIndex);
 				
