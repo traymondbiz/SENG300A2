@@ -34,7 +34,6 @@ public class TransactionModule {
             mngr.add_message("Credit: " + Integer.toString(mngr.getCredit()));
             
 
-            System.out.println("Credit: " + mngr.getCredit());  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
         } 
         else {
         	mngr.resetDisplay();
