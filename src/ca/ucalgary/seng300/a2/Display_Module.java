@@ -81,10 +81,10 @@ public class Display_Module  implements Runnable {
 				
 			}
 			
-			messageIndex = 0;
-			}catch(InterruptedException e){
+//			messageIndex = 0;
+		}catch(InterruptedException e){
 				Thread.currentThread().interrupt();
 				return;
-			}
+		}
 	}
 }

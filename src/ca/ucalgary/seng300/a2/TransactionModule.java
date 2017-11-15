@@ -25,9 +25,6 @@ public class TransactionModule {
 	
 	
     public void addCredit(int added){
-//      if(credit == 0){
-//          mgr.getLoopingThread().interrupt();
-//      }
     	mngr.setCredit( added + mngr.getCredit()  );
         
         System.out.println(mngr.getCredit());     // For debugging
