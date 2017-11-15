@@ -3,22 +3,28 @@ package ca.ucalgary.seng300.a2;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Date;
-
-import org.lsmr.vending.hardware.AbstractHardwareListener;
-import org.lsmr.vending.hardware.VendingMachine;
 
 public class LoggingModule {
 	private static PrintWriter writer;
-	private static LoggingModule logger;
 
-//	public static void main(String[] args) throws IOException  {
-//		// TODO Auto-generated method stub
-//		logger = new LoggingModule();
-//		logger.printToFile("this");
-//	}
-	
+	/**
+	 * Software Engineering 300 - Group Assignment 2
+	 * LoggingModule.java
+	 * 
+	 * Records messages that are handed to it into a text file.
+	 * 
+	 * Id Input/Output Technology and Solutions (Group 2)
+	 * @author Raymond Tran 			(30028473)
+	 * @author Hooman Khosravi 			(30044760)
+	 * @author Christopher Smith 		(10140988)
+	 * @author Mengxi Cheng 			(10151992)
+	 * @author Zachary Metz 			(30001506)
+	 * @author Abdul Basit 				(30033896)
+	 * 
+	 * @version	2.0
+	 * @since	2.0
+	 */	
 	
 	
 	/* Reference material
@@ -26,32 +32,70 @@ public class LoggingModule {
 	 * https://stackoverflow.com/questions/11496700/how-to-use-printwriter-and-file-classes-in-java
 	 * https://stackoverflow.com/questions/2885173/how-do-i-create-a-file-and-write-to-it-in-java
 	 */
-	
+
+	/**
+	 * Self-referential variable. (Singleton)
+	 */
+	private static LoggingModule loggingModule;
+
+	/**
+	 * Reference to manager of this module. (Hardware calls, other module calls, etc.)
+	 */
+	private static VendingManager mgr;
 	
 	/**
-	 * writes the log to the appropriate log file by day 
+	 * Private constructor to prevent additional creations. (Singleton)
 	 */
-	public static void initialize() {
-			logger = new LoggingModule();
-			
+	private LoggingModule() {}
+	
+	/**
+	 * Forces the existing singleton instance to be replaced.
+	 * Called by VendingManager during its instantiation.
+	 * 
+	 * @param manager	The VendingManager assigning itself this class.
+	 */
+	public static void initialize(VendingManager manager) {
+		if (manager != null) {
+			mgr = manager;
+			loggingModule = new LoggingModule();
+		}
 	}
 
-		/**
-		 * Provides access to the singleton instance for package-internal classes.
-		 * @return The singleton LoggingModule instance  
-		 */
-	
+	/**
+	 * Provides access to the singleton instance for package-internal classes. (Singleton)
+	 * @return The single instance of the LoggingModule.
+	 */
 	public static LoggingModule getInstance() {
-		return logger;
+		return loggingModule;
 	}
+
+	/**
+	 * Forces the existing singleton instance to be replaced.
+	 * Called by VendingManager during its instantiation.
+	 * 
+	 * @param manager	The VendingManager assigning itself this class.
+	 */
+	public static void initialize() {
+			loggingModule = new LoggingModule();
+	}
+
+	/**
+	 * Records a given message into the text file.
+	 * @param msg			The message to be written.
+	 * @throws IOException	If an unknown I/O error occurs.
+	 */
 	public void logMessage(String msg) throws IOException {
-		logger.printToFile(msg);
+		loggingModule.printToFile(msg);
 	}
+
+	/**
+	 * Creates a new file, or continues editing the currently existing one.
+	 * 
+	 * @param messageToLog	The message to be written. (Timestamped)
+	 * @throws IOException	if an unknown I/O error occurs.
+	 */
 	private void printToFile(String messageToLog) throws IOException {
 		Date currentDate = new Date();
-		
-		//Need to strip the date object to only include the year, month, and day for filename
-//		File currentFileDir = new File(currentDate.toString() + ".txt");
 		File currentFileDir = new File("event log" + ".txt");
 		
 		if(!currentFileDir.isFile()) {

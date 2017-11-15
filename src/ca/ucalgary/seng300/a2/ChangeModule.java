@@ -6,11 +6,9 @@ import java.util.ArrayList;
  * Software Engineering 300 - Group Assignment 2
  * ChangeModule.java
  * 
- * An algorithm that determines how excess change a given vending machine would
- * potentially have to return. This is output in the form of a list.
- * For example, a list [5, 25, 30, 50] would mean the Vending Machine has to be able
- * to return 5, 25, 30, and 50 cents on a given transaction. If one of these is not
- * possible, the exact change light is turned on.
+ * Performs calculations to determine all possible change denominations that may have to been returned,
+ * and if the current machine's resources allows it to. Allows changes the 'Exact Change Light' accordingly
+ * based on the above capabilities. Relies on a sorted array of valid coins, and thus a sorting algorithm has been included.
  * 
  * Furthermore, due to the logic relying on mathematics, any currency-pop combination.
  * is compatible provided that the appropriate lists are sent of ChangeModule to be calculated on.
