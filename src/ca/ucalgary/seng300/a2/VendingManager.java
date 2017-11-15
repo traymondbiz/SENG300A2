@@ -319,16 +319,34 @@ public class VendingManager {
 		
 	}
 //^^^======================VENDING LOGIC END=======================^^^
-
+	/**
+	 * wrapper method for change module so other modules can interact with it
+	 */
 	public ArrayList<Integer> getCoinsToReturn(int remaining) {
 		return changeModule.getCoinsToReturn(remaining, getValidCoinsArray(), getCount());
 	}
+	/**
+	 * This method will dispense a coin that you specify
+	 */
 	public void dispenseCoin(int value) {
 		try {
-		CoinRack temp = vm.getCoinRackForCoinKind(value);
+		CoinRack temp = getCoinRackForCoinKind(value);
 		temp.releaseCoin();
 		}catch(Exception e) {
 			
+		}
+	}
+	/**
+	 * Call this method to update the state of the exact change light and does
+	 * not return anything
+	 */
+	public void updateExactChangeLightState() {
+		if(changeModule.checkChangeLight(getValidCoinsArray(), getCount())) {
+			//turn the light off because we can make change
+			getExactChangeLight().deactivate();
+		}else {
+			//turn the light on 
+			getExactChangeLight().activate();
 		}
 	}
 }

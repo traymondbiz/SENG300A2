@@ -120,8 +120,10 @@ public class ChangeModule {
 //			System.out.printf("[Info] Result: %b \n\n", canMakeChange(change, validCoins, coinCount));
 //		}	
 //	}
-	
-	private boolean checkChangeLight( int[] validCoins, int[] coinCount) {
+	public void updateChangeLight() {
+		
+	}
+	public boolean checkChangeLight( int[] validCoins, int[] coinCount) {
 		ArrayList<Integer> valuesOfChange = getPossibleChangeValues(validCoins, popPrices);
 		for(int change : valuesOfChange) {
 			// If at some point, we are NOT able to make change for a specific
