@@ -17,7 +17,7 @@ import org.lsmr.vending.hardware.*;
  * 
  * This class is used to test the functionality of the ChangeModule class.
  * 
- * 90.4% code coverage was achieved in ChangeModule.
+ * 100.0% code coverage was achieved in ChangeModule.
  * 
  * Id Input/Output Technology and Solutions (Group 2)
  * @author Raymond Tran 			(30028473)
@@ -33,8 +33,8 @@ import org.lsmr.vending.hardware.*;
 public class ChangeModuleTest {	
 	private ChangeModule cm;
 	private VendingMachine vend;
-	private int[] validCoins = {1, 10, 5, 25, 100, 200};
-	private int[] coinCount = {0, 0, 1, 3, 0, 0};
+	private int[] validCoins;
+	private int[] coinCount = {0, 10, 1, 3, 5, 0};
 	
 	/**
 	 * A method to prepare a vending machine to the basic specifications outlined by the Client 
@@ -48,7 +48,7 @@ public class ChangeModuleTest {
 	 */
 	@Before
 	public void setup(){
-    	int[] coinKind = {1, 5, 10, 25, 100, 200};
+    	int[] coinKind = {200, 1, 25, 10, 5, 100};
     	int selectionButtonCount = 6;
     	int coinRackCapacity = 200;	
     	int popCanRackCapacity = 10;
@@ -56,6 +56,8 @@ public class ChangeModuleTest {
     	int deliveryChuteCapacity = 5;
     	int coinReturnCapacity = 5;
     	vend = new VendingMachine(coinKind, selectionButtonCount, coinRackCapacity, popCanRackCapacity, receptacleCapacity, deliveryChuteCapacity, coinReturnCapacity);
+    	
+    	validCoins = coinKind;
 	}
 	
 	/**
@@ -65,6 +67,7 @@ public class ChangeModuleTest {
 	public void testNotExactChange(){
 		configureVend(170);
 		cm = ChangeModule.getInstance();
+		cm.updateExactChangeLight();
 		boolean expected = cm.checkChangeLight(validCoins, coinCount);
 		assertEquals(expected, false);
 	}
@@ -76,6 +79,7 @@ public class ChangeModuleTest {
 	public void testExactChange(){
 		configureVend(200);
 		cm = ChangeModule.getInstance();
+		cm.updateExactChangeLight();
 		boolean expected = cm.checkChangeLight(validCoins, coinCount);
 		assertEquals(expected, true);
 	}
@@ -87,9 +91,26 @@ public class ChangeModuleTest {
 	public void testExactChange2(){
 		configureVend(150);
 		cm = ChangeModule.getInstance();
+		cm.updateExactChangeLight();
 		boolean expected = cm.checkChangeLight(validCoins, coinCount);
 		assertEquals(expected, true);
 	}
+
+	/**
+	 * Ensure the getCoinsToReturn returns the correct available coins for returns.
+	 */
+	@Test
+	public void testCoinsToReturn(){
+		configureVend(150);
+		cm = ChangeModule.getInstance();
+		cm.updateExactChangeLight();
+		ArrayList<Integer> returnList = new ArrayList<Integer>();
+		returnList = cm.getCoinsToReturn(10, validCoins, coinCount);
+		ArrayList<Integer> expectedReturn = new ArrayList<Integer>();
+		expectedReturn.add(5); expectedReturn.add(5);
+		assertEquals(expectedReturn, returnList);
+	}
+	
 	
 	/**
 	 * Method to destroy the vending machine and change module after each test in order to not affect the following test.

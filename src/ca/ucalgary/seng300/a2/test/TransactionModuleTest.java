@@ -12,11 +12,11 @@ import ca.ucalgary.seng300.a2.*;
 
 /**
  * Software Engineering 300 - Group Assignment 2
- * TestCases.java
+ * TransactionModuleTest.java
  * 
- * This class is used to test the functionality of the VendingManager class.
+ * This class is used to test the functionality of the TransactionModule class.
  * 
- * 82.7% code coverage was achieved in VendingManager.
+ * 87.0% code coverage was achieved in TransactionModule.
  * 
  * Id Input/Output Technology and Solutions (Group 2)
  * @author Raymond Tran 			(30028473)
@@ -29,7 +29,7 @@ import ca.ucalgary.seng300.a2.*;
  * @version	2.0
  * @since	2.0
  */
-public class TestCases {
+public class TransactionModuleTest {
 	private VendingMachine vend;
 
 	/**
@@ -72,45 +72,10 @@ public class TestCases {
 		for (int i = 0; i < 6; i++) {
 			popCanCosts.add(200);
 		}
+		
 		vend.configure(popCanNames, popCanCosts);
 	}
 	
-	/**
-	 * Ensures the display device displays the "Hi there!" message within the first 5 seconds if the machine contains no credit.
-	 * 
-	 * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
-	 */
-	@Test
-	public void testHiThere() throws InterruptedException{
-		VendingManager.initialize(vend);
-		Thread.sleep(1000);
-		assertEquals(VendingListener.returnMsg(), "Hi there!");
-	}
-	
-	/**
-	 * Ensures the display device erases the "Hi there!" message during the following 10 seconds if the machine contains no credit.
-	 * 
-	 * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
-	 */
-	@Test
-	public void testHiThereErased() throws InterruptedException{
-		VendingManager.initialize(vend);
-		Thread.sleep(6000);
-		assertEquals(VendingListener.returnMsg(), "");
-	}
-	
-	/**
-	 * Ensures the display device repeats the message display cycle every 15 seconds if the machine contains no credit.
-	 * 
-	 * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
-	 */
-	@Test
-	public void testMessageCycle() throws InterruptedException{
-		VendingManager.initialize(vend);
-		Thread.sleep(16000);
-		assertEquals(VendingListener.returnMsg(), "Hi there!");
-	}
-
 	/**
 	 * Ensures the display device displays the message "Hi there!" when a purchase happens
 	 * and the updated credit is reset to zero.
@@ -130,7 +95,7 @@ public class TestCases {
 			assertTrue(false);
 		}
 	}
-	
+
 	/**
 	 * Ensures the display device displays the message "Credit: " and the amount of updated credit when a purchase happens
 	 * and the updated credit is non-zero.
@@ -163,17 +128,6 @@ public class TestCases {
 			assertTrue(true);
 		}
 	}
-	
-	/** 
-	 * Ensures the display device displays the message "Credit: " and the amount of credit when the user enters valid coins.
-	 */
-	@Test
-	public void testCreditChange(){
-		VendingManager.initialize(vend);
-		VendingManager vm = VendingManager.getInstance();
-		vm.addCredit(200);
-		assertEquals(VendingListener.returnMsg(), "Credit: 200");
-	} 
 	
 	/**
 	 * Method to destroy the vending machine and change module after each test in order to not affect the following test.

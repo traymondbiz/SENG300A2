@@ -1,5 +1,6 @@
 package ca.ucalgary.seng300.a2;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lsmr.vending.hardware.*;
@@ -31,9 +32,11 @@ public class VendingManager {
 	private static VendingManager mgr;
 	private static VendingListener listener;
 	private static ChangeModule changeModule;
+	private static LoggingModule loggingModule;
 	private static VendingMachine vm;
-	private static LoopingThread loopingT;
-	private static Thread noCreditThread;
+	private static DisplayModule displayModule;
+	private static TransactionModule transactionModule;
+	private static Thread noCreditThread2;
 	private int credit = 0;
 	
 	/**
@@ -43,8 +46,12 @@ public class VendingManager {
 	private VendingManager(){
 		VendingListener.initialize(this);
 		ChangeModule.initialize(this);
+		DisplayModule.initialize(this);
+		TransactionModule.initialize(this);
 		listener = VendingListener.getInstance();
 		changeModule = ChangeModule.getInstance();
+		transactionModule = TransactionModule.getInstance();
+		displayModule =DisplayModule.getInstance();
 	}
 	
 	/**
@@ -56,12 +63,16 @@ public class VendingManager {
 	public static void initialize(VendingMachine host){
 		mgr = new VendingManager(); 
 		vm = host;
+		loggingModule = LoggingModule.getInstance();
 		mgr.registerListeners();
-		LoopingThread.initialize(vm);
-		noCreditThread = new Thread(LoopingThread.getInstance());
-		noCreditThread.start();		//Starts the looping display message when vm is turned on (created)
-		mgr.setModule();			// Sets instance of ChangeModule's validCoins, coinCount, and popPrices arrays.
-		changeModule.checkChangeLight(mgr.getValidCoinsArray(), mgr.getCoinCountArray());
+		
+		noCreditThread2 = new Thread(DisplayModule.getInstance());
+
+		displayModule.addLoopMessage("Hi there!",5000) ;
+		displayModule.addLoopMessage("",10000) ;
+		
+		noCreditThread2.start();
+		mgr.setModule();
 	}
 	
 	
@@ -73,7 +84,7 @@ public class VendingManager {
 		return mgr;
 	}
 	
-	/*
+	/**
 	 * Registers the previously instantiated listener(s) with the 
 	 * appropriate hardware.
 	 */
@@ -94,57 +105,57 @@ public class VendingManager {
 			getSelectionButton(i).register(listener);;
 		}		
 	}
-
-	private int[] getValidCoinsArray() {
+	
+	/**
+	 * Produces an array of valid coin denominations accepted by the machine.
+	 * @return	An array of valid coin denomination.
+	 */
+	public int[] getValidCoinsArray() {
 		int i = vm.getNumberOfCoinRacks();
-		int[] validCoins = new int[i];
+		int[] inValidCoins = new int[i];
 		for (int x = 0; x < i; x++) {
-			validCoins[x] = vm.getCoinKindForCoinRack(x);
+			inValidCoins[x] = vm.getCoinKindForCoinRack(x);
 		}
-		
-		return validCoins;
-		
+		return inValidCoins;
 	}
 	
-	private int[] getCoinCountArray() {
+	/**
+	 * Produces an array representing the number of each coin available in the machine corresponding to its valid denominations.
+	 * @return	An array representing the number of each particular coin accepted by the machine.
+	 */
+	public int[] getCoinCount() {
 		int j = vm.getNumberOfCoinRacks();
-		int[] coinCount = new int[j];
+		int[] inCoinCount = new int[j];
 		for (int x = 0; x < j; x++) {
 			CoinRack tempRack = vm.getCoinRack(x);
-			coinCount[x] = tempRack.size();
+			inCoinCount[x] = tempRack.size();
 		}
-		
-		return coinCount;
+		return inCoinCount;
 		
 	}
 	
-	private int[] getPopPricesArray() {
+	/**
+	 * Produces an array representing each pop price in the machine.
+	 * @return	An array of each pop price.
+	 */
+	public int[] getPopPrices() {
 		int k = vm.getNumberOfPopCanRacks();
-		int[] popPrices = new int[k];
+		int[] inPopPrices = new int[k];
 		for (int x = 0; x < k; x++) {
-			popPrices[x] = vm.getPopKindCost(x);
+			inPopPrices[x] = vm.getPopKindCost(x);
 		}
-		
-		return popPrices;
+		return inPopPrices;
 	}
 	private void setModule() {
-		int[] inValidCoins = getValidCoinsArray();
-		int[] inCoinCount = getCoinCountArray();
-		int[] inPopPrices = getPopPricesArray();
-		
-		changeModule.setCoins(inValidCoins, inCoinCount);
-		changeModule.setPopPrices(inPopPrices);
+
+		ChangeModule.setCoins(getValidCoinsArray(), getCoinCount());
+		ChangeModule.setPopPrices(getPopPrices());
 		
 	}
 
-
-	// Accessors used throughout the vending logic classes to get hardware references.
-	// Indirect access to the VM is used to simplify the removal of the
-	// VM class from the build.  
-//vvv=======================ACCESSORS START=======================vvv
-	
-	public Thread getLoopingThread(){
-		return (noCreditThread);
+	// General Purpose Accessor Methods
+	public Thread getLoopingThread2(){
+		return (noCreditThread2);
 	}
 	void enableSafety(){
 		vm.enableSafety();
@@ -174,11 +185,6 @@ public class VendingManager {
 		return vm.getCoinReceptacle(); 
 	}
 	
-	// Deprecated
-	//CoinReceptacle getStorageBin(){
-	//	return vm.getStorageBin(); 
-	//}
-	
 	DeliveryChute getDeliveryChute(){
 		return vm.getDeliveryChute(); 
 	}
@@ -206,10 +212,24 @@ public class VendingManager {
 	PopCanRack getPopCanRack(int index){
 		return vm.getPopCanRack(index); 
 	}
+	int getPopCanCount(int index){
+		return vm.getPopCanRack(index).size(); 
+	}
+	void dispensePopCanRack(int index) throws DisabledException, EmptyException, CapacityExceededException {
+		getPopCanRack(index).dispensePopCan();
+	
+	}
+	void storeCoinsInStorage() throws CapacityExceededException, DisabledException {
+		getCoinReceptacle().storeCoins(); 
+		
+	}
 	Display getDisplay(){
 		return vm.getDisplay();
 	}
-	
+	void ReduceCredit(int cost) {
+		
+		credit -=cost;
+	}
 	CoinReturn getCoinReturn() {
 		return vm.getCoinReturn();
 	}
@@ -239,41 +259,52 @@ public class VendingManager {
 	public int getCredit(){
 		return credit;
 	}
+	
+	/**
+	 * Sets the credit of the current machine.
+	 * @param temp	The new credit value to be represented.
+	 */
+	public void setCredit(int temp){
+		credit = temp;
+	}
+	
+	/**
+	 * Displays a string message.
+	 * @param str	Message to be displayed.
+	 */
+	public void displayMessage(String str){
+		vm.getDisplay().display(str);
+		
+	}
+	
+	/**
+	 * Adds a message to be displayed.
+	 * @param str
+	 */
+	public void addMessage(String str) {
+		displayModule.addMessage(str);
+	}
 
     /**
      * Adds value to the tracked credit.
      * @param added The credit to add, in cents.
      */
-    public void addCredit(int added){
-//      if(credit == 0){
-//          mgr.getLoopingThread().interrupt();
-//      }
-        credit += added;
-        System.out.println(credit);     // For debugging
-        if(credit != 0) {
-            mgr.getLoopingThread().interrupt();
-            getDisplay().display("Credit: " + Integer.toString(credit));
-            System.out.println("Credit: " + credit);  //Replace with vm.getDisplay().display("Credit: " + Integer.toString(credit));
-        } 
-        else {
-            resetDisplay();
-        }
-        // Refreshes what ChangeModule sees for valid coins, coin counts, and the current pop prices.
-        // Even if in the future a credit card is accepted, this will still be called. (But with no changes.)
-        setModule();
-    }
-	
 	void resetDisplay() {
-		noCreditThread.start();
-        noCreditThread = new Thread(LoopingThread.getInstance());
-        noCreditThread.start();     //Starts the looping display message when vm is turned on (created)
+        noCreditThread2 = new Thread(DisplayModule.getInstance());
+        noCreditThread2.start();     //Starts the looping display message when vm is turned on (created)
 	}
 	
-	
-//^^^=======================ACCESSORS END=======================^^^
-	
-
 //vvv=======================VENDING LOGIC START=======================vvv	
+
+	/**
+	 * Adds credit to the current amount in the machine.
+	 * @param added	Credit to be added.
+	 */
+    public void addCredit(int added){
+    	transactionModule.addCredit(added);
+    	
+    }
+    
 	/**
 	 * Handles a pop purchase. Checks if the pop rack has pop, confirms funds available,  
 	 *  dispenses the pop, reduces available funds and deposits the added coins into storage. 
@@ -283,56 +314,66 @@ public class VendingManager {
 	 * @throws DisabledException Thrown if the pop rack or delivery chute is disabled.
 	 * @throws CapacityExceededException Thrown if the delivery chute is full.
 	 */
-	public void buy(int popIndex) throws InsufficientFundsException, EmptyException, DisabledException, CapacityExceededException {
-		
-		// Purchasing something from the machine.
-		int cost = getPopKindCost(popIndex);
-		if (getCredit() >= cost){
-			PopCanRack rack = getPopCanRack(popIndex);
-			int canCount = rack.size(); //Bad method name; returns # of cans stored
-			if (canCount > 0){
-				rack.dispensePopCan(); 
-				credit -= cost; //Will only be performed if the pop is successfully dispensed.
-
-				getCoinReceptacle().storeCoins(); 
-				System.out.println(credit);		// For debugging
-				addCredit(0);
-			}
-		}
-		else {
-			int dif = cost - credit;  
-			String popName = getPopKindName(popIndex);
-			throw new InsufficientFundsException("Cannot buy " + popName + ". " + dif + " cents missing.");
-		}
-		
-		// Returning as much remaining credit as possible.
-		// returnList is ordered from biggest to smallest coin.
-		ArrayList<Integer> returnList = new ArrayList<Integer>(changeModule.makeChange(credit));
-		while(!returnList.isEmpty()) {
-			CoinRack temp = vm.getCoinRackForCoinKind(returnList.get(0));
-			temp.releaseCoin();
-			credit -= returnList.get(0);
-			returnList.remove(0);
-		}
-		
-		// After we're done with the coinracks:
-		int[] inValidCoins = getValidCoinsArray();
-		int[] inCoinCount = getCoinCountArray();
-		if(changeModule.checkChangeLight(inValidCoins, inCoinCount)) {
-			vm.getExactChangeLight().deactivate();
-		}
-		else {
-			vm.getExactChangeLight().activate();
-		}
-		
-		// Note that if a poprack is empty, ChangeModule will still display an exactlight for that pop if it applies.
-			// Consider this minor bug, where it's still in the list.
-		// NOTE: The exact change light still needs to have its method/actions written into VendingManager/Listener. MAYBE DONE?
-		// NOTE: Updating the exact change light will require a call on VendingManager's part. Do this initially, and
-		//		 after every purchase. (Build on this to figure out the other two lights, which should be manager/listener
-		//		 specific with nothing to do with ChangeModule itself.) DONE FIRST HALF.
-		
+	public void buy(int popIndex) throws InsufficientFundsException, EmptyException, 
+											DisabledException, CapacityExceededException {
+		transactionModule.buy(popIndex);
 	}
-
-//^^^======================VENDING LOGIC END=======================^^^
+	
+	/**
+	 * Add a message to be logged.
+	 * @param msg	Message to be logged.
+	 */
+	public void addLog(String msg) {
+		try {
+			loggingModule.logMessage(msg);
+		}catch(IOException e){
+			mgr.setOutOfOrder();
+		}
+	}
+	
+	/**
+	 * wrapper method for change module so other modules can interact with it
+	 */
+	public ArrayList<Integer> getCoinsToReturn(int remaining) {
+		return changeModule.getCoinsToReturn(remaining, getValidCoinsArray(), getCoinCount());
+	}
+	
+	/**
+	 * Dispense the specified coin.
+	 */
+	public void dispenseCoin(int value) {
+		try {
+		CoinRack temp = getCoinRackForCoinKind(value);
+		temp.releaseCoin();
+		}
+		catch(CapacityExceededException e) {
+			mgr.setOutOfOrder(); //capacity exceed cannot recover 
+		}
+		catch(EmptyException e) {
+			//can recover from here since it tried to release no coins
+		}
+		catch(DisabledException e) {
+			mgr.setOutOfOrder();
+		}
+	}
+	
+	/**
+	 * Updates the state of the Exact Change Light, in different fashions.
+	 */
+	public void activateExactChangeLight() {
+		getExactChangeLight().activate();
+	}
+	public void deactivateExactChangeLight() {
+		getExactChangeLight().deactivate();
+	}
+	public void updateExactChangeLightState() {
+		changeModule.updateExactChangeLight();
+	}
+	
+	/**
+	 * Activates the Out Of Order light when necessary.
+	 */
+	public void setOutOfOrder() {
+		getOutOfOrderLight().activate();
+	}
 }
