@@ -111,7 +111,7 @@ public class VendingManager {
 			getSelectionButton(i).register(listener);;
 		}		
 	}
-	private int[] getValidCoinsArray() {
+	public int[] getValidCoinsArray() {
 		int i = vm.getNumberOfCoinRacks();
 		int[] inValidCoins = new int[i];
 		for (int x = 0; x < i; x++) {
@@ -119,7 +119,7 @@ public class VendingManager {
 		}
 		return inValidCoins;
 	}
-	private int[] getCount() {
+	public int[] getCount() {
 		int j = vm.getNumberOfCoinRacks();
 		int[] inCoinCount = new int[j];
 		for (int x = 0; x < j; x++) {
@@ -129,7 +129,7 @@ public class VendingManager {
 		return inCoinCount;
 		
 	}
-	private int[] getPopPrices() {
+	public int[] getPopPrices() {
 		int k = vm.getNumberOfPopCanRacks();
 		int[] inPopPrices = new int[k];
 		for (int x = 0; x < k; x++) {
@@ -340,13 +340,13 @@ public class VendingManager {
 	 * Call this method to update the state of the exact change light and does
 	 * not return anything
 	 */
+	public void acitvateExactChangeLight() {
+		getExactChangeLight().activate();
+	}
+	public void deactivateExactChangeLight() {
+		getExactChangeLight().deactivate();
+	}
 	public void updateExactChangeLightState() {
-		if(changeModule.checkChangeLight(getValidCoinsArray(), getCount())) {
-			//turn the light off because we can make change
-			getExactChangeLight().deactivate();
-		}else {
-			//turn the light on 
-			getExactChangeLight().activate();
-		}
+		changeModule.updateExactChangeLigthState();
 	}
 }

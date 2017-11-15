@@ -120,7 +120,14 @@ public class ChangeModule {
 //			System.out.printf("[Info] Result: %b \n\n", canMakeChange(change, validCoins, coinCount));
 //		}	
 //	}
-	public void updateChangeLight() {
+	public void updateExactChangeLigthState() {
+		if(checkChangeLight(mgr.getValidCoinsArray(),mgr.getCount())){
+			// we can make change deactivate the light
+			mgr.acitvateExactChangeLight();
+		}else {
+			//we can make change so activate the light
+			mgr.deactivateExactChangeLight();
+		}
 		
 	}
 	public boolean checkChangeLight( int[] validCoins, int[] coinCount) {
@@ -314,4 +321,6 @@ public class ChangeModule {
 		}
 		return return_list;
 	}
+
+	
 }
