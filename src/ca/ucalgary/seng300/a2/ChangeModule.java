@@ -107,26 +107,13 @@ public class ChangeModule {
 	 * Debugging method that receives exact values (initialized above) and performs an
 	 * algorithm to determine whether the 'Exact Change Light' should be on or off.
 	 */
-//	public static void main(String args[]) {
-//		int[] inPopPrices = {50, 100, 150};
-		
-//		ArrayList<Integer> valuesOfChange = getPossibleChangeValues(validCoins, popPrices);
-//		// Debugger message displaying all the potential values of change the machine needs to make.
-//		System.out.printf("\n[Main] Values of change that needs to be made: %s\n\n", valuesOfChange);
-//		for(int change : valuesOfChange) {
-			//Debugger message determining whether each potential case of 
-			//change that needs to be made is satisfied or not.
-//			System.out.printf("[Main] Attempting to make change for %d cents:\n", change);
-//			System.out.printf("[Info] Result: %b \n\n", canMakeChange(change, validCoins, coinCount));
-//		}	
-//	}
 	public void updateExactChangeLigthState() {
 		if(checkChangeLight(mgr.getValidCoinsArray(),mgr.getCount())){
-			// we can make change deactivate the light
-			mgr.acitvateExactChangeLight();
+			// we can't make change deactivate the light
+			mgr.deactivateExactChangeLight();
 		}else {
 			//we can make change so activate the light
-			mgr.deactivateExactChangeLight();
+			mgr.acitvateExactChangeLight();
 		}
 		
 	}
