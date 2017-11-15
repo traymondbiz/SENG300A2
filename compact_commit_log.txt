@@ -1,0 +1,164 @@
+zacharymetz,a2d29cd,13 minutes ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+zacharymetz,91a5ae6,13 minutes ago,changes to out of order light
+bbasiit,aa7fab1,17 minutes ago,Add files via upload
+zacharymetz,79dc959,27 minutes ago,minor changes
+CS\hooman.khosravi1,42ac250,60 minutes ago,update diagrams
+CS\hooman.khosravi1,b788d62,60 minutes ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+zacharymetz,612863d,69 minutes ago,Out Of order light triggers added
+zacharymetz,b162e4f,2 hours ago,Minor Changes to out of order light
+CS\hooman.khosravi1,998cc57,2 hours ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+CS\hooman.khosravi1,9494eaa,2 hours ago,updating diagrams+ spelling error
+zacharymetz,26d8b7c,2 hours ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+zacharymetz,a7c65b3,2 hours ago,transaction module fixes
+CS\hooman.khosravi1,3e6c9e9,2 hours ago,Updating Diagrams
+CS\hooman.khosravi1,fce6fc3,2 hours ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+CS\hooman.khosravi1,84a9538,2 hours ago,changing name of Dispaly_Message
+Mochi,914c611,3 hours ago,Unit tests updated
+zacharymetz,9e80f23,4 hours ago,Fixes to Display Manager
+zacharymetz,49b365a,4 hours ago,Made some minor fixes to exact change light
+zacharymetz,71c940e,4 hours ago,Minor Fixes to Exact Change light
+zacharymetz,b54a796,5 hours ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+zacharymetz,6b9d837,5 hours ago,Fixed Change Returned
+Mochi,cce8a83,5 hours ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+Mochi,2b58e0f,5 hours ago,added log
+zacharymetz,2e75953,5 hours ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+zacharymetz,98297aa,5 hours ago,fixed coin return in buy()
+CS\hooman.khosravi1,8f368cb,6 hours ago,Chris-Hooman-Models
+Mochi,b0ec6ee,7 hours ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+Mochi,e32e9b8,7 hours ago,Update ChangeModuleTest
+CS\hooman.khosravi1,47323eb,7 hours ago,Moving TimeMessage
+zacharymetz,555d5b5,9 hours ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+zacharymetz,432dd4f,9 hours ago,added method to determine what changes to give
+CS\hooman.khosravi1,648d4d1,10 hours ago,ReduceCredit
+CS\hooman.khosravi1,37fb57c,10 hours ago,correcting buy in TransactionModule
+CS\hooman.khosravi1,a8496e9,10 hours ago,Chris dispesnce fix
+CS\hooman.khosravi1,9a60dfb,11 hours ago,Design Doc
+CS\hooman.khosravi1,332e324,15 hours ago,designDoc
+CS\hooman.khosravi1,2b91858,34 hours ago,Adding Transaction Module
+CS\hooman.khosravi1,0d930a9,2 days ago,debuging
+zacharymetz,d50204f,2 days ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+zacharymetz,141c16e,2 days ago,changes to loggin modules
+Mochiiii,29f2aff,2 days ago,testActiveExchangeLight added.
+Mochiiii,0308f11,2 days ago,Add files via upload
+Mochiiii,691b95b,2 days ago,File name is changed to "event log.txt"
+HoomanKhosravi,eccad6f,2 days ago,Revert "Update ChangeModuleTest.java"
+HoomanKhosravi,96e351c,2 days ago,Update VendingManager.java
+HoomanKhosravi,4d06475,2 days ago,Merge pull request #11 from traymondbiz/Display_module
+HoomanKhosravi,654d517,2 days ago,Update ChangeModuleTest.java
+CS\hooman.khosravi1,879b6fa,2 days ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+CS\hooman.khosravi1,dcffeab,2 days ago,Revert "no message"
+CS\hooman.khosravi1,e782dda,2 days ago,no message
+CS\hooman.khosravi1,c33e1a3,2 days ago,no message
+CS\hooman.khosravi1,5b1dffd,2 days ago,no message
+Mochiiii,7dc4d67,2 days ago,Update ChangeModuleTest.java
+CS\hooman.khosravi1,13d3a40,2 days ago,no message
+CS\hooman.khosravi1,1b80f15,2 days ago,no message
+zacharymetz,be7c40d,2 days ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+zacharymetz,35c15bb,2 days ago,Added logging Functionality
+Raymond Tran,998b3b7,2 days ago,Merge pull request #9 from traymondbiz/activetst
+Raymond Tran,c6a3aa0,2 days ago,Merge branch 'active' into activetst
+raylazor,9ba0b28,2 days ago,Carrying changes over.
+Mochiiii,95d3340,3 days ago,Update LoopingThread.java
+raylazor,8ac8fde,3 days ago,Carrying over LoopingThread and TestCases changes/doc
+raylazor,0fc5c6b,3 days ago,Merge remote-tracking branch 'origin/active' into active
+Mochiiii,7b62e61,3 days ago,Update TestCases.java
+Mochiiii,9fe4f6f,3 days ago,Update TestCases.java
+CS\hooman.khosravi1,eda4d2f,3 days ago,no message
+Mochiiii,b3b7a26,3 days ago,Update ChangeModuleTest.java
+CS\hooman.khosravi1,bf4d976,3 days ago,no message
+raylazor,b48ef87,3 days ago,ChangeModule has been implemented. (Not tested.)
+CS\hooman.khosravi1,fe0966f,3 days ago,no message
+Mochiiii,e1e0dbe,3 days ago,Update ChangeModuleTest.java
+Mochiiii,e4965c8,3 days ago,Update VendingManager.java
+Mochiiii,529e095,3 days ago,Update TestCases.java
+Mochiiii,97981a1,3 days ago,Update VendingManager.java
+Mochiiii,c7d3a13,3 days ago,Update LoopingThread.java
+Mochiiii,07d7b7f,3 days ago,Add files via upload
+raylazor,92f5749,3 days ago,Made set methods static.
+zacharymetz,bf5cfda,3 days ago,Added Loggin Module
+zacharymetz,ad03173,3 days ago,Added LogginModule
+raylazor,9d20fd0,3 days ago,Small tweaks.
+raylazor,6da5212,4 days ago,Merge remote-tracking branch 'origin/active' into active
+raylazor,544f4db,4 days ago,Implemented ChangeModule. (Not yet used in VendingManager/Listener)
+raylazor,cf7668a,4 days ago,Implemented ChangeModule. (Not yet used in VendingManager/Listener)
+Mochiiii,5f4eb11,4 days ago,Update VendingManager.java
+Mochiiii,3a35a11,4 days ago,Update VendingListener.java
+Mochiiii,6d4d896,4 days ago,Update TestCases.java
+Mochiiii,de50404,4 days ago,Update LoopingThread.java
+raylazor,a033176,4 days ago,Logic modifications, documentation updates, preparing for integration.
+zacharymetz,b318a1e,4 days ago,made changes
+zacharymetz,2a0eb02,4 days ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+zacharymetz,fa82e37,4 days ago,Finished algorihem
+Mochiiii,69162d3,5 days ago,Update TestCases.java
+zacharymetz,c2b76d7,5 days ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+zacharymetz,a38bcdb,5 days ago,logic revamping
+HoomanKhosravi,57799a3,5 days ago,Create Design_Doc
+Raymond Tran,8c64514,5 days ago,Update README.md
+zacharymetz,c2120e1,5 days ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2 into active
+zacharymetz,048f1d0,5 days ago,Added callable function to execute logic on vending machine
+smithcg1,3f0cc43,5 days ago,Merge pull request #7 from traymondbiz/Looping_Branch_v2
+Raymond Tran,26faca5,5 days ago,Update README.md
+Christopher Smith,06576db,5 days ago,Loop now properly initializes and can now send displays to vm. Loop should also start again when all coins are returned.
+Mochiiii,6f448e7,5 days ago,Add files via upload
+zacharymetz,d827cb2,5 days ago,added Test FOlder
+zacharymetz,cebdf9d,5 days ago,checks for exact change
+zacharymetz,09ee44d,5 days ago,deleted Old Package in a3
+Raymond Tran,e0c8d40,5 days ago,Merge pull request #5 from traymondbiz/active
+zacharymetz,12a784c,5 days ago,Removed Errors
+raylazor,04ff820,5 days ago,Merge branch 'active' of https://github.com/traymondbiz/SENG300A2.git into active
+raylazor,60d0dcc,5 days ago,Assn 2 hardware compatibility.
+zacharymetz,8db25e3,5 days ago,Moved files
+zacharymetz,eb4b3ec,5 days ago,Made exact Change visible in eclipse
+raylazor,2fdb7b5,7 days ago,Added package declaration to Main.java. Minor code clearing.
+Raymond Tran,34277b8,7 days ago,Updated for Hardware changes, new questions.
+zacharymetz,885903f,8 days ago,added begining of exact change algithem
+traymondbiz,17cd4a0,9 days ago,Merge pull request #4 from traymondbiz/active
+traymondbiz,87902be,9 days ago,Fixed more newlines.
+traymondbiz,6c40c3b,9 days ago,Merge pull request #3 from traymondbiz/active
+traymondbiz,07f4e52,9 days ago,Fixed the newlines for README.md
+traymondbiz,ce9c39f,9 days ago,Merge pull request #2 from traymondbiz/active
+raylazor,2842fab,9 days ago,Updated files to reference 'a2' instead of 'a1'.
+traymondbiz,f9e67a7,9 days ago,Update README.md
+traymondbiz,94c15cc,9 days ago,Update README.md
+traymondbiz,7b359cf,9 days ago,Update README.md
+traymondbiz,2a4a1dc,9 days ago,Update README.md
+traymondbiz,f637de1,9 days ago,Update README.md
+traymondbiz,18c6cc5,9 days ago,Update README.md
+traymondbiz,12997fe,9 days ago,Update README.md
+traymondbiz,5e15cd4,9 days ago,Update README.md
+traymondbiz,03f2d42,2 weeks ago,Update README.md
+T Co,8c25610,3 weeks ago,Merge pull request #3 from Mondaynity/active
+T Co,e18a688,3 weeks ago,Doc updates, access control changes
+T Co,8b1129d,3 weeks ago,Merged test suites
+T Co,270e063,3 weeks ago,Prettified test cases and added "insufficient funds" case
+T Co,4fc04ae,3 weeks ago,Changed PopCanRack capacity to 10
+neilchul,23d40e4,3 weeks ago,Add files via upload
+raylazor,34dd4ee,3 weeks ago,Ray's completed copy of Assn1 System Tests.
+raylazor,7301a02,3 weeks ago,Added two tests. Both for purchasing with invalid amounts.
+raylazor,c565b12,4 weeks ago,Added two tests:
+T Co,7a9fb0b,4 weeks ago,Fixed the inequality that broke everything
+T Co,1b4bf1c,4 weeks ago,Merge branch 'active' of https://github.com/Mondaynity/SENG300 into active
+T Co,609d8d6,4 weeks ago,Fixed getCoinKindForCoinRack call to VendingMachine
+raylazor,df2436b,4 weeks ago,purposefully made a spelling error
+raylazor,9bcf707,4 weeks ago,Trying to push my test into the CLOUD.
+T Co,b49af83,4 weeks ago,Update VendingListener.java
+T Co,1a73d84,4 weeks ago,Access control changes
+T Co,bdfe49c,4 weeks ago,Documentation.
+T Co,5e1d91d,4 weeks ago,Further adjustments and documentation
+T Co,d632d8c,4 weeks ago,Updated singleton pattern for both logic classes
+T Co,485860d,4 weeks ago,Proposed pattern for Vending logic
+T Co,63b46eb,4 weeks ago,Converted VendingManager to singleton design.
+T Co,2b2258d,4 weeks ago,Initial implementation of the Vending logic classes.
+T Co,b4295d9,4 weeks ago,Update README.md
+traymondbiz,41214a7,4 weeks ago,Merge pull request #1 from Mondaynity/traymond
+traymondbiz,3cf5815,4 weeks ago,Update README.md
+T Co,c78ae2f,4 weeks ago,UML with overview of listener characteristics
+T Co,36514bf,4 weeks ago,Fixed indentation and added new comments
+T Co,d43299a,4 weeks ago,Added answers to questions
+T Co,be9cfdf,4 weeks ago,Add assignment requirements
+T Co,bbcd441,4 weeks ago,Renamed and organized project
+T Co,62b9998,4 weeks ago,Added JUnit 4 to classpath
+T Co,6defcd5,4 weeks ago,Test commit
+T Co,9b80da8,4 weeks ago,Test commit
+T Co,76d4b43,4 weeks ago,Initial project commit
+T Co,4627788,4 weeks ago,Initial commit
