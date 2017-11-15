@@ -1,5 +1,7 @@
 package ca.ucalgary.seng300.a2;
 
+import java.util.ArrayList;
+
 import org.lsmr.vending.hardware.*;
 
 /**
@@ -109,30 +111,36 @@ public class VendingManager {
 			getSelectionButton(i).register(listener);;
 		}		
 	}
-	
-	private void setModule() {
-		
+	private int[] getValidCoinsArray() {
 		int i = vm.getNumberOfCoinRacks();
 		int[] inValidCoins = new int[i];
 		for (int x = 0; x < i; x++) {
 			inValidCoins[x] = vm.getCoinKindForCoinRack(x);
 		}
-		
+		return inValidCoins;
+	}
+	private int[] getCount() {
 		int j = vm.getNumberOfCoinRacks();
 		int[] inCoinCount = new int[j];
 		for (int x = 0; x < j; x++) {
 			CoinRack tempRack = vm.getCoinRack(x);
 			inCoinCount[x] = tempRack.size();
 		}
+		return inCoinCount;
 		
+	}
+	private int[] getPopPrices() {
 		int k = vm.getNumberOfPopCanRacks();
 		int[] inPopPrices = new int[k];
 		for (int x = 0; x < k; x++) {
 			inPopPrices[x] = vm.getPopKindCost(x);
 		}
-		
-		changeModule.setCoins(inValidCoins, inCoinCount);
-		changeModule.setPopPrices(inPopPrices);
+		return inPopPrices;
+	}
+	private void setModule() {
+
+		changeModule.setCoins(getValidCoinsArray(), getCount());
+		changeModule.setPopPrices(getPopPrices());
 		
 	}
 
@@ -311,4 +319,16 @@ public class VendingManager {
 		
 	}
 //^^^======================VENDING LOGIC END=======================^^^
+
+	public ArrayList<Integer> getCoinsToReturn(int remaining) {
+		return changeModule.getCoinsToReturn(remaining, getValidCoinsArray(), getCount());
+	}
+	public void dispenseCoin(int value) {
+		try {
+		CoinRack temp = vm.getCoinRackForCoinKind(value);
+		temp.releaseCoin();
+		}catch(Exception e) {
+			
+		}
+	}
 }

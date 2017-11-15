@@ -1,5 +1,7 @@
 package ca.ucalgary.seng300.a2;
 
+import java.util.ArrayList;
+
 import org.lsmr.vending.hardware.CapacityExceededException;
 import org.lsmr.vending.hardware.DisabledException;
 import org.lsmr.vending.hardware.EmptyException;
@@ -54,10 +56,18 @@ public class TransactionModule {
 			int canCount = mngr.getPopCanRackSize(popIndex); //Bad method name; returns # of cans stored
 			if (canCount > 0){
 				
-				mngr.ReduceCredit(cost  );//Will only be performed if the pop is successfully dispensed.
-
-				mngr.dispencePopCanRack(popIndex);
 				
+				mngr.dispencePopCanRack(popIndex);
+				int remaining = mngr.getCredit() - cost ;
+				if(remaining > 0) { // if true there is change to give
+					ArrayList<Integer> returnList = mngr.getCoinsToReturn(remaining); // get the remaining
+					while(!returnList.isEmpty()) {
+						mngr.dispenseCoin(returnList.get(0));
+						remaining -= returnList.get(0);
+						returnList.remove(0);
+					}
+				}
+				mngr.setCredit(0); //all change has been given
 				mngr.storeCoinsInStorage();
 				
 				System.out.println(mngr.getCredit());		// For debugging
