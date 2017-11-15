@@ -68,6 +68,9 @@ public class TransactionModule {
 				mngr.storeCoinsInStorage();
 				mngr.updateExactChangeLightState();
 				mngr.addCredit(0); //update screen with adding 0 credit
+				if(popIsEmpty()) { // set the out of order light on if we are out of pop in all racks 
+					mngr.setOutOfOrder();
+				}
 			}
 		}
 		else {
@@ -78,7 +81,14 @@ public class TransactionModule {
 	}
 	
 	
-	
+	private boolean popIsEmpty() {
+		for(int i=0;i<mngr.getNumberOfPopCanRacks();i++) {
+			if(mngr.getPopCanRack(i).size() > 0) {
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	
 }
