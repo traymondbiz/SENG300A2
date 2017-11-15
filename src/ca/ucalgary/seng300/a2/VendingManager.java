@@ -265,7 +265,7 @@ public class VendingManager {
 		credit = temp;
 	}
 	
-	public void Display_Message(String str){
+	public void display_Message(String str){
 		vm.getDisplay().display(str);
 		
 	}
